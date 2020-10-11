@@ -1,15 +1,23 @@
 package com.tools.st;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.util.StringUtils;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupDir;
 import org.stringtemplate.v4.STGroupFile;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tools.st.entity.ColumnInfo;
 import com.tools.st.vo.User;
 import org.stringtemplate.v4.*;
@@ -65,17 +73,37 @@ public class STTest {
   }
   
   @Test
-  public void testCols() {
-//    ST st2 = new ST("<items:{it|<it.id>: <it.lastName>, <it.firstName>\n}>");
-//    st2.addAggr("items.{ firstName ,lastName, id }", "Ter", "Parr", 99); // add() uses varargs
-//    st2.addAggr("items.{firstName, lastName ,id}", "Tom", "Burns", 34);
-//    log.info(st2.render());
-//    
-//    ST st = new ST("<cols:{col|@ApiModelProperty(\"<col.columnComment>\")\nprivate String <col.columnName>;\n\n}>");
-//    for (ColumnInfo col : columns) {
-//      st.addAggr("cols.{columnName}", col.getColumnName());
-//    }
-//    log.info(st.render());
+  public void testCols() throws JsonParseException, JsonMappingException, IOException {
+    File src = Paths.get("E:\\wgf\\java\\source\\st\\st\\src\\test\\resources\\data\\columns.json").toFile();
+    ObjectMapper om = new ObjectMapper();
+    List<ColumnInfo> cols = om.readValue(src, new TypeReference<List<ColumnInfo>>() {});
+    ST st2 = new ST("<items:{it|<it.id>: <it.lastName>, <it.firstName>\n}>");
+    st2.addAggr("items.{ firstName ,lastName, id }", "Ter", "Parr", 99); // add() uses varargs
+    st2.addAggr("items.{firstName, lastName ,id}", "Tom", "Burns", 34);
+    log.info(st2.render());
+    
+    ST st = new ST("<cols:{col|@ApiModelProperty(\"<col.columnComment>\")\nprivate col.javaType <col.columnName>;\n\n}>");
+    for (ColumnInfo col : cols) {
+      st.addAggr("cols.{columnName}", col.getColumnName());
+    }
+    log.info(st.render());
+  }
+  
+  public static void main(String[] args) throws JsonParseException, JsonMappingException, IOException {
+
+    File src = Paths.get("E:\\wgf\\java\\source\\st\\st\\src\\test\\resources\\data\\columns.json").toFile();
+    ObjectMapper om = new ObjectMapper();
+    List<ColumnInfo> cols = om.readValue(src, new TypeReference<List<ColumnInfo>>() {});
+    ST st2 = new ST("<items:{it|<it.id>: <it.lastName>, <it.firstName>\n}>");
+    st2.addAggr("items.{ firstName ,lastName, id }", "Ter", "Parr", 99); // add() uses varargs
+    st2.addAggr("items.{firstName, lastName ,id}", "Tom", "Burns", 34);
+    log.info(st2.render());
+    
+    ST st = new ST("<cols:{col|@ApiModelProperty(\"<col.columnComment>\")\nprivate <col.javaType> <col.columnName>;\n\n}>");
+    for (ColumnInfo col : cols) {
+      st.addAggr("cols.{columnName}", col.getColumnName());
+    }
+    log.info(st.render());
   }
 }
 

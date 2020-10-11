@@ -1,7 +1,10 @@
 package com.tools.st;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,8 +36,8 @@ public class TableInfoTest {
     assertNotNull(columns);
     assertTrue(columns.size() > 0);
     
-    Resource testSource = new ClassPathResource("/columns.json");
-    JsonUtl.toFile(testSource.getFile(), columns);
+    File dest = Paths.get("E:\\wgf\\java\\source\\st\\st\\src\\test\\resources\\data\\columns.json").toFile();
+    JsonUtl.toFile(dest, columns);
     
     
   }

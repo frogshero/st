@@ -17,7 +17,7 @@ public class JsonTest {
   @Test
   public void testFile() throws IOException {
     //File dest = new ClassPathResource("/data/columns.json").getFile();
-    File dest = Files.createFile(Paths.get("E:\\test.json")).toFile();
+    File dest = Files.createFile(Paths.get("E:\\wgf\\java\\source\\st\\st\\src\\test\\resources\\data\\test2.json")).toFile();
     JsonUtl.toFile(dest, new User(99, "xxx"));
   }
 }
