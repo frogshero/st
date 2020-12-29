@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tools.st.mapper.DbTableFieldConfigDao">
+
+<resultMap id="BaseResultMap" type="com.tools.st.entity.DbTableFieldConfig">
+  <id column="id" jdbcType="BIGINT" property="id"/>
+  <result column="table_config_id" jdbcType="BIGINT" property="tableConfigId"/>
+  <result column="field_name" jdbcType="VARCHAR" property="fieldName"/>
+  <result column="field_cn_name" jdbcType="VARCHAR" property="fieldCnName"/>
+  <result column="field_data_type" jdbcType="SMALLINT" property="fieldDataType"/>
+  <result column="field_length" jdbcType="SMALLINT" property="fieldLength"/>
+  <result column="model_prop_name" jdbcType="VARCHAR" property="modelPropName"/>
+  <result column="model_prop_data_type" jdbcType="VARCHAR" property="modelPropDataType"/>
+  <result column="field_related_config_id" jdbcType="BIGINT" property="fieldRelatedConfigId"/>
+  <result column="batch_input_prop_name" jdbcType="VARCHAR" property="batchInputPropName"/>
+  <result column="is_db_query" jdbcType="TINYINT" property="isDbQuery"/>
+  <result column="is_primary_key" jdbcType="TINYINT" property="isPrimaryKey"/>
+  <result column="is_check_field" jdbcType="TINYINT" property="isCheckField"/>
+  <result column="is_null" jdbcType="TINYINT" property="isNull"/>
+  <result column="is_unique_valid" jdbcType="TINYINT" property="isUniqueValid"/>
+  <result column="valid_type" jdbcType="TINYINT" property="validType"/>
+  <result column="field_value_expression" jdbcType="VARCHAR" property="fieldValueExpression"/>
+  <result column="enableflg" jdbcType="TINYINT" property="enableflg"/>
+  <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+  <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+  <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+  <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+  <result column="remark" jdbcType="VARCHAR" property="remark"/>
+</resultMap>
+
+<sql id="Base_Column_List">
+  id, table_config_id, field_name, field_cn_name, field_data_type, field_length, 
+  model_prop_name, model_prop_data_type, field_related_config_id, batch_input_prop_name, 
+  is_db_query, is_primary_key, is_check_field, is_null, is_unique_valid, valid_type, 
+  field_value_expression, enableflg, created_time, created_by, updated_time, updated_by, 
+  remark
+</sql>
+
+<sql id="Condition_List">
+  <if test="id != null"> dtfc.id = #{id, jdbcType=BIGINT} </if>
+  <if test="tableConfigId != null"> dtfc.table_config_id = #{tableConfigId, jdbcType=BIGINT} </if>
+  <if test="fieldName != null"> dtfc.field_name = #{fieldName, jdbcType=VARCHAR} </if>
+  <if test="fieldCnName != null"> dtfc.field_cn_name = #{fieldCnName, jdbcType=VARCHAR} </if>
+  <if test="fieldDataType != null"> dtfc.field_data_type = #{fieldDataType, jdbcType=SMALLINT} </if>
+  <if test="fieldLength != null"> dtfc.field_length = #{fieldLength, jdbcType=SMALLINT} </if>
+  <if test="modelPropName != null"> dtfc.model_prop_name = #{modelPropName, jdbcType=VARCHAR} </if>
+  <if test="modelPropDataType != null"> dtfc.model_prop_data_type = #{modelPropDataType, jdbcType=VARCHAR} </if>
+  <if test="fieldRelatedConfigId != null"> dtfc.field_related_config_id = #{fieldRelatedConfigId, jdbcType=BIGINT} </if>
+  <if test="batchInputPropName != null"> dtfc.batch_input_prop_name = #{batchInputPropName, jdbcType=VARCHAR} </if>
+  <if test="isDbQuery != null"> dtfc.is_db_query = #{isDbQuery, jdbcType=TINYINT} </if>
+  <if test="isPrimaryKey != null"> dtfc.is_primary_key = #{isPrimaryKey, jdbcType=TINYINT} </if>
+  <if test="isCheckField != null"> dtfc.is_check_field = #{isCheckField, jdbcType=TINYINT} </if>
+  <if test="isNull != null"> dtfc.is_null = #{isNull, jdbcType=TINYINT} </if>
+  <if test="isUniqueValid != null"> dtfc.is_unique_valid = #{isUniqueValid, jdbcType=TINYINT} </if>
+  <if test="validType != null"> dtfc.valid_type = #{validType, jdbcType=TINYINT} </if>
+  <if test="fieldValueExpression != null"> dtfc.field_value_expression = #{fieldValueExpression, jdbcType=VARCHAR} </if>
+  <if test="enableflg != null"> dtfc.enableflg = #{enableflg, jdbcType=TINYINT} </if>
+  <if test="createdTime != null"> dtfc.created_time = #{createdTime, jdbcType=TIMESTAMP} </if>
+  <if test="createdBy != null"> dtfc.created_by = #{createdBy, jdbcType=BIGINT} </if>
+  <if test="updatedTime != null"> dtfc.updated_time = #{updatedTime, jdbcType=TIMESTAMP} </if>
+  <if test="updatedBy != null"> dtfc.updated_by = #{updatedBy, jdbcType=BIGINT} </if>
+  <if test="remark != null"> dtfc.remark = #{remark, jdbcType=VARCHAR} </if>
+</sql>
+
+<sql id="Select_As_List">
+  dtfc.id as id, dtfc.table_config_id as tableConfigId, dtfc.field_name as fieldName, 
+  dtfc.field_cn_name as fieldCnName, dtfc.field_data_type as fieldDataType, dtfc.field_length as fieldLength, 
+  dtfc.model_prop_name as modelPropName, dtfc.model_prop_data_type as modelPropDataType, 
+  dtfc.field_related_config_id as fieldRelatedConfigId, dtfc.batch_input_prop_name as batchInputPropName, 
+  dtfc.is_db_query as isDbQuery, dtfc.is_primary_key as isPrimaryKey, dtfc.is_check_field as isCheckField, 
+  dtfc.is_null as isNull, dtfc.is_unique_valid as isUniqueValid, dtfc.valid_type as validType, 
+  dtfc.field_value_expression as fieldValueExpression, dtfc.enableflg as enableflg, 
+  dtfc.created_time as createdTime, dtfc.created_by as createdBy, dtfc.updated_time as updatedTime, 
+  dtfc.updated_by as updatedBy, dtfc.remark as remark
+</sql>
+
+<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from db_table_field_config
+  where id = #{id,jdbcType=BIGINT}
+</select>
+
+<delete id="deleteByPrimaryKey" parameterType="Long">
+  delete from db_table_field_config
+  where id = #{id,jdbcType=BIGINT}
+</delete>
+
+<insert id="insert" parameterType="com.tools.st.entity.DbTableFieldConfig">
+  <selectKey keyProperty="id" order="AFTER" resultType="Long">
+    SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into db_table_field_config (table_config_id, field_name, field_cn_name, 
+                                     field_data_type, field_length, model_prop_name, 
+                                     model_prop_data_type, field_related_config_id, 
+                                     batch_input_prop_name, is_db_query, is_primary_key, 
+                                     is_check_field, is_null, is_unique_valid, valid_type, 
+                                     field_value_expression, enableflg, created_time, 
+                                     created_by, updated_time, updated_by, remark)
+  values (#{tableConfigId, jdbcType=BIGINT}, #{fieldName, jdbcType=VARCHAR}, #{fieldCnName, jdbcType=VARCHAR}, 
+          #{fieldDataType, jdbcType=SMALLINT}, #{fieldLength, jdbcType=SMALLINT}, 
+          #{modelPropName, jdbcType=VARCHAR}, #{modelPropDataType, jdbcType=VARCHAR}, 
+          #{fieldRelatedConfigId, jdbcType=BIGINT}, #{batchInputPropName, jdbcType=VARCHAR}, 
+          #{isDbQuery, jdbcType=TINYINT}, #{isPrimaryKey, jdbcType=TINYINT}, #{isCheckField, jdbcType=TINYINT}, 
+          #{isNull, jdbcType=TINYINT}, #{isUniqueValid, jdbcType=TINYINT}, #{validType, jdbcType=TINYINT}, 
+          #{fieldValueExpression, jdbcType=VARCHAR}, #{enableflg, jdbcType=TINYINT}, 
+          #{createdTime, jdbcType=TIMESTAMP}, #{createdBy, jdbcType=BIGINT}, #{updatedTime, jdbcType=TIMESTAMP}, 
+          #{updatedBy, jdbcType=BIGINT}, #{remark, jdbcType=VARCHAR})
+</insert>
+
+<update id="updateByPrimaryKey" parameterType="com.tools.st.entity.DbTableFieldConfig">
+  update db_table_field_config
+  set table_config_id=#{tableConfigId, jdbcType=BIGINT}, field_name=#{fieldName, jdbcType=VARCHAR}, 
+      field_cn_name=#{fieldCnName, jdbcType=VARCHAR}, field_data_type=#{fieldDataType, jdbcType=SMALLINT}, 
+      field_length=#{fieldLength, jdbcType=SMALLINT}, model_prop_name=#{modelPropName, jdbcType=VARCHAR}, 
+      model_prop_data_type=#{modelPropDataType, jdbcType=VARCHAR}, field_related_config_id=#{fieldRelatedConfigId, jdbcType=BIGINT}, 
+      batch_input_prop_name=#{batchInputPropName, jdbcType=VARCHAR}, is_db_query=#{isDbQuery, jdbcType=TINYINT}, 
+      is_primary_key=#{isPrimaryKey, jdbcType=TINYINT}, is_check_field=#{isCheckField, jdbcType=TINYINT}, 
+      is_null=#{isNull, jdbcType=TINYINT}, is_unique_valid=#{isUniqueValid, jdbcType=TINYINT}, 
+      valid_type=#{validType, jdbcType=TINYINT}, field_value_expression=#{fieldValueExpression, jdbcType=VARCHAR}, 
+      enableflg=#{enableflg, jdbcType=TINYINT}, created_time=#{createdTime, jdbcType=TIMESTAMP}, 
+      created_by=#{createdBy, jdbcType=BIGINT}, updated_time=#{updatedTime, jdbcType=TIMESTAMP}, 
+      updated_by=#{updatedBy, jdbcType=BIGINT}, remark=#{remark, jdbcType=VARCHAR}
+  where id = #{id,jdbcType=BIGINT}
+</update>
+
+</mapper>

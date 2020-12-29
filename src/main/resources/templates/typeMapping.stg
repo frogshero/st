@@ -1,0 +1,28 @@
+dbToJavaType ::= ["bigint":"Long",
+             "int":"Integer",
+             "varchar":"String",
+             "datetime":"Date",
+             "decimal":"BigDecimal",
+             "date":"Date",
+             "tinyint":"Integer",
+             "smallint":"Integer",
+             "longtext":"String",
+             "char":"String",
+             "timestamp":"Timestamp"]
+
+dbToJavaClass ::= ["datetime":"java.util.Date",
+                 "decimal":"java.math.BigDecimal",
+                 "date":"java.util.Date",
+                 "timestamp":"java.sql.Timestamp"]
+
+dbToJdbcType ::= ["bigint":"BIGINT",
+                  "int":"INTEGER",
+                  "varchar":"VARCHAR",
+                  "datetime":"TIMESTAMP",
+                  "decimal":"DECIMAL",
+                  "date":"DATE",
+                  "tinyint":"TINYINT",
+                  "smallint":"SMALLINT",
+                  "longtext":"VARCHAR",
+                  "char":"CHAR",
+                  "timestamp":"TIMESTAMP"]

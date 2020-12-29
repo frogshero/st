@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tools.st.mapper.SysComPageConfigDao">
+
+<resultMap id="BaseResultMap" type="com.tools.st.entity.SysComPageConfig">
+  <id column="id" jdbcType="BIGINT" property="id"/>
+  <result column="com_id" jdbcType="BIGINT" property="comId"/>
+  <result column="page_id" jdbcType="VARCHAR" property="pageId"/>
+  <result column="page_title_name" jdbcType="VARCHAR" property="pageTitleName"/>
+  <result column="page_programme_id" jdbcType="VARCHAR" property="pageProgrammeId"/>
+  <result column="page_type" jdbcType="VARCHAR" property="pageType"/>
+  <result column="page_components" jdbcType="VARCHAR" property="pageComponents"/>
+  <result column="tree_code" jdbcType="VARCHAR" property="treeCode"/>
+  <result column="add_type" jdbcType="VARCHAR" property="addType"/>
+  <result column="enableflg" jdbcType="INTEGER" property="enableflg"/>
+  <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+  <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+  <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+  <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+  <result column="accept_code" jdbcType="VARCHAR" property="acceptCode"/>
+</resultMap>
+
+<sql id="Base_Column_List">
+  id, com_id, page_id, page_title_name, page_programme_id, page_type, page_components, 
+  tree_code, add_type, enableflg, created_by, created_time, updated_by, updated_time, 
+  accept_code
+</sql>
+
+<sql id="Condition_List">
+  <if test="id != null"> scpc.id = #{id, jdbcType=BIGINT} </if>
+  <if test="comId != null"> scpc.com_id = #{comId, jdbcType=BIGINT} </if>
+  <if test="pageId != null"> scpc.page_id = #{pageId, jdbcType=VARCHAR} </if>
+  <if test="pageTitleName != null"> scpc.page_title_name = #{pageTitleName, jdbcType=VARCHAR} </if>
+  <if test="pageProgrammeId != null"> scpc.page_programme_id = #{pageProgrammeId, jdbcType=VARCHAR} </if>
+  <if test="pageType != null"> scpc.page_type = #{pageType, jdbcType=VARCHAR} </if>
+  <if test="pageComponents != null"> scpc.page_components = #{pageComponents, jdbcType=VARCHAR} </if>
+  <if test="treeCode != null"> scpc.tree_code = #{treeCode, jdbcType=VARCHAR} </if>
+  <if test="addType != null"> scpc.add_type = #{addType, jdbcType=VARCHAR} </if>
+  <if test="enableflg != null"> scpc.enableflg = #{enableflg, jdbcType=INTEGER} </if>
+  <if test="createdBy != null"> scpc.created_by = #{createdBy, jdbcType=BIGINT} </if>
+  <if test="createdTime != null"> scpc.created_time = #{createdTime, jdbcType=TIMESTAMP} </if>
+  <if test="updatedBy != null"> scpc.updated_by = #{updatedBy, jdbcType=BIGINT} </if>
+  <if test="updatedTime != null"> scpc.updated_time = #{updatedTime, jdbcType=TIMESTAMP} </if>
+  <if test="acceptCode != null"> scpc.accept_code = #{acceptCode, jdbcType=VARCHAR} </if>
+</sql>
+
+<sql id="Select_As_List">
+  scpc.id as id, scpc.com_id as comId, scpc.page_id as pageId, scpc.page_title_name as pageTitleName, 
+  scpc.page_programme_id as pageProgrammeId, scpc.page_type as pageType, scpc.page_components as pageComponents, 
+  scpc.tree_code as treeCode, scpc.add_type as addType, scpc.enableflg as enableflg, 
+  scpc.created_by as createdBy, scpc.created_time as createdTime, scpc.updated_by as updatedBy, 
+  scpc.updated_time as updatedTime, scpc.accept_code as acceptCode
+</sql>
+
+<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from sys_com_page_config
+  where id = #{id,jdbcType=BIGINT}
+</select>
+
+<delete id="deleteByPrimaryKey" parameterType="Long">
+  delete from sys_com_page_config
+  where id = #{id,jdbcType=BIGINT}
+</delete>
+
+<insert id="insert" parameterType="com.tools.st.entity.SysComPageConfig">
+  <selectKey keyProperty="id" order="AFTER" resultType="Long">
+    SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into sys_com_page_config (com_id, page_id, page_title_name, page_programme_id, 
+                                   page_type, page_components, tree_code, add_type, 
+                                   enableflg, created_by, created_time, updated_by, 
+                                   updated_time, accept_code)
+  values (#{comId, jdbcType=BIGINT}, #{pageId, jdbcType=VARCHAR}, #{pageTitleName, jdbcType=VARCHAR}, 
+          #{pageProgrammeId, jdbcType=VARCHAR}, #{pageType, jdbcType=VARCHAR}, #{pageComponents, jdbcType=VARCHAR}, 
+          #{treeCode, jdbcType=VARCHAR}, #{addType, jdbcType=VARCHAR}, #{enableflg, jdbcType=INTEGER}, 
+          #{createdBy, jdbcType=BIGINT}, #{createdTime, jdbcType=TIMESTAMP}, #{updatedBy, jdbcType=BIGINT}, 
+          #{updatedTime, jdbcType=TIMESTAMP}, #{acceptCode, jdbcType=VARCHAR})
+</insert>
+
+<update id="updateByPrimaryKey" parameterType="com.tools.st.entity.SysComPageConfig">
+  update sys_com_page_config
+  set com_id=#{comId, jdbcType=BIGINT}, page_id=#{pageId, jdbcType=VARCHAR}, page_title_name=#{pageTitleName, jdbcType=VARCHAR}, 
+      page_programme_id=#{pageProgrammeId, jdbcType=VARCHAR}, page_type=#{pageType, jdbcType=VARCHAR}, 
+      page_components=#{pageComponents, jdbcType=VARCHAR}, tree_code=#{treeCode, jdbcType=VARCHAR}, 
+      add_type=#{addType, jdbcType=VARCHAR}, enableflg=#{enableflg, jdbcType=INTEGER}, 
+      created_by=#{createdBy, jdbcType=BIGINT}, created_time=#{createdTime, jdbcType=TIMESTAMP}, 
+      updated_by=#{updatedBy, jdbcType=BIGINT}, updated_time=#{updatedTime, jdbcType=TIMESTAMP}, 
+      accept_code=#{acceptCode, jdbcType=VARCHAR}
+  where id = #{id,jdbcType=BIGINT}
+</update>
+
+</mapper>

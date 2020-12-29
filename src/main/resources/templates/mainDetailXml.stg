@@ -1,0 +1,18 @@
+delimiters "$", "$"
+
+mainDetailXml(entityDir, tab, detailTab, cols, detailCols, detailListField, parentIdCol, entityPkg) ::= <<
+
+<resultMap id="MainResultMap" type="$entityPkg$.$tab.javaName$">
+	<id column="id" jdbcType="BIGINT" property="id"/>
+    $cols:{col|$if(!col.key)$<result column="$col.name$" jdbcType="$col.jdbcType$" property="$col.javaName$"/>$endif$}; separator="\n"$
+
+    <collection property="$detailListField$" column="$parentIdCol$" javaType="ArrayList" ofType="$entityPkg$.$detailTab.javaName$">
+		<id column="detail_id" jdbcType="BIGINT" property="id"/>
+        $detailCols:{col|$if(!col.key)$<result column="detail_$col.name$" jdbcType="$col.jdbcType$" property="$col.javaName$"/>$endif$}; separator="\n"$
+    </collection>
+</resultMap>
+
+$cols:{col|$tab.shortName$.$col.name$}; wrap, anchor, separator=", "$
+,
+$detailCols:{col|$detailTab.shortName$.$col.name$ as detail_$col.name$}; wrap, anchor, separator=", "$
+>>

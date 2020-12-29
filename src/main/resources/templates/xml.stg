@@ -1,0 +1,54 @@
+delimiters "$", "$"
+
+import "typeMapping.stg"
+
+myxml(entityDir, daoDir, tab, cols, keyCol, postFix) ::= <<
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="$daoDir$.$tab.javaName$$postFix$">
+
+<resultMap id="BaseResultMap" type="$entityDir$.$tab.javaName$">
+  <id column="$keyCol.name$" jdbcType="$keyCol.jdbcType$" property="$keyCol.javaName$"/>
+  $cols:{col|$if(!col.key)$<result column="$col.name$" jdbcType="$col.jdbcType$" property="$col.javaName$"/>$endif$}; separator="\n"$
+</resultMap>
+
+<sql id="Base_Column_List">
+  $cols:{col|`$col.name$`}; wrap, anchor, separator=", "$
+</sql>
+
+<sql id="Condition_List">
+  $cols:{col|<if test="$col.javaName$ != null"> $tab.shortName$.$col.name$ = #{$col.javaName$, jdbcType=$col.jdbcType$\} </if>}; separator="\n"$
+</sql>
+
+<sql id="Select_As_List">
+  $cols:{col|$tab.shortName$.$col.name$ as $col.javaName$}; wrap, anchor, separator=", "$
+</sql>
+
+<select id="selectByPrimaryKey" parameterType="$dbToJavaType.(keyCol.type)$" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from $tab.tableName$
+  where $keyCol.name$ = #{$keyCol.javaName$,jdbcType=$dbToJdbcType.(keyCol.type)$}
+</select>
+
+<delete id="deleteByPrimaryKey" parameterType="$dbToJavaType.(keyCol.type)$">
+  delete from $tab.tableName$
+  where $keyCol.name$ = #{$keyCol.javaName$,jdbcType=$dbToJdbcType.(keyCol.type)$}
+</delete>
+
+<insert id="insert" parameterType="$entityDir$.$tab.javaName$">
+  <selectKey keyProperty="$keyCol.javaName$" order="AFTER" resultType="$dbToJavaType.(keyCol.type)$">
+    SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into $tab.tableName$ ($cols:{col|$if(!col.key)$`$col.name$`$endif$}; wrap, anchor, separator=", "$)
+  values ($cols:{col|$if(!col.key)$#{$col.javaName$, jdbcType=$dbToJdbcType.(col.type)$\}$endif$}; wrap, anchor, separator=", "$)
+</insert>
+
+<update id="updateByPrimaryKey" parameterType="$entityDir$.$tab.javaName$">
+  update $tab.tableName$
+  set $cols:{col|$if(!col.key)$`$col.name$`=#{$col.javaName$, jdbcType=$dbToJdbcType.(col.type)$\}$endif$}; wrap, anchor, separator=", "$
+  where $keyCol.name$ = #{$keyCol.javaName$,jdbcType=$dbToJdbcType.(keyCol.type)$}
+</update>
+
+</mapper>
+>>

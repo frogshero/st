@@ -1,0 +1,26 @@
+delimiters "$", "$"
+
+import "typeMapping.stg"
+
+entity(entityPackage, tab, cols, parent, parentPkg, imports) ::= <<
+package $entityPackage$;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+$if(parent)$import $parentPkg$.$parent$;$endif$
+$imports:{im|import $im$;}; separator="\n"$
+
+@ApiModel(description = "$tab.tableComment$")
+@Data
+public class $tab.javaName$ $if(parent)$extends $parent$$endif$ {
+$flds()$
+}
+>>
+
+flds() ::= <<
+$cols:{col|     @ApiModelProperty("$col.comment$")
+    private $dbToJavaType.(col.type)$ $col.javaName$;
+
+}$
+>>

@@ -1,0 +1,1 @@
+sqlFields(cols) ::= "$cols:{col|$col.columnName$ as $col.javaType$, }$"

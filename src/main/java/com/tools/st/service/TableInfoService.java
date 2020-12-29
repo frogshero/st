@@ -5,20 +5,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tools.st.entity.ColumnInfo;
-import com.tools.st.entity.TestVO;
-import com.tools.st.mapper.TableInfoMapper;
+import com.tools.st.entity.base.ColumnInfo;
+import com.tools.st.mapper.base.TableInfoDao;
 
 @Service
 public class TableInfoService {
-  
+
   @Autowired
-  TableInfoMapper tableInfoMapper;
-  
-  
-  public List<ColumnInfo> getColumnInfos(String tableName) {
-    List<TestVO> test = tableInfoMapper.getTest();
-    return tableInfoMapper.getColumnInfos(tableName);
+  TableInfoDao tableInfoDao;
+
+  public List<ColumnInfo> getColumnInfos(String schema, String tableName) {
+    return tableInfoDao.getColumnInfos(schema, tableName);
   }
+
+  public List<String> getAllTables() {
+    return tableInfoDao.getAllTables("jx_mes");
+  }
+
 
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tools.st.mapper.SysComPageProgrammeDao">
+
+<resultMap id="BaseResultMap" type="com.tools.st.entity.SysComPageProgramme">
+  <id column="id" jdbcType="BIGINT" property="id"/>
+  <result column="com_id" jdbcType="BIGINT" property="comId"/>
+  <result column="page_config_id" jdbcType="BIGINT" property="pageConfigId"/>
+  <result column="programme_name" jdbcType="VARCHAR" property="programmeName"/>
+  <result column="sys_flg" jdbcType="INTEGER" property="sysFlg"/>
+  <result column="enableflg" jdbcType="INTEGER" property="enableflg"/>
+  <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+  <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+  <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+  <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+</resultMap>
+
+<sql id="Base_Column_List">
+  id, com_id, page_config_id, programme_name, sys_flg, enableflg, created_by, created_time, 
+  updated_by, updated_time
+</sql>
+
+<sql id="Condition_List">
+  <if test="id != null"> scpp.id = #{id, jdbcType=BIGINT} </if>
+  <if test="comId != null"> scpp.com_id = #{comId, jdbcType=BIGINT} </if>
+  <if test="pageConfigId != null"> scpp.page_config_id = #{pageConfigId, jdbcType=BIGINT} </if>
+  <if test="programmeName != null"> scpp.programme_name = #{programmeName, jdbcType=VARCHAR} </if>
+  <if test="sysFlg != null"> scpp.sys_flg = #{sysFlg, jdbcType=INTEGER} </if>
+  <if test="enableflg != null"> scpp.enableflg = #{enableflg, jdbcType=INTEGER} </if>
+  <if test="createdBy != null"> scpp.created_by = #{createdBy, jdbcType=BIGINT} </if>
+  <if test="createdTime != null"> scpp.created_time = #{createdTime, jdbcType=TIMESTAMP} </if>
+  <if test="updatedBy != null"> scpp.updated_by = #{updatedBy, jdbcType=BIGINT} </if>
+  <if test="updatedTime != null"> scpp.updated_time = #{updatedTime, jdbcType=TIMESTAMP} </if>
+</sql>
+
+<sql id="Select_As_List">
+  scpp.id as id, scpp.com_id as comId, scpp.page_config_id as pageConfigId, scpp.programme_name as programmeName, 
+  scpp.sys_flg as sysFlg, scpp.enableflg as enableflg, scpp.created_by as createdBy, 
+  scpp.created_time as createdTime, scpp.updated_by as updatedBy, scpp.updated_time as updatedTime
+</sql>
+
+<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from sys_com_page_programme
+  where id = #{id,jdbcType=BIGINT}
+</select>
+
+<delete id="deleteByPrimaryKey" parameterType="Long">
+  delete from sys_com_page_programme
+  where id = #{id,jdbcType=BIGINT}
+</delete>
+
+<insert id="insert" parameterType="com.tools.st.entity.SysComPageProgramme">
+  <selectKey keyProperty="id" order="AFTER" resultType="Long">
+    SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into sys_com_page_programme (com_id, page_config_id, programme_name, sys_flg, 
+                                      enableflg, created_by, created_time, updated_by, 
+                                      updated_time)
+  values (#{comId, jdbcType=BIGINT}, #{pageConfigId, jdbcType=BIGINT}, #{programmeName, jdbcType=VARCHAR}, 
+          #{sysFlg, jdbcType=INTEGER}, #{enableflg, jdbcType=INTEGER}, #{createdBy, jdbcType=BIGINT}, 
+          #{createdTime, jdbcType=TIMESTAMP}, #{updatedBy, jdbcType=BIGINT}, #{updatedTime, jdbcType=TIMESTAMP})
+</insert>
+
+<update id="updateByPrimaryKey" parameterType="com.tools.st.entity.SysComPageProgramme">
+  update sys_com_page_programme
+  set com_id=#{comId, jdbcType=BIGINT}, page_config_id=#{pageConfigId, jdbcType=BIGINT}, 
+      programme_name=#{programmeName, jdbcType=VARCHAR}, sys_flg=#{sysFlg, jdbcType=INTEGER}, 
+      enableflg=#{enableflg, jdbcType=INTEGER}, created_by=#{createdBy, jdbcType=BIGINT}, 
+      created_time=#{createdTime, jdbcType=TIMESTAMP}, updated_by=#{updatedBy, jdbcType=BIGINT}, 
+      updated_time=#{updatedTime, jdbcType=TIMESTAMP}
+  where id = #{id,jdbcType=BIGINT}
+</update>
+
+</mapper>

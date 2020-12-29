@@ -1,0 +1,1 @@
+stLoop ::= $cols:{col|$col.columnName$ as $col.javaName$};

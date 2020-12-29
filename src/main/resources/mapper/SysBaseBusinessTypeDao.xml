@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tools.st.mapper.SysBaseBusinessTypeDao">
+
+<resultMap id="BaseResultMap" type="com.tools.st.entity.SysBaseBusinessType">
+  <id column="id" jdbcType="BIGINT" property="id"/>
+  <result column="name" jdbcType="VARCHAR" property="name"/>
+  <result column="code" jdbcType="VARCHAR" property="code"/>
+  <result column="enableflg" jdbcType="TINYINT" property="enableflg"/>
+  <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+  <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+  <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+  <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+  <result column="remark" jdbcType="VARCHAR" property="remark"/>
+</resultMap>
+
+<sql id="Base_Column_List">
+  id, name, code, enableflg, created_by, created_time, updated_by, updated_time, 
+  remark
+</sql>
+
+<sql id="Condition_List">
+  <if test="id != null"> sbbt.id = #{id, jdbcType=BIGINT} </if>
+  <if test="name != null"> sbbt.name = #{name, jdbcType=VARCHAR} </if>
+  <if test="code != null"> sbbt.code = #{code, jdbcType=VARCHAR} </if>
+  <if test="enableflg != null"> sbbt.enableflg = #{enableflg, jdbcType=TINYINT} </if>
+  <if test="createdBy != null"> sbbt.created_by = #{createdBy, jdbcType=BIGINT} </if>
+  <if test="createdTime != null"> sbbt.created_time = #{createdTime, jdbcType=TIMESTAMP} </if>
+  <if test="updatedBy != null"> sbbt.updated_by = #{updatedBy, jdbcType=BIGINT} </if>
+  <if test="updatedTime != null"> sbbt.updated_time = #{updatedTime, jdbcType=TIMESTAMP} </if>
+  <if test="remark != null"> sbbt.remark = #{remark, jdbcType=VARCHAR} </if>
+</sql>
+
+<sql id="Select_As_List">
+  sbbt.id as id, sbbt.name as name, sbbt.code as code, sbbt.enableflg as enableflg, 
+  sbbt.created_by as createdBy, sbbt.created_time as createdTime, sbbt.updated_by as updatedBy, 
+  sbbt.updated_time as updatedTime, sbbt.remark as remark
+</sql>
+
+<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from sys_base_business_type
+  where id = #{id,jdbcType=BIGINT}
+</select>
+
+<delete id="deleteByPrimaryKey" parameterType="Long">
+  delete from sys_base_business_type
+  where id = #{id,jdbcType=BIGINT}
+</delete>
+
+<insert id="insert" parameterType="com.tools.st.entity.SysBaseBusinessType">
+  <selectKey keyProperty="id" order="AFTER" resultType="Long">
+    SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into sys_base_business_type (name, code, enableflg, created_by, created_time, 
+                                      updated_by, updated_time, remark)
+  values (#{name, jdbcType=VARCHAR}, #{code, jdbcType=VARCHAR}, #{enableflg, jdbcType=TINYINT}, 
+          #{createdBy, jdbcType=BIGINT}, #{createdTime, jdbcType=TIMESTAMP}, #{updatedBy, jdbcType=BIGINT}, 
+          #{updatedTime, jdbcType=TIMESTAMP}, #{remark, jdbcType=VARCHAR})
+</insert>
+
+<update id="updateByPrimaryKey" parameterType="com.tools.st.entity.SysBaseBusinessType">
+  update sys_base_business_typesys_base_business_type
+  set name=#{name, jdbcType=VARCHAR}, code=#{code, jdbcType=VARCHAR}, enableflg=#{enableflg, jdbcType=TINYINT}, 
+      created_by=#{createdBy, jdbcType=BIGINT}, created_time=#{createdTime, jdbcType=TIMESTAMP}, 
+      updated_by=#{updatedBy, jdbcType=BIGINT}, updated_time=#{updatedTime, jdbcType=TIMESTAMP}, 
+      remark=#{remark, jdbcType=VARCHAR}
+  where id = #{id,jdbcType=BIGINT}
+</update>
+
+
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tools.st.mapper.SysBaseBusinessDataDictDao">
+
+<resultMap id="BaseResultMap" type="com.tools.st.entity.SysBaseBusinessDataDict">
+  <id column="id" jdbcType="BIGINT" property="id"/>
+  <result column="com_id" jdbcType="BIGINT" property="comId"/>
+  <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+  <result column="sort_num" jdbcType="SMALLINT" property="sortNum"/>
+  <result column="serial_number" jdbcType="VARCHAR" property="serialNumber"/>
+  <result column="name" jdbcType="VARCHAR" property="name"/>
+  <result column="business_type_id" jdbcType="BIGINT" property="businessTypeId"/>
+  <result column="business_type" jdbcType="VARCHAR" property="businessType"/>
+  <result column="is_system_internal" jdbcType="VARCHAR" property="isSystemInternal"/>
+  <result column="is_deactivate" jdbcType="VARCHAR" property="isDeactivate"/>
+  <result column="enableflg" jdbcType="TINYINT" property="enableflg"/>
+  <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+  <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+  <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+  <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+  <result column="remark" jdbcType="VARCHAR" property="remark"/>
+  <result column="remark1" jdbcType="VARCHAR" property="remark1"/>
+  <result column="remark2" jdbcType="VARCHAR" property="remark2"/>
+  <result column="remark3" jdbcType="VARCHAR" property="remark3"/>
+  <result column="remark4" jdbcType="VARCHAR" property="remark4"/>
+  <result column="remark5" jdbcType="VARCHAR" property="remark5"/>
+  <result column="remark6" jdbcType="VARCHAR" property="remark6"/>
+  <result column="remark7" jdbcType="VARCHAR" property="remark7"/>
+  <result column="remark8" jdbcType="VARCHAR" property="remark8"/>
+  <result column="remark9" jdbcType="VARCHAR" property="remark9"/>
+  <result column="remark10" jdbcType="VARCHAR" property="remark10"/>
+</resultMap>
+
+<sql id="Base_Column_List">
+  id, com_id, parent_id, sort_num, serial_number, name, business_type_id, business_type, 
+  is_system_internal, is_deactivate, enableflg, created_by, created_time, updated_by, 
+  updated_time, remark, remark1, remark2, remark3, remark4, remark5, remark6, remark7, 
+  remark8, remark9, remark10
+</sql>
+
+<sql id="Condition_List">
+  <if test="id != null"> sbbdd.id = #{id, jdbcType=BIGINT} </if>
+  <if test="comId != null"> sbbdd.com_id = #{comId, jdbcType=BIGINT} </if>
+  <if test="parentId != null"> sbbdd.parent_id = #{parentId, jdbcType=BIGINT} </if>
+  <if test="sortNum != null"> sbbdd.sort_num = #{sortNum, jdbcType=SMALLINT} </if>
+  <if test="serialNumber != null"> sbbdd.serial_number = #{serialNumber, jdbcType=VARCHAR} </if>
+  <if test="name != null"> sbbdd.name = #{name, jdbcType=VARCHAR} </if>
+  <if test="businessTypeId != null"> sbbdd.business_type_id = #{businessTypeId, jdbcType=BIGINT} </if>
+  <if test="businessType != null"> sbbdd.business_type = #{businessType, jdbcType=VARCHAR} </if>
+  <if test="isSystemInternal != null"> sbbdd.is_system_internal = #{isSystemInternal, jdbcType=VARCHAR} </if>
+  <if test="isDeactivate != null"> sbbdd.is_deactivate = #{isDeactivate, jdbcType=VARCHAR} </if>
+  <if test="enableflg != null"> sbbdd.enableflg = #{enableflg, jdbcType=TINYINT} </if>
+  <if test="createdBy != null"> sbbdd.created_by = #{createdBy, jdbcType=BIGINT} </if>
+  <if test="createdTime != null"> sbbdd.created_time = #{createdTime, jdbcType=TIMESTAMP} </if>
+  <if test="updatedBy != null"> sbbdd.updated_by = #{updatedBy, jdbcType=BIGINT} </if>
+  <if test="updatedTime != null"> sbbdd.updated_time = #{updatedTime, jdbcType=TIMESTAMP} </if>
+  <if test="remark != null"> sbbdd.remark = #{remark, jdbcType=VARCHAR} </if>
+  <if test="remark1 != null"> sbbdd.remark1 = #{remark1, jdbcType=VARCHAR} </if>
+  <if test="remark2 != null"> sbbdd.remark2 = #{remark2, jdbcType=VARCHAR} </if>
+  <if test="remark3 != null"> sbbdd.remark3 = #{remark3, jdbcType=VARCHAR} </if>
+  <if test="remark4 != null"> sbbdd.remark4 = #{remark4, jdbcType=VARCHAR} </if>
+  <if test="remark5 != null"> sbbdd.remark5 = #{remark5, jdbcType=VARCHAR} </if>
+  <if test="remark6 != null"> sbbdd.remark6 = #{remark6, jdbcType=VARCHAR} </if>
+  <if test="remark7 != null"> sbbdd.remark7 = #{remark7, jdbcType=VARCHAR} </if>
+  <if test="remark8 != null"> sbbdd.remark8 = #{remark8, jdbcType=VARCHAR} </if>
+  <if test="remark9 != null"> sbbdd.remark9 = #{remark9, jdbcType=VARCHAR} </if>
+  <if test="remark10 != null"> sbbdd.remark10 = #{remark10, jdbcType=VARCHAR} </if>
+</sql>
+
+<sql id="Select_As_List">
+  sbbdd.id as id, sbbdd.com_id as comId, sbbdd.parent_id as parentId, sbbdd.sort_num as sortNum, 
+  sbbdd.serial_number as serialNumber, sbbdd.name as name, sbbdd.business_type_id as businessTypeId, 
+  sbbdd.business_type as businessType, sbbdd.is_system_internal as isSystemInternal, 
+  sbbdd.is_deactivate as isDeactivate, sbbdd.enableflg as enableflg, sbbdd.created_by as createdBy, 
+  sbbdd.created_time as createdTime, sbbdd.updated_by as updatedBy, sbbdd.updated_time as updatedTime, 
+  sbbdd.remark as remark, sbbdd.remark1 as remark1, sbbdd.remark2 as remark2, sbbdd.remark3 as remark3, 
+  sbbdd.remark4 as remark4, sbbdd.remark5 as remark5, sbbdd.remark6 as remark6, 
+  sbbdd.remark7 as remark7, sbbdd.remark8 as remark8, sbbdd.remark9 as remark9, 
+  sbbdd.remark10 as remark10
+</sql>
+
+<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from sys_base_business_data_dict
+  where id = #{id,jdbcType=BIGINT}
+</select>
+
+<delete id="deleteByPrimaryKey" parameterType="Long">
+  delete from sys_base_business_data_dict
+  where id = #{id,jdbcType=BIGINT}
+</delete>
+
+<insert id="insert" parameterType="com.tools.st.entity.SysBaseBusinessDataDict">
+  <selectKey keyProperty="id" order="AFTER" resultType="Long">
+    SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into sys_base_business_data_dict (com_id, parent_id, sort_num, serial_number, 
+                                           name, business_type_id, business_type, 
+                                           is_system_internal, is_deactivate, enableflg, 
+                                           created_by, created_time, updated_by, 
+                                           updated_time, remark, remark1, remark2, 
+                                           remark3, remark4, remark5, remark6, remark7, 
+                                           remark8, remark9, remark10)
+  values (#{comId, jdbcType=BIGINT}, #{parentId, jdbcType=BIGINT}, #{sortNum, jdbcType=SMALLINT}, 
+          #{serialNumber, jdbcType=VARCHAR}, #{name, jdbcType=VARCHAR}, #{businessTypeId, jdbcType=BIGINT}, 
+          #{businessType, jdbcType=VARCHAR}, #{isSystemInternal, jdbcType=VARCHAR}, 
+          #{isDeactivate, jdbcType=VARCHAR}, #{enableflg, jdbcType=TINYINT}, #{createdBy, jdbcType=BIGINT}, 
+          #{createdTime, jdbcType=TIMESTAMP}, #{updatedBy, jdbcType=BIGINT}, #{updatedTime, jdbcType=TIMESTAMP}, 
+          #{remark, jdbcType=VARCHAR}, #{remark1, jdbcType=VARCHAR}, #{remark2, jdbcType=VARCHAR}, 
+          #{remark3, jdbcType=VARCHAR}, #{remark4, jdbcType=VARCHAR}, #{remark5, jdbcType=VARCHAR}, 
+          #{remark6, jdbcType=VARCHAR}, #{remark7, jdbcType=VARCHAR}, #{remark8, jdbcType=VARCHAR}, 
+          #{remark9, jdbcType=VARCHAR}, #{remark10, jdbcType=VARCHAR})
+</insert>
+
+<update id="updateByPrimaryKey" parameterType="com.tools.st.entity.SysBaseBusinessDataDict">
+  update sys_base_business_data_dict
+  set com_id=#{comId, jdbcType=BIGINT}, parent_id=#{parentId, jdbcType=BIGINT}, 
+      sort_num=#{sortNum, jdbcType=SMALLINT}, serial_number=#{serialNumber, jdbcType=VARCHAR}, 
+      name=#{name, jdbcType=VARCHAR}, business_type_id=#{businessTypeId, jdbcType=BIGINT}, 
+      business_type=#{businessType, jdbcType=VARCHAR}, is_system_internal=#{isSystemInternal, jdbcType=VARCHAR}, 
+      is_deactivate=#{isDeactivate, jdbcType=VARCHAR}, enableflg=#{enableflg, jdbcType=TINYINT}, 
+      created_by=#{createdBy, jdbcType=BIGINT}, created_time=#{createdTime, jdbcType=TIMESTAMP}, 
+      updated_by=#{updatedBy, jdbcType=BIGINT}, updated_time=#{updatedTime, jdbcType=TIMESTAMP}, 
+      remark=#{remark, jdbcType=VARCHAR}, remark1=#{remark1, jdbcType=VARCHAR}, 
+      remark2=#{remark2, jdbcType=VARCHAR}, remark3=#{remark3, jdbcType=VARCHAR}, 
+      remark4=#{remark4, jdbcType=VARCHAR}, remark5=#{remark5, jdbcType=VARCHAR}, 
+      remark6=#{remark6, jdbcType=VARCHAR}, remark7=#{remark7, jdbcType=VARCHAR}, 
+      remark8=#{remark8, jdbcType=VARCHAR}, remark9=#{remark9, jdbcType=VARCHAR}, 
+      remark10=#{remark10, jdbcType=VARCHAR}
+  where id = #{id,jdbcType=BIGINT}
+</update>
+
+
+</mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tools.st.mapper.DbTableConfigDao">
+
+<resultMap id="BaseResultMap" type="com.tools.st.entity.DbTableConfig">
+  <id column="id" jdbcType="BIGINT" property="id"/>
+  <result column="com_id" jdbcType="BIGINT" property="comId"/>
+  <result column="table_name" jdbcType="VARCHAR" property="tableName"/>
+  <result column="table_id" jdbcType="VARCHAR" property="tableId"/>
+  <result column="alias" jdbcType="VARCHAR" property="alias"/>
+  <result column="enableflg" jdbcType="TINYINT" property="enableflg"/>
+  <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+  <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+  <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+  <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+  <result column="remark" jdbcType="VARCHAR" property="remark"/>
+</resultMap>
+
+<sql id="Base_Column_List">
+  id, com_id, table_name, table_id, alias, enableflg, created_time, created_by, 
+  updated_time, updated_by, remark
+</sql>
+
+<sql id="Condition_List">
+  <if test="id != null"> dtc.id = #{id, jdbcType=BIGINT} </if>
+  <if test="comId != null"> dtc.com_id = #{comId, jdbcType=BIGINT} </if>
+  <if test="tableName != null"> dtc.table_name = #{tableName, jdbcType=VARCHAR} </if>
+  <if test="tableId != null"> dtc.table_id = #{tableId, jdbcType=VARCHAR} </if>
+  <if test="alias != null"> dtc.alias = #{alias, jdbcType=VARCHAR} </if>
+  <if test="enableflg != null"> dtc.enableflg = #{enableflg, jdbcType=TINYINT} </if>
+  <if test="createdTime != null"> dtc.created_time = #{createdTime, jdbcType=TIMESTAMP} </if>
+  <if test="createdBy != null"> dtc.created_by = #{createdBy, jdbcType=BIGINT} </if>
+  <if test="updatedTime != null"> dtc.updated_time = #{updatedTime, jdbcType=TIMESTAMP} </if>
+  <if test="updatedBy != null"> dtc.updated_by = #{updatedBy, jdbcType=BIGINT} </if>
+  <if test="remark != null"> dtc.remark = #{remark, jdbcType=VARCHAR} </if>
+</sql>
+
+<sql id="Select_As_List">
+  dtc.id as id, dtc.com_id as comId, dtc.table_name as tableName, dtc.table_id as tableId, 
+  dtc.alias as alias, dtc.enableflg as enableflg, dtc.created_time as createdTime, 
+  dtc.created_by as createdBy, dtc.updated_time as updatedTime, dtc.updated_by as updatedBy, 
+  dtc.remark as remark
+</sql>
+
+<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from db_table_config
+  where id = #{id,jdbcType=BIGINT}
+</select>
+
+<delete id="deleteByPrimaryKey" parameterType="Long">
+  delete from db_table_config
+  where id = #{id,jdbcType=BIGINT}
+</delete>
+
+<insert id="insert" parameterType="com.tools.st.entity.DbTableConfig">
+  <selectKey keyProperty="id" order="AFTER" resultType="Long">
+    SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into db_table_config (com_id, table_name, table_id, alias, enableflg, created_time, 
+                               created_by, updated_time, updated_by, remark)
+  values (#{comId, jdbcType=BIGINT}, #{tableName, jdbcType=VARCHAR}, #{tableId, jdbcType=VARCHAR}, 
+          #{alias, jdbcType=VARCHAR}, #{enableflg, jdbcType=TINYINT}, #{createdTime, jdbcType=TIMESTAMP}, 
+          #{createdBy, jdbcType=BIGINT}, #{updatedTime, jdbcType=TIMESTAMP}, #{updatedBy, jdbcType=BIGINT}, 
+          #{remark, jdbcType=VARCHAR})
+</insert>
+
+<update id="updateByPrimaryKey" parameterType="com.tools.st.entity.DbTableConfig">
+  update db_table_config
+  set com_id=#{comId, jdbcType=BIGINT}, table_name=#{tableName, jdbcType=VARCHAR}, 
+      table_id=#{tableId, jdbcType=VARCHAR}, alias=#{alias, jdbcType=VARCHAR}, enableflg=#{enableflg, jdbcType=TINYINT}, 
+      created_time=#{createdTime, jdbcType=TIMESTAMP}, created_by=#{createdBy, jdbcType=BIGINT}, 
+      updated_time=#{updatedTime, jdbcType=TIMESTAMP}, updated_by=#{updatedBy, jdbcType=BIGINT}, 
+      remark=#{remark, jdbcType=VARCHAR}
+  where id = #{id,jdbcType=BIGINT}
+</update>
+
+</mapper>

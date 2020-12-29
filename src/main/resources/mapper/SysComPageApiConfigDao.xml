@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tools.st.mapper.SysComPageApiConfigDao">
+
+<resultMap id="BaseResultMap" type="com.tools.st.entity.SysComPageApiConfig">
+  <id column="id" jdbcType="BIGINT" property="id"/>
+  <result column="com_id" jdbcType="BIGINT" property="comId"/>
+  <result column="page_config_id" jdbcType="BIGINT" property="pageConfigId"/>
+  <result column="page_api_type" jdbcType="VARCHAR" property="pageApiType"/>
+  <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+  <result column="second_name" jdbcType="VARCHAR" property="secondName"/>
+  <result column="third_name" jdbcType="VARCHAR" property="thirdName"/>
+  <result column="page_api_name" jdbcType="VARCHAR" property="pageApiName"/>
+  <result column="page_api" jdbcType="VARCHAR" property="pageApi"/>
+  <result column="send_type" jdbcType="VARCHAR" property="sendType"/>
+  <result column="components_id" jdbcType="VARCHAR" property="componentsId"/>
+  <result column="components_result" jdbcType="VARCHAR" property="componentsResult"/>
+  <result column="title_accept" jdbcType="VARCHAR" property="titleAccept"/>
+  <result column="icon" jdbcType="VARCHAR" property="icon"/>
+  <result column="tools_flg" jdbcType="INTEGER" property="toolsFlg"/>
+  <result column="components_tools_flg" jdbcType="INTEGER" property="componentsToolsFlg"/>
+  <result column="add_tools_flg" jdbcType="INTEGER" property="addToolsFlg"/>
+  <result column="edit_tools_flg" jdbcType="INTEGER" property="editToolsFlg"/>
+  <result column="add_table_tools_flg" jdbcType="INTEGER" property="addTableToolsFlg"/>
+  <result column="sort_no" jdbcType="INTEGER" property="sortNo"/>
+  <result column="enableflg" jdbcType="INTEGER" property="enableflg"/>
+  <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+  <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+  <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+  <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+</resultMap>
+
+<sql id="Base_Column_List">
+  id, com_id, page_config_id, page_api_type, first_name, second_name, third_name, 
+  page_api_name, page_api, send_type, components_id, components_result, title_accept, 
+  icon, tools_flg, components_tools_flg, add_tools_flg, edit_tools_flg, add_table_tools_flg, 
+  sort_no, enableflg, created_by, created_time, updated_by, updated_time
+</sql>
+
+<sql id="Condition_List">
+  <if test="id != null"> scpac.id = #{id, jdbcType=BIGINT} </if>
+  <if test="comId != null"> scpac.com_id = #{comId, jdbcType=BIGINT} </if>
+  <if test="pageConfigId != null"> scpac.page_config_id = #{pageConfigId, jdbcType=BIGINT} </if>
+  <if test="pageApiType != null"> scpac.page_api_type = #{pageApiType, jdbcType=VARCHAR} </if>
+  <if test="firstName != null"> scpac.first_name = #{firstName, jdbcType=VARCHAR} </if>
+  <if test="secondName != null"> scpac.second_name = #{secondName, jdbcType=VARCHAR} </if>
+  <if test="thirdName != null"> scpac.third_name = #{thirdName, jdbcType=VARCHAR} </if>
+  <if test="pageApiName != null"> scpac.page_api_name = #{pageApiName, jdbcType=VARCHAR} </if>
+  <if test="pageApi != null"> scpac.page_api = #{pageApi, jdbcType=VARCHAR} </if>
+  <if test="sendType != null"> scpac.send_type = #{sendType, jdbcType=VARCHAR} </if>
+  <if test="componentsId != null"> scpac.components_id = #{componentsId, jdbcType=VARCHAR} </if>
+  <if test="componentsResult != null"> scpac.components_result = #{componentsResult, jdbcType=VARCHAR} </if>
+  <if test="titleAccept != null"> scpac.title_accept = #{titleAccept, jdbcType=VARCHAR} </if>
+  <if test="icon != null"> scpac.icon = #{icon, jdbcType=VARCHAR} </if>
+  <if test="toolsFlg != null"> scpac.tools_flg = #{toolsFlg, jdbcType=INTEGER} </if>
+  <if test="componentsToolsFlg != null"> scpac.components_tools_flg = #{componentsToolsFlg, jdbcType=INTEGER} </if>
+  <if test="addToolsFlg != null"> scpac.add_tools_flg = #{addToolsFlg, jdbcType=INTEGER} </if>
+  <if test="editToolsFlg != null"> scpac.edit_tools_flg = #{editToolsFlg, jdbcType=INTEGER} </if>
+  <if test="addTableToolsFlg != null"> scpac.add_table_tools_flg = #{addTableToolsFlg, jdbcType=INTEGER} </if>
+  <if test="sortNo != null"> scpac.sort_no = #{sortNo, jdbcType=INTEGER} </if>
+  <if test="enableflg != null"> scpac.enableflg = #{enableflg, jdbcType=INTEGER} </if>
+  <if test="createdBy != null"> scpac.created_by = #{createdBy, jdbcType=BIGINT} </if>
+  <if test="createdTime != null"> scpac.created_time = #{createdTime, jdbcType=TIMESTAMP} </if>
+  <if test="updatedBy != null"> scpac.updated_by = #{updatedBy, jdbcType=BIGINT} </if>
+  <if test="updatedTime != null"> scpac.updated_time = #{updatedTime, jdbcType=TIMESTAMP} </if>
+</sql>
+
+<sql id="Select_As_List">
+  scpac.id as id, scpac.com_id as comId, scpac.page_config_id as pageConfigId, scpac.page_api_type as pageApiType, 
+  scpac.first_name as firstName, scpac.second_name as secondName, scpac.third_name as thirdName, 
+  scpac.page_api_name as pageApiName, scpac.page_api as pageApi, scpac.send_type as sendType, 
+  scpac.components_id as componentsId, scpac.components_result as componentsResult, 
+  scpac.title_accept as titleAccept, scpac.icon as icon, scpac.tools_flg as toolsFlg, 
+  scpac.components_tools_flg as componentsToolsFlg, scpac.add_tools_flg as addToolsFlg, 
+  scpac.edit_tools_flg as editToolsFlg, scpac.add_table_tools_flg as addTableToolsFlg, 
+  scpac.sort_no as sortNo, scpac.enableflg as enableflg, scpac.created_by as createdBy, 
+  scpac.created_time as createdTime, scpac.updated_by as updatedBy, scpac.updated_time as updatedTime
+</sql>
+
+<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from sys_com_page_api_config
+  where id = #{id,jdbcType=BIGINT}
+</select>
+
+<delete id="deleteByPrimaryKey" parameterType="Long">
+  delete from sys_com_page_api_config
+  where id = #{id,jdbcType=BIGINT}
+</delete>
+
+<insert id="insert" parameterType="com.tools.st.entity.SysComPageApiConfig">
+  <selectKey keyProperty="id" order="AFTER" resultType="Long">
+    SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into sys_com_page_api_config (com_id, page_config_id, page_api_type, first_name, 
+                                       second_name, third_name, page_api_name, page_api, 
+                                       send_type, components_id, components_result, 
+                                       title_accept, icon, tools_flg, components_tools_flg, 
+                                       add_tools_flg, edit_tools_flg, add_table_tools_flg, 
+                                       sort_no, enableflg, created_by, created_time, 
+                                       updated_by, updated_time)
+  values (#{comId, jdbcType=BIGINT}, #{pageConfigId, jdbcType=BIGINT}, #{pageApiType, jdbcType=VARCHAR}, 
+          #{firstName, jdbcType=VARCHAR}, #{secondName, jdbcType=VARCHAR}, #{thirdName, jdbcType=VARCHAR}, 
+          #{pageApiName, jdbcType=VARCHAR}, #{pageApi, jdbcType=VARCHAR}, #{sendType, jdbcType=VARCHAR}, 
+          #{componentsId, jdbcType=VARCHAR}, #{componentsResult, jdbcType=VARCHAR}, 
+          #{titleAccept, jdbcType=VARCHAR}, #{icon, jdbcType=VARCHAR}, #{toolsFlg, jdbcType=INTEGER}, 
+          #{componentsToolsFlg, jdbcType=INTEGER}, #{addToolsFlg, jdbcType=INTEGER}, 
+          #{editToolsFlg, jdbcType=INTEGER}, #{addTableToolsFlg, jdbcType=INTEGER}, 
+          #{sortNo, jdbcType=INTEGER}, #{enableflg, jdbcType=INTEGER}, #{createdBy, jdbcType=BIGINT}, 
+          #{createdTime, jdbcType=TIMESTAMP}, #{updatedBy, jdbcType=BIGINT}, #{updatedTime, jdbcType=TIMESTAMP})
+</insert>
+
+<update id="updateByPrimaryKey" parameterType="com.tools.st.entity.SysComPageApiConfig">
+  update sys_com_page_api_config
+  set com_id=#{comId, jdbcType=BIGINT}, page_config_id=#{pageConfigId, jdbcType=BIGINT}, 
+      page_api_type=#{pageApiType, jdbcType=VARCHAR}, first_name=#{firstName, jdbcType=VARCHAR}, 
+      second_name=#{secondName, jdbcType=VARCHAR}, third_name=#{thirdName, jdbcType=VARCHAR}, 
+      page_api_name=#{pageApiName, jdbcType=VARCHAR}, page_api=#{pageApi, jdbcType=VARCHAR}, 
+      send_type=#{sendType, jdbcType=VARCHAR}, components_id=#{componentsId, jdbcType=VARCHAR}, 
+      components_result=#{componentsResult, jdbcType=VARCHAR}, title_accept=#{titleAccept, jdbcType=VARCHAR}, 
+      icon=#{icon, jdbcType=VARCHAR}, tools_flg=#{toolsFlg, jdbcType=INTEGER}, components_tools_flg=#{componentsToolsFlg, jdbcType=INTEGER}, 
+      add_tools_flg=#{addToolsFlg, jdbcType=INTEGER}, edit_tools_flg=#{editToolsFlg, jdbcType=INTEGER}, 
+      add_table_tools_flg=#{addTableToolsFlg, jdbcType=INTEGER}, sort_no=#{sortNo, jdbcType=INTEGER}, 
+      enableflg=#{enableflg, jdbcType=INTEGER}, created_by=#{createdBy, jdbcType=BIGINT}, 
+      created_time=#{createdTime, jdbcType=TIMESTAMP}, updated_by=#{updatedBy, jdbcType=BIGINT}, 
+      updated_time=#{updatedTime, jdbcType=TIMESTAMP}
+  where id = #{id,jdbcType=BIGINT}
+</update>
+
+</mapper>

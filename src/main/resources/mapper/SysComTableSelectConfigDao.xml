@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tools.st.mapper.SysComTableSelectConfigDao">
+
+<resultMap id="BaseResultMap" type="com.tools.st.entity.SysComTableSelectConfig">
+  <id column="id" jdbcType="BIGINT" property="id"/>
+  <result column="com_id" jdbcType="BIGINT" property="comId"/>
+  <result column="table_id" jdbcType="VARCHAR" property="tableId"/>
+  <result column="select_ket" jdbcType="VARCHAR" property="selectKet"/>
+  <result column="table_title" jdbcType="VARCHAR" property="tableTitle"/>
+  <result column="table_title_name" jdbcType="VARCHAR" property="tableTitleName"/>
+  <result column="table_key" jdbcType="VARCHAR" property="tableKey"/>
+  <result column="key_code" jdbcType="VARCHAR" property="keyCode"/>
+  <result column="title_type" jdbcType="VARCHAR" property="titleType"/>
+  <result column="components_id" jdbcType="VARCHAR" property="componentsId"/>
+  <result column="components_name" jdbcType="VARCHAR" property="componentsName"/>
+  <result column="components_type" jdbcType="VARCHAR" property="componentsType"/>
+  <result column="components_result" jdbcType="VARCHAR" property="componentsResult"/>
+  <result column="title_accept" jdbcType="VARCHAR" property="titleAccept"/>
+  <result column="search_api" jdbcType="VARCHAR" property="searchApi"/>
+  <result column="sort_no" jdbcType="SMALLINT" property="sortNo"/>
+  <result column="enableflg" jdbcType="INTEGER" property="enableflg"/>
+  <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+  <result column="created_time" jdbcType="TIMESTAMP" property="createdTime"/>
+  <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+  <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime"/>
+</resultMap>
+
+<sql id="Base_Column_List">
+  id, com_id, table_id, select_ket, table_title, table_title_name, table_key, key_code, 
+  title_type, components_id, components_name, components_type, components_result, 
+  title_accept, search_api, sort_no, enableflg, created_by, created_time, updated_by, 
+  updated_time
+</sql>
+
+<sql id="Condition_List">
+  <if test="id != null"> sctsc.id = #{id, jdbcType=BIGINT} </if>
+  <if test="comId != null"> sctsc.com_id = #{comId, jdbcType=BIGINT} </if>
+  <if test="tableId != null"> sctsc.table_id = #{tableId, jdbcType=VARCHAR} </if>
+  <if test="selectKet != null"> sctsc.select_ket = #{selectKet, jdbcType=VARCHAR} </if>
+  <if test="tableTitle != null"> sctsc.table_title = #{tableTitle, jdbcType=VARCHAR} </if>
+  <if test="tableTitleName != null"> sctsc.table_title_name = #{tableTitleName, jdbcType=VARCHAR} </if>
+  <if test="tableKey != null"> sctsc.table_key = #{tableKey, jdbcType=VARCHAR} </if>
+  <if test="keyCode != null"> sctsc.key_code = #{keyCode, jdbcType=VARCHAR} </if>
+  <if test="titleType != null"> sctsc.title_type = #{titleType, jdbcType=VARCHAR} </if>
+  <if test="componentsId != null"> sctsc.components_id = #{componentsId, jdbcType=VARCHAR} </if>
+  <if test="componentsName != null"> sctsc.components_name = #{componentsName, jdbcType=VARCHAR} </if>
+  <if test="componentsType != null"> sctsc.components_type = #{componentsType, jdbcType=VARCHAR} </if>
+  <if test="componentsResult != null"> sctsc.components_result = #{componentsResult, jdbcType=VARCHAR} </if>
+  <if test="titleAccept != null"> sctsc.title_accept = #{titleAccept, jdbcType=VARCHAR} </if>
+  <if test="searchApi != null"> sctsc.search_api = #{searchApi, jdbcType=VARCHAR} </if>
+  <if test="sortNo != null"> sctsc.sort_no = #{sortNo, jdbcType=SMALLINT} </if>
+  <if test="enableflg != null"> sctsc.enableflg = #{enableflg, jdbcType=INTEGER} </if>
+  <if test="createdBy != null"> sctsc.created_by = #{createdBy, jdbcType=BIGINT} </if>
+  <if test="createdTime != null"> sctsc.created_time = #{createdTime, jdbcType=TIMESTAMP} </if>
+  <if test="updatedBy != null"> sctsc.updated_by = #{updatedBy, jdbcType=BIGINT} </if>
+  <if test="updatedTime != null"> sctsc.updated_time = #{updatedTime, jdbcType=TIMESTAMP} </if>
+</sql>
+
+<sql id="Select_As_List">
+  sctsc.id as id, sctsc.com_id as comId, sctsc.table_id as tableId, sctsc.select_ket as selectKet, 
+  sctsc.table_title as tableTitle, sctsc.table_title_name as tableTitleName, sctsc.table_key as tableKey, 
+  sctsc.key_code as keyCode, sctsc.title_type as titleType, sctsc.components_id as componentsId, 
+  sctsc.components_name as componentsName, sctsc.components_type as componentsType, 
+  sctsc.components_result as componentsResult, sctsc.title_accept as titleAccept, 
+  sctsc.search_api as searchApi, sctsc.sort_no as sortNo, sctsc.enableflg as enableflg, 
+  sctsc.created_by as createdBy, sctsc.created_time as createdTime, sctsc.updated_by as updatedBy, 
+  sctsc.updated_time as updatedTime
+</sql>
+
+<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Column_List" />
+  from sys_com_table_select_config
+  where id = #{id,jdbcType=BIGINT}
+</select>
+
+<delete id="deleteByPrimaryKey" parameterType="Long">
+  delete from sys_com_table_select_config
+  where id = #{id,jdbcType=BIGINT}
+</delete>
+
+<insert id="insert" parameterType="com.tools.st.entity.SysComTableSelectConfig">
+  <selectKey keyProperty="id" order="AFTER" resultType="Long">
+    SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into sys_com_table_select_config (com_id, table_id, select_ket, table_title, 
+                                           table_title_name, table_key, key_code, 
+                                           title_type, components_id, components_name, 
+                                           components_type, components_result, title_accept, 
+                                           search_api, sort_no, enableflg, created_by, 
+                                           created_time, updated_by, updated_time)
+  values (#{comId, jdbcType=BIGINT}, #{tableId, jdbcType=VARCHAR}, #{selectKet, jdbcType=VARCHAR}, 
+          #{tableTitle, jdbcType=VARCHAR}, #{tableTitleName, jdbcType=VARCHAR}, 
+          #{tableKey, jdbcType=VARCHAR}, #{keyCode, jdbcType=VARCHAR}, #{titleType, jdbcType=VARCHAR}, 
+          #{componentsId, jdbcType=VARCHAR}, #{componentsName, jdbcType=VARCHAR}, 
+          #{componentsType, jdbcType=VARCHAR}, #{componentsResult, jdbcType=VARCHAR}, 
+          #{titleAccept, jdbcType=VARCHAR}, #{searchApi, jdbcType=VARCHAR}, #{sortNo, jdbcType=SMALLINT}, 
+          #{enableflg, jdbcType=INTEGER}, #{createdBy, jdbcType=BIGINT}, #{createdTime, jdbcType=TIMESTAMP}, 
+          #{updatedBy, jdbcType=BIGINT}, #{updatedTime, jdbcType=TIMESTAMP})
+</insert>
+
+<update id="updateByPrimaryKey" parameterType="com.tools.st.entity.SysComTableSelectConfig">
+  update sys_com_table_select_config
+  set com_id=#{comId, jdbcType=BIGINT}, table_id=#{tableId, jdbcType=VARCHAR}, select_ket=#{selectKet, jdbcType=VARCHAR}, 
+      table_title=#{tableTitle, jdbcType=VARCHAR}, table_title_name=#{tableTitleName, jdbcType=VARCHAR}, 
+      table_key=#{tableKey, jdbcType=VARCHAR}, key_code=#{keyCode, jdbcType=VARCHAR}, 
+      title_type=#{titleType, jdbcType=VARCHAR}, components_id=#{componentsId, jdbcType=VARCHAR}, 
+      components_name=#{componentsName, jdbcType=VARCHAR}, components_type=#{componentsType, jdbcType=VARCHAR}, 
+      components_result=#{componentsResult, jdbcType=VARCHAR}, title_accept=#{titleAccept, jdbcType=VARCHAR}, 
+      search_api=#{searchApi, jdbcType=VARCHAR}, sort_no=#{sortNo, jdbcType=SMALLINT}, 
+      enableflg=#{enableflg, jdbcType=INTEGER}, created_by=#{createdBy, jdbcType=BIGINT}, 
+      created_time=#{createdTime, jdbcType=TIMESTAMP}, updated_by=#{updatedBy, jdbcType=BIGINT}, 
+      updated_time=#{updatedTime, jdbcType=TIMESTAMP}
+  where id = #{id,jdbcType=BIGINT}
+</update>
+
+</mapper>
