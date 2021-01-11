@@ -41,6 +41,7 @@ public class EntityGenerateTest {
         param.setDaoBasePackage("com.ymc.mes.basic.common.dao");
 
         param.setDaoPostfix("Dao");
+        param.setVoPostfix("VO");
         param.setVoBase("BaseBusinessVO");
         param.setDaoBase("GenericMapper");
         param.getIgnoreList().addAll(Lists.newArrayList("created_by", "updated_by", "enableflg", "created_time", "updated_time",
@@ -75,8 +76,10 @@ public class EntityGenerateTest {
 //                "mold_craft_process"
 //                "sys_base_business_data_dict"
 //                "qc_abnormal_table"
-                "mold_purchase_requisition",
-                "mold_purchase_requisition_detail"
+//                "mold_purchase_requisition",
+//                "mold_purchase_requisition_detail"
+//                "mold_purchase_order",
+                "mold_craft_process"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
@@ -93,8 +96,10 @@ public class EntityGenerateTest {
 
     @Test
     public void generateMainDetail() throws IOException {
-        String mainTab = "mold_purchase_requisition";
-        String detailTab = "mold_purchase_requisition_detail";
+//        String mainTab = "mold_purchase_requisition";
+//        String detailTab = "mold_purchase_requisition_detail";
+        String mainTab = "mold_purchase_cargo_received";
+        String detailTab = "mold_purchase_cargo_received_detail";
 
         STGroup xmlGroup = new STGroupFile(new ClassPathResource("/templates/mainDetailXml.stg").getFile().getCanonicalPath(), '$', '$');
 
@@ -175,6 +180,7 @@ public class EntityGenerateTest {
         xmlST.add("cols", columns);
         xmlST.add("keyCol", keyCol);
         xmlST.add("postFix", param.getDaoPostfix());
+        xmlST.add("voPostfix", param.getVoPostfix());
         FileUtl.writeStrToFile(xmlST.render(80), outDir + "\\dao\\" + tableInfo.getJavaName() + param.getDaoPostfix() + ".xml");
     }
 

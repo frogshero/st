@@ -16,6 +16,7 @@ public class MybatisCreateParam {
     String voBase;
     String voBasePackage;
     String daoPostfix;
+    String voPostfix;
 
     List<String> ignoreList = Lists.newArrayList();
 }
