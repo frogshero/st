@@ -16,4 +16,8 @@ public class BasicResult<T> {
 
     private long totalForSort;
 
+    public BasicResult(T data) {
+        this.data = data;
+    }
+
 }
