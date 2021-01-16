@@ -21,18 +21,6 @@ import java.util.Set;
 //public class ResultBodyAdvice extends AbstractMappingJacksonResponseBodyAdvice {
 public class ResultBodyAdvice implements ResponseBodyAdvice {
 //AbstractMappingJacksonResponseBodyAdvice
-//    @Override
-//    protected void beforeBodyWriteInternal(MappingJacksonValue bodyContainer, MediaType contentType, MethodParameter returnType, ServerHttpRequest request, ServerHttpResponse response) {
-//        //Controller方法的返回值必须是对象
-////        Set<InResult> ret = MergedAnnotations.from(returnType.getContainingClass()).stream(InResult.class)
-////                .collect(MergedAnnotationCollectors.toAnnotationSet());
-//        if (returnType.getContainingClass().isAnnotationPresent(InResult.class)) {
-//            if (!(bodyContainer.getValue() instanceof BasicResult)) {
-//                BasicResult<?> result = new BasicResult(bodyContainer.getValue());
-//                bodyContainer.setValue(result);
-//            }
-//        }
-//    }
 
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
@@ -42,11 +30,11 @@ public class ResultBodyAdvice implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                   Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+        Object val = body;
         if (returnType.getContainingClass().isAnnotationPresent(InResult.class)) {
-            BasicResult<?> result = new BasicResult(body == null ? "" : body);
-            return new MappingJacksonValue(result);
-        } else {
-            return body;
+            val = new BasicResult(body == null ? "" : body);
+
         }
+        return new MappingJacksonValue(val);
     }
 }
