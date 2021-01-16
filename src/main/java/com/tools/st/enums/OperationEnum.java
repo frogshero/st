@@ -1,5 +1,5 @@
 package com.tools.st.enums;
 
-public enum AbnormalOperationEnum {
+public enum OperationEnum {
     add, update, delete, check, uncheck;
 }
