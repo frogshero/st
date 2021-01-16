@@ -31,8 +31,8 @@ public class MessageConverterConfig {
     //原来在HttpMessageConvertersAutoConfiguration
     @Bean
     public HttpMessageConverters messageConverters(ObjectProvider<HttpMessageConverter<?>> converters,
-                                                   Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder,
-                                                   ApplicationContext applicationContext) {
+                                                   Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
+        //jacksonObjectMapperBuilder定义在JacksonAutoConfiguration
         //Api Server 只要一个MappingJackson2HttpMessageConverter就够了
         //得用注入，不能new，不然上面的Jackson2ObjectMapperBuilderCustomizer不会被调用
 //        Jackson2ObjectMapperBuilder builder = Jackson2ObjectMapperBuilder.json();
