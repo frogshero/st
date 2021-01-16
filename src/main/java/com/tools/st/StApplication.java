@@ -38,12 +38,4 @@ public class StApplication {
 		return testProp;
 	}
 
-	@Bean
-	Jackson2ObjectMapperBuilderCustomizer LocalDateTimeCustomizer() {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		return jacksonObjectMapperBuilder -> {
-			jacksonObjectMapperBuilder.serializers(new LocalDateTimeSerializer(dtf));
-			jacksonObjectMapperBuilder.deserializers(new LocalDateTimeDeserializer(dtf));
-		};
-	}
 }
