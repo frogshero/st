@@ -2,7 +2,7 @@ delimiters "$", "$"
 
 import "typeMapping.stg"
 
-entity(entityPackage, tab, cols, parent, parentPkg, imports) ::= <<
+entity(entityPackage, tab, cols, parent, parentPkg, imports, voPostFix) ::= <<
 package $entityPackage$;
 
 import io.swagger.annotations.ApiModel;
@@ -13,7 +13,7 @@ $imports:{im|import $im$;}; separator="\n"$
 
 @ApiModel(description = "$tab.tableComment$")
 @Data
-public class $tab.javaName$ $if(parent)$extends $parent$$endif$ {
+public class $tab.javaName$$voPostFix$ $if(parent)$extends $parent$$endif$ {
 $flds()$
 }
 >>

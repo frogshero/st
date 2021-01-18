@@ -9,7 +9,7 @@ import com.tools.st.entity.base.ColumnInfo;
 import com.tools.st.mapper.base.TableInfoDao;
 
 @Service
-public class TableInfoService {
+public class TableInfoService implements TableInfoInterface {
 
   @Autowired
   TableInfoDao tableInfoDao;

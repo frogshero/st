@@ -1,9 +1,12 @@
 package com.tools.st.controller;
 
-import com.tools.st.advice.InResult;
+import com.tools.st.config.advice.InResult;
 import com.tools.st.entity.base.StringVO;
+import com.tools.st.service.AspectService;
+import com.tools.st.service.AspectServiceIntf;
 import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +19,9 @@ import java.time.LocalDateTime;
 @Timed
 @Slf4j
 public class ControllerTest {
+
+    @Autowired
+    AspectServiceIntf intf;
 
     @GetMapping("/ss")
     public String ss() {
@@ -42,5 +48,10 @@ public class ControllerTest {
     @GetMapping("/ldt")
     public LocalDateTime ldt() {
         return LocalDateTime.now();
+    }
+
+    @GetMapping("/aa")
+    public String aa() {
+        return intf.testAspect();
     }
 }

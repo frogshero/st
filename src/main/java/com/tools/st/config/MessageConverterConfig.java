@@ -28,7 +28,8 @@ public class MessageConverterConfig {
         };
     }
 
-    //原来在HttpMessageConvertersAutoConfiguration
+    //原来在HttpMessageConvertersAutoConfiguration, 整个消息转换服务只保留一个：MappingJackson2HttpMessageConverter
+    //消息服务在RequestResponseBodyMethodProcessor中转换responseBody时使用
     @Bean
     public HttpMessageConverters messageConverters(ObjectProvider<HttpMessageConverter<?>> converters,
                                                    Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {

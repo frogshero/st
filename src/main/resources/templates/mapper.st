@@ -1,8 +1,8 @@
-mapper(entityPackage, daoBase, daoBasePkg, entity, postFix) ::= <<package com.tools.st.mapper;
+mapper(entityPackage, daoBase, daoBasePkg, entity, postFix, voPostFix) ::= <<package com.tools.st.mapper;
 
 $if(daoBase)$import $daoBasePkg$.$daoBase$;$endif$
-import $entityPackage$.$entity$;
+import $entityPackage$.$entity$$voPostFix$;
 
-public interface $entity$$postFix$ extends GenericMapper<$entity$, Long> {
+public interface $entity$$postFix$ extends GenericMapper<$entity$$voPostFix$, Long> {
 }
 >>

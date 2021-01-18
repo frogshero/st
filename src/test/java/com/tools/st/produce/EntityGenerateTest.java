@@ -35,10 +35,10 @@ public class EntityGenerateTest {
         MybatisCreateParam param = new MybatisCreateParam();
 //        param.setModelPackage("com.ymc.mes.qc.abnormal.model");
 //        param.setDaoPackage("com.ymc.mes.qc.abnormal.dao");
-        param.setModelPackage("com.ymc.mes.basic.system.model");
-        param.setDaoPackage("com.ymc.mes.basic.system.dao");
+        param.setModelPackage("com.ymc.mes.basic.suppliercustomer.model");
+        param.setDaoPackage("com.ymc.mes.basic.suppliercustomer.dao");
         param.setVoBasePackage("com.ymc.mes.basic.common");
-        param.setDaoBasePackage("com.ymc.mes.basic.common.dao");
+        param.setDaoBasePackage("com.ymc.mes.basic.system.dao");
 
         param.setDaoPostfix("Dao");
         param.setVoPostfix("VO");
@@ -79,7 +79,7 @@ public class EntityGenerateTest {
 //                "mold_purchase_requisition",
 //                "mold_purchase_requisition_detail"
 //                "mold_purchase_order",
-                "mold_purchase_cargo_received_detail"
+                "base_user_suppliers"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
@@ -145,6 +145,7 @@ public class EntityGenerateTest {
         stMapper.add("daoBase", param.getDaoBase());
         stMapper.add("daoBasePkg", param.getDaoBasePackage());
         stMapper.add("postFix", param.getDaoPostfix());
+        stMapper.add("voPostFix", param.getVoPostfix());
         FileUtl.writeStrToFile(stMapper.render(), outDir + "\\dao\\" + tableInfo.getJavaName() + param.getDaoPostfix() + ".java");
     }
 
@@ -164,8 +165,9 @@ public class EntityGenerateTest {
         stEntity.add("parent", param.getVoBase());
         stEntity.add("tab", tableInfo);
         stEntity.add("cols", cols);
+        stEntity.add("voPostFix", param.getVoPostfix());
         stEntity.add("imports", imports);
-        FileUtl.writeStrToFile(stEntity.render(), outDir + "\\model\\" + tableInfo.getJavaName() + ".java");
+        FileUtl.writeStrToFile(stEntity.render(), outDir + "\\model\\" + tableInfo.getJavaName() + param.getVoPostfix() + ".java");
     }
 
     public void produceXmlMapper(STGroup xmlGroup, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {
