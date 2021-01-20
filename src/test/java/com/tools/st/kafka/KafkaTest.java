@@ -1,4 +1,4 @@
-package com.tools.st;
+package com.tools.st.kafka;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -12,7 +12,7 @@ public class KafkaTest {
     @Test
     public void test() {
         Properties props = new Properties();
-        props.put("bootstrap.servers", "192.168.9.165:9092,192.168.9.165:9093,192.168.9.165:9094");
+        props.put("bootstrap.servers", "192.168.9.51:3091,192.168.9.51:3092,192.168.9.51:3093");
         // 判别请求是否为完整的条件（判断是不是成功发送了）。指定了“all”将会阻塞消息，这种设置性能最低，但是是最可靠的
         props.put("acks", "all");
         // 如果请求失败，生产者会自动重试，我们指定是0次，如果启用重试，则会有重复消息的可能性
@@ -31,7 +31,7 @@ public class KafkaTest {
         Producer<String, String> producer = new KafkaProducer<>(props);
             // send()方法是异步的，添加消息到缓冲区等待发送，并立即返回。生产者将单个的消息批量在一起发送来提高效率
 
-        producer.send(new ProducerRecord<String, String>("test1", "", "dip-ip:192.168.21.219range:1,8data:0,268,276,32768,32768,32768,32767,0,"));
+        producer.send(new ProducerRecord<String, String>("test", "", "dip-ip:192.168.21.219range:1,8data:0,268,276,32768,32768,32768,32767,0,"));
 
         producer.close();
     }
