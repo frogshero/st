@@ -13,5 +13,9 @@ public class LockTest {
 //
 //        ReentrantLock lock = new ReentrantLock();
 //        lock.
+        Object o = new Object();
+        synchronized (o) {
+            //data
+        }
     }
 }
