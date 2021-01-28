@@ -2,8 +2,6 @@ package com.tools.st.controller;
 
 import com.tools.st.config.advice.InResult;
 import com.tools.st.entity.base.StringVO;
-import com.tools.st.service.AspectService;
-import com.tools.st.service.AspectServiceIntf;
 import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,8 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ControllerTest {
 
-    @Autowired
-    AspectServiceIntf intf;
+//    @Autowired
+//    AspectTestIntf intf;
 
     @GetMapping("/ss")
     public String ss() {
@@ -50,8 +48,8 @@ public class ControllerTest {
         return LocalDateTime.now();
     }
 
-    @GetMapping("/aa")
-    public String aa() {
-        return intf.testAspect();
-    }
+//    @GetMapping("/aa")
+//    public String aa() {
+//        return intf.testAspect();
+//    }
 }

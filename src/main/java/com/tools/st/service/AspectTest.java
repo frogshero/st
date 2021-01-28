@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class AspectService implements AspectServiceIntf {
+public class AspectTest implements AspectTestIntf {
 
     @Override
     public String testAspect() {

@@ -79,7 +79,7 @@ public class EntityGenerateTest {
 //                "mold_purchase_requisition",
 //                "mold_purchase_requisition_detail"
 //                "mold_purchase_order",
-                "base_user_suppliers"
+                "sys_com_table_config"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
