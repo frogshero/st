@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 @Data
 public class StApplication {
 
-	@Value("${test.jvm.prop}")
+	@Value("${test.jvm.prop:${test.jvm.propDef}}")
 	private String testProp;
 
 	public static void main(String[] args) {
