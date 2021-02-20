@@ -1,6 +1,5 @@
 package com.tools.st;
 
-import com.sun.media.jfxmedia.logging.Logger;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -9,9 +8,6 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
-import java.math.RoundingMode;
 
 @Slf4j
 public class SpelTest {

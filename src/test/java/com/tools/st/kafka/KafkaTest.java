@@ -1,5 +1,6 @@
 package com.tools.st.kafka;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -7,16 +8,23 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.common.TopicPartition;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
+@Slf4j
 public class KafkaTest {
 
     @Test
-    public void test() {
+    public void test() throws ExecutionException, InterruptedException {
         Properties props = new Properties();
         props.put("bootstrap.servers", "192.168.9.51:3091,192.168.9.51:3092,192.168.9.51:3093");
         // 判别请求是否为完整的条件（判断是不是成功发送了）。指定了“all”将会阻塞消息，这种设置性能最低，但是是最可靠的
@@ -37,7 +45,10 @@ public class KafkaTest {
         Producer<String, String> producer = new KafkaProducer<>(props);
         // send()方法是异步的，添加消息到缓冲区等待发送，并立即返回。生产者将单个的消息批量在一起发送来提高效率
 
-        producer.send(new ProducerRecord<String, String>("test", "", "dip-ip:192.168.21.219range:1,8data:0,268,276,32768,32768,32768,32767,0,"));
+        Future<RecordMetadata> ret = producer.send(new ProducerRecord<String, String>("test", 0,"", "1234"));
+
+        RecordMetadata returnData = ret.get();
+        log.info("send return: " + returnData.toString());
 
         producer.close();
 
@@ -50,14 +61,31 @@ public class KafkaTest {
         props.put("bootstrap.servers", "192.168.9.51:3091,192.168.9.51:3092,192.168.9.51:3093");
         props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("enable.auto.commit", "true");
+
+        props.put("auto.offset.reset", "earliest");
+//        earliest当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费
+//        latest  当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据
+//        topic   各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常
+
         props.setProperty("group.id", "stTest");
         Consumer<String, String> consumer = new KafkaConsumer<>(props);
+
         consumer.subscribe(Arrays.asList("test"));
+
+        //offset是ConsumerRecord.offset
+//        consumer.seek(new TopicPartition("test", 0), offset);
+//        //从头消费
+//        List<TopicPartition> pp = Lists.newArrayList(new TopicPartition("test", 0));
+//        consumer.assign(pp);
+//        consumer.seekToBeginning(pp);
+
 //         while (true) {
         ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
         for (ConsumerRecord<String, String> record : records) {
-
-            System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+//            consumer.commitSync();
+            //offset是要提交的offset
+            System.out.printf("@@@ offset = %d, key = %s, value = %s /n", record.offset(), record.key(), record.value());
         }
 //         }
     }
