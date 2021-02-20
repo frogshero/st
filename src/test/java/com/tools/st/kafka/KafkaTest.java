@@ -1,10 +1,16 @@
 package com.tools.st.kafka;
 
+import org.apache.kafka.clients.consumer.Consumer;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class KafkaTest {
@@ -29,10 +35,30 @@ public class KafkaTest {
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         Producer<String, String> producer = new KafkaProducer<>(props);
-            // send()方法是异步的，添加消息到缓冲区等待发送，并立即返回。生产者将单个的消息批量在一起发送来提高效率
+        // send()方法是异步的，添加消息到缓冲区等待发送，并立即返回。生产者将单个的消息批量在一起发送来提高效率
 
         producer.send(new ProducerRecord<String, String>("test", "", "dip-ip:192.168.21.219range:1,8data:0,268,276,32768,32768,32768,32767,0,"));
 
         producer.close();
+
+
+    }
+
+    @Test
+    public void testConsumer() {
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "192.168.9.51:3091,192.168.9.51:3092,192.168.9.51:3093");
+        props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.setProperty("group.id", "stTest");
+        Consumer<String, String> consumer = new KafkaConsumer<>(props);
+        consumer.subscribe(Arrays.asList("test"));
+//         while (true) {
+        ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
+        for (ConsumerRecord<String, String> record : records) {
+
+            System.out.printf("offset = %d, key = %s, value = %s", record.offset(), record.key(), record.value());
+        }
+//         }
     }
 }
