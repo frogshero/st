@@ -3,6 +3,6 @@ mapper(entityPackage, daoBase, daoBasePkg, entity, postFix, voPostFix) ::= <<pac
 $if(daoBase)$import $daoBasePkg$.$daoBase$;$endif$
 import $entityPackage$.$entity$$voPostFix$;
 
-public interface $entity$$postFix$ extends GenericMapper<$entity$$voPostFix$, Long> {
+public interface $entity$$postFix$ extends $daoBase$<$entity$$voPostFix$, Long> {
 }
 >>

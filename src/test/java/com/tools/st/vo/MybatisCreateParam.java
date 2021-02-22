@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 public class MybatisCreateParam {
+    String schema;
     String tabName;
     String modelPackage;
     String daoPackage;

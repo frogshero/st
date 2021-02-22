@@ -33,17 +33,25 @@ public class EntityGenerateTest {
 
     private MybatisCreateParam getBasicParam() {
         MybatisCreateParam param = new MybatisCreateParam();
+        param.setSchema("dlym_mes");
 //        param.setModelPackage("com.ymc.mes.qc.abnormal.model");
 //        param.setDaoPackage("com.ymc.mes.qc.abnormal.dao");
-        param.setModelPackage("com.ymc.mes.basic.suppliercustomer.model");
-        param.setDaoPackage("com.ymc.mes.basic.suppliercustomer.dao");
-        param.setVoBasePackage("com.ymc.mes.basic.common");
-        param.setDaoBasePackage("com.ymc.mes.basic.system.dao");
+//        param.setModelPackage("com.ymc.mes.basic.suppliercustomer.model");
+        param.setModelPackage("com.ymc.mes.mold.warehouse.model");
+//        param.setDaoPackage("com.ymc.mes.basic.suppliercustomer.dao");
+        param.setDaoPackage("com.ymc.mes.mold.warehouse.dao");
+//        param.setVoBasePackage("com.ymc.mes.basic.common");
+        param.setVoBasePackage("com.ymc.mes.mold.warehouse.common");
+//        param.setDaoBasePackage("com.ymc.mes.basic.system.dao");
+        param.setDaoBasePackage("com.ymc.mes.mold.warehouse.common");
 
         param.setDaoPostfix("Dao");
         param.setVoPostfix("VO");
+//        param.setVoBase("BaseBusinessVO");
         param.setVoBase("BaseBusinessVO");
-        param.setDaoBase("GenericMapper");
+//        param.setDaoBase("GenericMapper");
+        param.setDaoBase("GenericDao");
+
         param.getIgnoreList().addAll(Lists.newArrayList("created_by", "updated_by", "enableflg", "created_time", "updated_time",
                 "remark", "remark1", "remark2", "remark3", "remark4", "remark5",
                 "remark6", "remark7", "remark8", "remark9", "remark10"));
@@ -79,7 +87,8 @@ public class EntityGenerateTest {
 //                "mold_purchase_requisition",
 //                "mold_purchase_requisition_detail"
 //                "mold_purchase_order",
-                "mold_craft_process"
+//                "mold_craft_process"
+                "mold_warehouse_entry"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
@@ -100,14 +109,15 @@ public class EntityGenerateTest {
 //        String detailTab = "mold_purchase_requisition_detail";
         String mainTab = "mold_purchase_cargo_received";
         String detailTab = "mold_purchase_cargo_received_detail";
+        String schema = "";
 
         STGroup xmlGroup = new STGroupFile(new ClassPathResource("/templates/mainDetailXml.stg").getFile().getCanonicalPath(), '$', '$');
 
-        TableInfo tableInfo = tableInfoDao.getTableInfo(TestConst.SCHEMA, mainTab);
-        TableInfo detailTableInfo = tableInfoDao.getTableInfo(TestConst.SCHEMA, detailTab);
+        TableInfo tableInfo = tableInfoDao.getTableInfo(schema, mainTab);
+        TableInfo detailTableInfo = tableInfoDao.getTableInfo(schema, detailTab);
 
-        List<ColumnInfo> columns = tableInfoDao.getColumnInfos(TestConst.SCHEMA, mainTab);
-        List<ColumnInfo> detailColumns = tableInfoDao.getColumnInfos(TestConst.SCHEMA, detailTab);
+        List<ColumnInfo> columns = tableInfoDao.getColumnInfos(schema, mainTab);
+        List<ColumnInfo> detailColumns = tableInfoDao.getColumnInfos(schema, detailTab);
 
         ColumnInfo keyCol = columns.stream().filter(e -> e.getKey()).findFirst().get();
         Assertions.assertNotNull(keyCol);
@@ -126,10 +136,10 @@ public class EntityGenerateTest {
     }
 
     private void produceCodeByTable(STGroup group, STGroup entityGroup, STGroup xmlGroup, MybatisCreateParam param, String outDir) throws IOException {
-        TableInfo tableInfo = tableInfoDao.getTableInfo(TestConst.SCHEMA, param.getTabName());
+        TableInfo tableInfo = tableInfoDao.getTableInfo(param.getSchema(), param.getTabName());
         assertNotNull(tableInfo);
 
-        List<ColumnInfo> columns = tableInfoDao.getColumnInfos(TestConst.SCHEMA, param.getTabName());
+        List<ColumnInfo> columns = tableInfoDao.getColumnInfos(param.getSchema(), param.getTabName());
 
         produceEntity(entityGroup, tableInfo, columns, param, outDir);
 
