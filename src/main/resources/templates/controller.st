@@ -58,7 +58,7 @@ public class $param.controllerClzName$ extends BaseController {
     @ApiOperation("审核$param.entityChinese$")
     @PostMapping("/review")
     public Result review(@RequestBody $param.voClzName$ $param.voVariable$) {
-        return auditOrCancelAudit($param.voCvoVariablezName$, true);
+        return auditOrCancelAudit($param.voVariable$, true);
     }
 
     private Result auditOrCancelAudit($param.voClzName$ $param.voVariable$, boolean audit) {
