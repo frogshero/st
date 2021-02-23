@@ -17,7 +17,10 @@ public class $param.controllerClzName$Test extends BaseTest {
 
     @Test
     public void findList() throws URISyntaxException {
-        Result ret = get("$param.requestMapping$/findList");
+        List<NameValuePair> params = Lists.newArrayList(
+                new BasicNameValuePair("warehouseName", "成品库")
+                );
+        Result ret = get("$param.requestMapping$/findList", param);
         log.info(ret.getCode());
     }
 
@@ -53,7 +56,7 @@ public class $param.controllerClzName$Test extends BaseTest {
 
     @Test
     public void delete() throws URISyntaxException {
-        $param.voClzName$ vo = new $param.voClzName$();
+        CommonBatchRequest vo = new CommonBatchRequest();
         vo.setIds("1");
         Result ret = post("$param.requestMapping$/delete", vo);
         log.info(ret.getCode());
@@ -61,7 +64,7 @@ public class $param.controllerClzName$Test extends BaseTest {
 
     @Test
     public void review() {
-        $param.voClzName$ vo = new $param.voClzName$();
+        CommonBatchRequest vo = new CommonBatchRequest();
         vo.setIds("1");
         Result ret = post("$param.requestMapping$/review", vo);
         log.info(ret.getCode());
@@ -69,7 +72,7 @@ public class $param.controllerClzName$Test extends BaseTest {
 
     @Test
     public void cancelReview() {
-        $param.voClzName$ vo = new $param.voClzName$();
+        CommonBatchRequest vo = new CommonBatchRequest();
         vo.setIds("1");
         Result ret = post("$param.requestMapping$/cancelReview", vo);
         log.info(ret.getCode());

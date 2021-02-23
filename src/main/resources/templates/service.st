@@ -7,7 +7,7 @@ import com.ymc.mes.basic.system.model.CmmSysUserVO;
 import com.ymc.mes.basic.system.model.SysComTableConfigVO;
 import com.ymc.mes.basic.system.service.SysComTableConfigService;
 import com.ymc.mes.basic.system.service.SysUserService;
-import com.ymc.mes.mold.warehouse.common.AbnormalOperationEnum;
+import com.ymc.mes.mold.warehouse.common.OperationEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

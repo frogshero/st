@@ -46,8 +46,8 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("删除$param.entityChinese$")
     @PostMapping("/delete")
-    public Result deleteAbnormalTable(@RequestBody $param.voClzName$ $param.voVariable$) {
-        List<String> feedback = $param.serviceVariable$.deleteTableByIds($param.voVariable$.getIds());
+    public Result deleteAbnormalTable(@RequestBody CommonBatchRequest commonBatchRequest) {
+        List<String> feedback = $param.serviceVariable$.deleteTableByIds(commonBatchRequest.getIds());
         if (feedback.size() > 0) {
             return new Result(RT_ERROR_DELETE, "删除失败", feedback);
         } else {
@@ -57,12 +57,12 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("审核$param.entityChinese$")
     @PostMapping("/review")
-    public Result review(@RequestBody $param.voClzName$ $param.voVariable$) {
-        return auditOrCancelAudit($param.voVariable$, true);
+    public Result review(@RequestBody CommonBatchRequest commonBatchRequest) {
+        return auditOrCancelAudit(commonBatchRequest, true);
     }
 
-    private Result auditOrCancelAudit($param.voClzName$ $param.voVariable$, boolean audit) {
-        List<String> msg = $param.serviceVariable$.checkOrUncheck($param.voVariable$.getIds(), audit);
+    private Result auditOrCancelAudit(CommonBatchRequest commonBatchRequest, boolean audit) {
+        List<String> msg = $param.serviceVariable$.checkOrUncheck(commonBatchRequest.getIds(), audit);
         if (msg.size() == 0) {
             return successResult(null);
         } else {
@@ -72,8 +72,8 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("撤审$param.entityChinese$")
     @PostMapping("/cancelReview")
-    public Result cancelReview(@RequestBody $param.voClzName$ $param.voVariable$) {
-        return auditOrCancelAudit($param.voVariable$, false);
+    public Result cancelReview(@RequestBody CommonBatchRequest commonBatchRequest) {
+        return auditOrCancelAudit(commonBatchRequest, false);
     }
 }
 >>
