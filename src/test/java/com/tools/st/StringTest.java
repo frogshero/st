@@ -1,5 +1,6 @@
 package com.tools.st;
 
+import com.tools.st.utl.StrUtl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StringUtils;
@@ -13,6 +14,14 @@ public class StringTest {
   @Test
   public void testStr() {
     System.out.println("TABLE_CATALOG".toLowerCase().replaceAll("\\_[a-z]", "$0"));
+  }
+
+  @Test
+  public void testUtil() {
+    log.info(StrUtl.getShortName("TABLE_CATALOG"));
+    log.info(StrUtl.getShortName("aa_bb_cc"));
+    log.info(StrUtl.getObjName("TABLE_CATALOG"));
+    log.info(StrUtl.getObjName("aa_bb_cc"));
   }
 
   @Test

@@ -21,4 +21,5 @@ public class TableInfo {
     public String getShortName() {
         return StrUtl.getShortName(tableName);
     }
+
 }

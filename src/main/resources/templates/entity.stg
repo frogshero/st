@@ -2,18 +2,19 @@ delimiters "$", "$"
 
 import "typeMapping.stg"
 
-entity(entityPackage, tab, cols, parent, parentPkg, imports, voPostFix) ::= <<
-package $entityPackage$;
+entity(param, tab, cols, imports) ::= <<
+package $param.modelPackage$;
+
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-$if(parent)$import $parentPkg$.$parent$;$endif$
+$if(param.voBase)$import $param.voBaseClzFullName$;$endif$
 $imports:{im|import $im$;}; separator="\n"$
 
 @ApiModel(description = "$tab.tableComment$")
 @Data
-public class $tab.javaName$$voPostFix$ $if(parent)$extends $parent$$endif$ {
+public class $param.voClzName$ $if(param.voBase)$extends $param.voBase$$endif$ {
 $flds()$
 }
 >>
@@ -23,4 +24,5 @@ $cols:{col|     @ApiModelProperty("$col.comment$")
     private $dbToJavaType.(col.type)$ $col.javaName$;
 
 }$
+    private String ids;
 >>

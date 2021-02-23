@@ -37,9 +37,10 @@ public class EntityGenerateTest {
 //        param.setModelPackage("com.ymc.mes.qc.abnormal.model");
 //        param.setDaoPackage("com.ymc.mes.qc.abnormal.dao");
 //        param.setModelPackage("com.ymc.mes.basic.suppliercustomer.model");
-        param.setModelPackage("com.ymc.mes.mold.warehouse.model");
+//        param.setModelPackage("com.ymc.mes.mold.warehouse.model");
 //        param.setDaoPackage("com.ymc.mes.basic.suppliercustomer.dao");
-        param.setDaoPackage("com.ymc.mes.mold.warehouse.dao");
+//        param.setDaoPackage("com.ymc.mes.mold.warehouse.dao");
+        param.setHomePackage("com.ymc.mes.mold.warehouse");
 //        param.setVoBasePackage("com.ymc.mes.basic.common");
         param.setVoBasePackage("com.ymc.mes.mold.warehouse.common");
 //        param.setDaoBasePackage("com.ymc.mes.basic.system.dao");
@@ -52,6 +53,10 @@ public class EntityGenerateTest {
 //        param.setDaoBase("GenericMapper");
         param.setDaoBase("GenericDao");
 
+        param.setNoField("WarehouseEntryNo");
+        param.setEntityChinese("入库单");
+        param.setRequestMapping("/mold/warehouse/entry");
+
         param.getIgnoreList().addAll(Lists.newArrayList("created_by", "updated_by", "enableflg", "created_time", "updated_time",
                 "remark", "remark1", "remark2", "remark3", "remark4", "remark5",
                 "remark6", "remark7", "remark8", "remark9", "remark10"));
@@ -61,33 +66,6 @@ public class EntityGenerateTest {
     @Test
     public void generateAll() throws IOException {
         List<String> tables = Lists.newArrayList(
-//            "sys_base_business_data_dict",
-//            "sys_base_business_type",
-//            "sys_com_table_select_config",
-//            "sys_com_table_config",
-//            "sys_com_page_api_config"
-//            "sys_com_page_config",
-//            "sys_menu",
-//            "db_table_field_config",
-//            "db_table_config",
-//            "sys_com_table_group",
-//            "sys_role_menu",
-//            "sys_com_page_programme",
-//            "qc_abnormal_audit",
-//            "qc_abnormal_table",
-//                "sys_com_page_programme_info",
-//                "sys_com_page_programme_user",
-//                "base_supplier_customer"
-//                "mold_craft"
-//                "mold_purchase_requisition",
-//                "mold_purchase_requisition_detail"
-//                "mold_craft_process"
-//                "sys_base_business_data_dict"
-//                "qc_abnormal_table"
-//                "mold_purchase_requisition",
-//                "mold_purchase_requisition_detail"
-//                "mold_purchase_order",
-//                "mold_craft_process"
                 "mold_warehouse_entry"
         );
         Resource templates = new ClassPathResource("/templates");
@@ -136,6 +114,8 @@ public class EntityGenerateTest {
     }
 
     private void produceCodeByTable(STGroup group, STGroup entityGroup, STGroup xmlGroup, MybatisCreateParam param, String outDir) throws IOException {
+        param.init();
+
         TableInfo tableInfo = tableInfoDao.getTableInfo(param.getSchema(), param.getTabName());
         assertNotNull(tableInfo);
 
@@ -143,23 +123,51 @@ public class EntityGenerateTest {
 
         produceEntity(entityGroup, tableInfo, columns, param, outDir);
 
-        productDao(group, tableInfo, param, outDir);
-
+        produceDao(group, param, outDir);
+//
         produceXmlMapper(xmlGroup, tableInfo, columns, param, outDir);
+
+        produceService(group, param, outDir);
+
+        produceController(group, param, outDir);
+
+        produceControllerTest(group, param, outDir);
     }
 
-    private void productDao(STGroup group, TableInfo tableInfo, MybatisCreateParam param, String outDir) throws IOException {
+    @Test
+    public void testGroup() {
+        Resource templates = new ClassPathResource("/templates2");
+        STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
         ST stMapper = group.getInstanceOf("mapper");
-        stMapper.add("entityPackage", param.getModelPackage());
-        stMapper.add("entity", tableInfo.getJavaName());
-        stMapper.add("daoBase", param.getDaoBase());
-        stMapper.add("daoBasePkg", param.getDaoBasePackage());
-        stMapper.add("postFix", param.getDaoPostfix());
-        stMapper.add("voPostFix", param.getVoPostfix());
-        FileUtl.writeStrToFile(stMapper.render(), outDir + "\\dao\\" + tableInfo.getJavaName() + param.getDaoPostfix() + ".java");
+        Assertions.assertNotNull(stMapper);
     }
 
-    private void produceEntity(STGroup entityGroup, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {
+    private void produceDao(STGroup group, MybatisCreateParam param, String outDir) throws IOException {
+        //dao不是文件名，是文件里定义的函数
+        ST stMapper = group.getInstanceOf("dao");
+        stMapper.add("param", param);
+        FileUtl.writeStrToFile(stMapper.render(), outDir + "\\dao\\" + param.getDaoClzName() + ".java");
+    }
+
+    private void produceService(STGroup group, MybatisCreateParam param, String outDir) throws IOException {
+        ST stMapper = group.getInstanceOf("service");
+        stMapper.add("param", param);
+        FileUtl.writeStrToFile(stMapper.render(), outDir + "\\service\\" + param.getJavaName() + "Service.java");
+    }
+
+    private void produceController(STGroup group, MybatisCreateParam param, String outDir) throws IOException {
+        ST stMapper = group.getInstanceOf("controller");
+        stMapper.add("param", param);
+        FileUtl.writeStrToFile(stMapper.render(), outDir + "\\controller\\" + param.getJavaName() + "Controller.java");
+    }
+
+    private void produceControllerTest(STGroup group, MybatisCreateParam param, String outDir) throws IOException {
+        ST stMapper = group.getInstanceOf("controllerTest");
+        stMapper.add("param", param);
+        FileUtl.writeStrToFile(stMapper.render(), outDir + "\\test\\" + param.getJavaName() + "Controller.java");
+    }
+
+    private void produceEntity(STGroup group, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {
         List<ColumnInfo> cols = Lists.newArrayList(columns);
         cols.removeIf(e -> param.getIgnoreList().indexOf(e.getName()) >= 0);
 
@@ -169,30 +177,24 @@ public class EntityGenerateTest {
                 imports.add(col.getImport());
             }
         }
-        ST stEntity = entityGroup.getInstanceOf("entity");
-        stEntity.add("entityPackage", param.getModelPackage());
-        stEntity.add("parentPkg", param.getVoBasePackage());
-        stEntity.add("parent", param.getVoBase());
+        ST stEntity = group.getInstanceOf("entity");
+        stEntity.add("param", param);
         stEntity.add("tab", tableInfo);
         stEntity.add("cols", cols);
-        stEntity.add("voPostFix", param.getVoPostfix());
         stEntity.add("imports", imports);
-        FileUtl.writeStrToFile(stEntity.render(), outDir + "\\model\\" + tableInfo.getJavaName() + param.getVoPostfix() + ".java");
+        FileUtl.writeStrToFile(stEntity.render(), outDir + "\\model\\" + param.getVoClzName() + ".java");
     }
 
     public void produceXmlMapper(STGroup xmlGroup, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {
         ColumnInfo keyCol = columns.stream().filter(e -> e.getKey()).findFirst().get();
         Assertions.assertNotNull(keyCol);
 
+        //myxml不是文件名，是文件里定义的函数
         ST xmlST = xmlGroup.getInstanceOf("myxml");
-        xmlST.add("entityDir", param.getModelPackage());
-        xmlST.add("daoDir", param.getDaoPackage());
-
+        xmlST.add("param", param);
         xmlST.add("tab", tableInfo);
         xmlST.add("cols", columns);
         xmlST.add("keyCol", keyCol);
-        xmlST.add("postFix", param.getDaoPostfix());
-        xmlST.add("voPostfix", param.getVoPostfix());
         FileUtl.writeStrToFile(xmlST.render(80), outDir + "\\dao\\" + tableInfo.getJavaName() + param.getDaoPostfix() + ".xml");
     }
 

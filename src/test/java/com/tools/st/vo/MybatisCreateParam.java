@@ -1,23 +1,80 @@
 package com.tools.st.vo;
 
-import lombok.AllArgsConstructor;
+import com.tools.st.utl.DbToJavaUtl;
+import com.tools.st.utl.StrUtl;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.util.Lists;
 
 import java.util.List;
 
 @Data
 public class MybatisCreateParam {
-    String schema;
-    String tabName;
-    String modelPackage;
-    String daoPackage;
-    String daoBase;
-    String daoBasePackage;
-    String voBase;
-    String voBasePackage;
-    String daoPostfix;
-    String voPostfix;
+    //调用指定的属性
+    private String schema;
+    private String tabName;
+    private String homePackage;
+    private String daoPostfix;
+    private String voPostfix;
+    private String daoBase;
+    private String daoBasePackage;
+    private String voBase;
+    private String voBasePackage;
+    //编号字段
+    private String noField;
 
-    List<String> ignoreList = Lists.newArrayList();
+    //下面是计算出的属性
+    private String modelPackage;
+    private String daoPackage;
+
+    private String javaName;
+    private String shortName;
+
+    private String daoBaseClzFullName;
+    private String voBaseClzFullName;
+
+    private String voClzName;
+    private String daoClzName;
+    private String voClzFullName;
+    private String daoClzFullName;
+    private String serviceVariable;
+    private String voVariable;
+    private String daoVariable;
+    private String serviceClzName;
+    private String controllerClzName;
+
+    private List<String> ignoreList = Lists.newArrayList();
+    private String servicePackage;
+    private String controllerPackage;
+    private String entityChinese;
+    private String requestMapping;
+    private String serviceClzFullName;
+
+    public void init() {
+        modelPackage = homePackage + ".model";
+        daoPackage = homePackage + ".dao";
+        servicePackage = homePackage + ".service";
+        controllerPackage = homePackage + ".controller";
+
+        this.shortName = StrUtl.getShortName(tabName);
+        this.javaName = DbToJavaUtl.toJavaEntityName(tabName);
+        this.voClzName = javaName + voPostfix;
+        this.daoClzName = javaName + daoPostfix;
+        this.voClzFullName = modelPackage + "." + javaName + voPostfix;
+        this.daoClzFullName = daoPackage + "." + javaName + daoPostfix;
+        if (StringUtils.isNotBlank(daoBase)) {
+            this.daoBaseClzFullName = daoBasePackage + "." + daoBase;
+        }
+        if (StringUtils.isNotBlank(voBase)) {
+            this.voBaseClzFullName = voBasePackage + "." + voBase;
+        }
+
+        this.serviceClzName = this.javaName + "Service";
+        this.serviceClzFullName = this.servicePackage + "." + this.javaName + "Service";        
+        this.controllerClzName = this.javaName + "Controller";
+        this.serviceVariable = StringUtils.uncapitalize(this.javaName) + "Service";
+        this.voVariable = StringUtils.uncapitalize(this.voClzName);
+        this.daoVariable = StringUtils.uncapitalize(this.daoClzName);
+    }
+
 }
