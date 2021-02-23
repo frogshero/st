@@ -35,8 +35,8 @@ public class $param.serviceClzName$ {
     @Autowired
     SysCodeService sysCodeService;
 
-    private String ERROR_TEMPLATE = "$param.entityChinese$【%d】%s失败, 原因：%s";
-    private String SUCCESS_TEMPLATE = "$param.entityChinese$【%d】%s成功";
+    private String ERROR_TEMPLATE = "$param.entityChinese$【%s】%s失败, 原因：%s";
+    private String SUCCESS_TEMPLATE = "$param.entityChinese$【%s】%s成功";
 
     private CmmSysUserVO getUser() {
          return sysUserService.getUser();
