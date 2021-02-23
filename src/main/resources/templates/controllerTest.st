@@ -1,5 +1,5 @@
 controllerTest(param) ::= <<
-package com.ymc.mes.mold.warehouse.controller;
+package $param.controllerPackage$;
 
 import com.ymc.mes.basic.common.Result;
 import com.ymc.mes.mold.warehouse.base.BaseTest;
