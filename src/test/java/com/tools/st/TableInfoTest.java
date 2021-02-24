@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.tools.st.utl.DbToJavaUtl;
+import com.tools.st.utl.StrUtl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,7 +48,7 @@ public class TableInfoTest {
     for (String tabName : tables) {
       ST st = group.getInstanceOf("generator");
       st.add("tabName", tabName);
-      st.add("entityName", DbToJavaUtl.toJavaEntityName(tabName));
+      st.add("entityName", StrUtl.toJavaClzName(tabName));
       String result = st.render();
       sb.append(result);
     }

@@ -1,7 +1,6 @@
 package com.tools.st.entity.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tools.st.utl.DbToJavaUtl;
 import com.tools.st.utl.StrUtl;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +13,7 @@ public class TableInfo {
 
     @JsonIgnore
     public String getJavaName() {
-        return DbToJavaUtl.toJavaEntityName(tableName);
+        return StrUtl.toJavaClzName(tableName);
     }
 
     @JsonIgnore

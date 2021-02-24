@@ -14,13 +14,13 @@ $imports:{im|import $im$;}; separator="\n"$
 
 @ApiModel(description = "$tab.tableComment$")
 @Data
-public class $param.voClzName$ $if(param.voBase)$extends $param.voBase$$endif$ {
+public class $param.javaName$ $if(param.voBase)$extends $param.voBase$$endif$ {
 $flds()$
 }
 >>
 
 flds() ::= <<
-$cols:{col|     @ApiModelProperty("$col.comment$")
+$cols:{col|     @ApiModelProperty(value = "$col.comment$", $if(!col.nullAble)$required = true$endif$)
     private $dbToJavaType.(col.type)$ $col.javaName$;
 
 }$

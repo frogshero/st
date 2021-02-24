@@ -33,26 +33,18 @@ public class EntityGenerateTest {
 
     private MybatisCreateParam getBasicParam() {
         MybatisCreateParam param = new MybatisCreateParam();
+        //tabName后面设置
         param.setSchema("dlym_mes");
-//        param.setModelPackage("com.ymc.mes.qc.abnormal.model");
-//        param.setDaoPackage("com.ymc.mes.qc.abnormal.dao");
-//        param.setModelPackage("com.ymc.mes.basic.suppliercustomer.model");
-//        param.setModelPackage("com.ymc.mes.mold.warehouse.model");
-//        param.setDaoPackage("com.ymc.mes.basic.suppliercustomer.dao");
-//        param.setDaoPackage("com.ymc.mes.mold.warehouse.dao");
         param.setHomePackage("com.ymc.mes.mold.warehouse");
-//        param.setVoBasePackage("com.ymc.mes.basic.common");
         param.setVoBasePackage("com.ymc.mes.mold.warehouse.common");
-//        param.setDaoBasePackage("com.ymc.mes.basic.system.dao");
         param.setDaoBasePackage("com.ymc.mes.mold.warehouse.common");
 
         param.setDaoPostfix("Dao");
         param.setVoPostfix("VO");
-//        param.setVoBase("BaseBusinessVO");
         param.setVoBase("BaseBusinessVO");
-//        param.setDaoBase("GenericMapper");
-        param.setDaoBase("GenericDao");
+//        param.setDaoBase("GenericDao");
 
+        //for service,controller
         param.setNoField("WarehouseEntryNo");
         param.setEntityChinese("入库单");
         param.setRequestMapping("/mold/warehouse/entry");
@@ -70,21 +62,18 @@ public class EntityGenerateTest {
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
-        STGroup entityGroup = new STGroupFile(new ClassPathResource("/templates/entity.stg").getFile().getCanonicalPath(), '$', '$');
         STGroup xmlGroup = new STGroupFile(new ClassPathResource("/templates/xml.stg").getFile().getCanonicalPath(), '$', '$');
 
         MybatisCreateParam param = getBasicParam();
         String baseDir = TestConst.BASE_DIR + "\\generate\\out";
         for (String tabName : tables) {
             param.setTabName(tabName);
-            produceCodeByTable(group, entityGroup, xmlGroup, param, baseDir);
+            produceCodeByTable(group, xmlGroup, param, baseDir);
         }
     }
 
     @Test
     public void generateMainDetail() throws IOException {
-//        String mainTab = "mold_purchase_requisition";
-//        String detailTab = "mold_purchase_requisition_detail";
         String mainTab = "mold_purchase_cargo_received";
         String detailTab = "mold_purchase_cargo_received_detail";
         String schema = "";
@@ -113,7 +102,7 @@ public class EntityGenerateTest {
         FileUtl.writeStrToFile(xmlST.render(80), baseDir + "\\md\\" + tableInfo.getJavaName() + ".xml");
     }
 
-    private void produceCodeByTable(STGroup group, STGroup entityGroup, STGroup xmlGroup, MybatisCreateParam param, String outDir) throws IOException {
+    private void produceCodeByTable(STGroup group, STGroup xmlGroup, MybatisCreateParam param, String outDir) throws IOException {
         param.init();
 
         TableInfo tableInfo = tableInfoDao.getTableInfo(param.getSchema(), param.getTabName());
@@ -121,7 +110,7 @@ public class EntityGenerateTest {
 
         List<ColumnInfo> columns = tableInfoDao.getColumnInfos(param.getSchema(), param.getTabName());
 
-        produceEntity(entityGroup, tableInfo, columns, param, outDir);
+        produceEntity(group, tableInfo, columns, param, outDir);
 
         produceDao(group, param, outDir);
 //
@@ -177,12 +166,27 @@ public class EntityGenerateTest {
                 imports.add(col.getImport());
             }
         }
-        ST stEntity = group.getInstanceOf("entity");
+
+        STGroup entityGroup = new STGroupFile(new ClassPathResource("/templates/entity.stg").getFile().getCanonicalPath(), '$', '$');
+        ST stEntity = entityGroup.getInstanceOf("entity");
         stEntity.add("param", param);
         stEntity.add("tab", tableInfo);
         stEntity.add("cols", cols);
         stEntity.add("imports", imports);
-        FileUtl.writeStrToFile(stEntity.render(), outDir + "\\model\\" + param.getVoClzName() + ".java");
+        FileUtl.writeStrToFile(stEntity.render(), outDir + "\\model\\" + param.getJavaName() + ".java");
+
+        ST voEntity = group.getInstanceOf("entityVO");
+        voEntity.add("comment", tableInfo.getTableComment() + "列表VO");
+        voEntity.add("clzName", param.getVoClzName());
+        voEntity.add("baseClzName", param.getJavaName());
+        voEntity.add("modelPackage", param.getModelPackage());
+        FileUtl.writeStrToFile(voEntity.render(), outDir + "\\model\\" + param.getVoClzName() + ".java");
+
+        voEntity = group.getInstanceOf("entityVO");
+        voEntity.add("comment", tableInfo.getTableComment() + "的插入和修改参数");
+        voEntity.add("clzName", param.getJavaName() + "Request");
+        voEntity.add("modelPackage", param.getModelPackage());
+        FileUtl.writeStrToFile(voEntity.render(), outDir + "\\model\\" + param.getJavaName() + "Request.java");
     }
 
     public void produceXmlMapper(STGroup xmlGroup, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {

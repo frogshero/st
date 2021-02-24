@@ -1,6 +1,5 @@
 package com.tools.st.vo;
 
-import com.tools.st.utl.DbToJavaUtl;
 import com.tools.st.utl.StrUtl;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
@@ -49,6 +48,9 @@ public class MybatisCreateParam {
     private String entityChinese;
     private String requestMapping;
     private String serviceClzFullName;
+    private String lJavaName;
+    private String entityRequestClz;
+    private String entityRequestVariable;
 
     public void init() {
         modelPackage = homePackage + ".model";
@@ -57,7 +59,9 @@ public class MybatisCreateParam {
         controllerPackage = homePackage + ".controller";
 
         this.shortName = StrUtl.getShortName(tabName);
-        this.javaName = DbToJavaUtl.toJavaEntityName(tabName);
+        this.lJavaName = StrUtl.getObjName(tabName);
+        this.javaName = StringUtils.capitalize(this.lJavaName);
+
         this.voClzName = javaName + voPostfix;
         this.daoClzName = javaName + daoPostfix;
         this.voClzFullName = modelPackage + "." + javaName + voPostfix;
@@ -75,6 +79,9 @@ public class MybatisCreateParam {
         this.serviceVariable = StringUtils.uncapitalize(this.javaName) + "Service";
         this.voVariable = StringUtils.uncapitalize(this.voClzName);
         this.daoVariable = StringUtils.uncapitalize(this.daoClzName);
+
+        this.entityRequestClz = this.javaName + "Request";
+        this.entityRequestVariable = this.lJavaName + "Request";
     }
 
 }

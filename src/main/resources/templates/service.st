@@ -11,6 +11,7 @@ import com.ymc.mes.mold.warehouse.common.OperationEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -52,53 +53,59 @@ public class $param.serviceClzName$ {
         }
 
         Map<String, Object> returnMap = new HashMap<>();
-        // 获取mold列表
         List<$param.voClzName$> moldList = $param.daoVariable$.findList($param.voVariable$);
-        // 获取mold表单配置信息
-        List<SysComTableConfigVO> titleList = sysComTableConfigService.getTableConfig($param.voVariable$.getComId(), "$param.javaName$");
-        // 表格内容
+        List<SysComTableConfigVO> titleList = sysComTableConfigService.getTableConfig($param.voVariable$.getComId(), "$param.lJavaName$");
         returnMap.put("tableList", moldList);
-        // 表头信息
         returnMap.put("titleList", titleList);
         return returnMap;
     }
 
     /**
      * 插入
-     * @param $param.voVariable$
+     * @param $param.lJavaName$
      */
     @Transactional(rollbackFor = Exception.class)
-    public void insert($param.voClzName$ $param.voVariable$) {
-        if ($param.voVariable$.get$param.noField$() == null) {
-            String no = sysCodeService.findCode("$param.javaName$", getUser().getComId());
-            $param.voVariable$.set$param.noField$(no);
+    public void insert($param.entityRequestClz$ $param.entityRequestVariable$) {
+        $param.javaName$ $param.lJavaName$ = new $param.javaName$();
+        BeanUtils.copyProperties($param.entityRequestVariable$, $param.lJavaName$);
+
+        if ($param.lJavaName$.get$param.noField$() == null) {
+            String no = sysCodeService.findCode("$param.lJavaName$", getUser().getComId());
+            $param.lJavaName$.set$param.noField$(no);
         }
-        setBaseField($param.voVariable$, AbnormalOperationEnum.insert);
-        $param.daoVariable$.insert($param.voVariable$);
+        setBaseField($param.lJavaName$, OperationEnum.insert);
+        $param.daoVariable$.insert($param.lJavaName$);
     }
 
     /**
      * 更新
-     * @param $param.voVariable$
+     * @param $param.lJavaName$
      */
     @Transactional(rollbackFor = Exception.class)
-    public void update($param.voClzName$ $param.voVariable$) {
-        setBaseField($param.voVariable$, AbnormalOperationEnum.update);
-        $param.daoVariable$.updateByPrimaryKey($param.voVariable$);
+    public void update($param.entityRequestClz$ $param.entityRequestVariable$) {
+        $param.javaName$ $param.lJavaName$ = $param.daoVariable$.selectByPrimaryKey($param.entityRequestVariable$.getId());
+        BeanUtils.copyProperties($param.entityRequestVariable$, $param.lJavaName$);
+
+        setBaseField($param.lJavaName$, OperationEnum.update);
+        $param.daoVariable$.updateByPrimaryKey($param.lJavaName$);
     }
 
-    private void setBaseField($param.voClzName$ $param.voVariable$, AbnormalOperationEnum operationEnum) {
+    private void setBaseField($param.javaName$ $param.lJavaName$, OperationEnum operationEnum) {
+        //enableflg,comId,createdBy,createdTime,updatedBy,updatedTime
         CmmSysUserVO user = getUser();
-        if (operationEnum == AbnormalOperationEnum.insert) {
-            $param.voVariable$.setEnableflg(1);
-            $param.voVariable$.setCreatedBy(user.getUserId());
-            $param.voVariable$.setCreatedTime(new Date());
+        if (operationEnum == OperationEnum.insert) {
+            $param.lJavaName$.setEnableflg(1);
+            $param.lJavaName$.setCreatedBy(user.getUserId());
+            $param.lJavaName$.setCreatedTime(new Date());
         }
-        if (operationEnum == AbnormalOperationEnum.delete) {
-            $param.voVariable$.setEnableflg(0);
+        if (operationEnum == OperationEnum.delete) {
+            $param.lJavaName$.setEnableflg(0);
         }
-        $param.voVariable$.setUpdatedBy(user.getUserId());
-        $param.voVariable$.setUpdatedTime(new Date());
+        if ($param.lJavaName$.getComId() == null) {
+            $param.lJavaName$.setComId(user.getComId());
+        }
+        $param.lJavaName$.setUpdatedBy(user.getUserId());
+        $param.lJavaName$.setUpdatedTime(new Date());
     }
 
     private void operateByIds(String idListStr, Consumer<Long> operation) {
@@ -127,7 +134,7 @@ public class $param.serviceClzName$ {
                 return;
             }
 
-            setBaseField(voForDel, AbnormalOperationEnum.delete);
+            setBaseField(voForDel, OperationEnum.delete);
             $param.daoVariable$.updateByPrimaryKey(voForDel);
         });
         return feedback;
@@ -142,7 +149,7 @@ public class $param.serviceClzName$ {
             voForCheck.setReviewUserId(null);
             voForCheck.setReviewTime(null);
         }
-        setBaseField(voForCheck, AbnormalOperationEnum.update);
+        setBaseField(voForCheck, OperationEnum.update);
         $param.daoVariable$.updateByPrimaryKey(voForCheck);
     }
 

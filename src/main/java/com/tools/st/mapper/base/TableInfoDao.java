@@ -13,7 +13,7 @@ public interface TableInfoDao {
 
   @Select("SELECT table_name as tableName, column_name as columnName, data_type as dataType, column_comment columnComment, " +
           "NUMERIC_PRECISION as numericPrecision, NUMERIC_SCALE as numericScale, CHARACTER_MAXIMUM_LENGTH as colLen, " +
-          " COLUMN_KEY as columnKey, EXTRA as extra " +
+          " COLUMN_KEY as columnKey, EXTRA as extra, IS_NULLABLE as nullAble " +
           " FROM information_schema.columns " +
           " WHERE upper(table_schema)=upper(#{schema}) and upper(table_name) = upper(#{tableName})")
   List<ColumnInfo> getColumnInfos(String schema, String tableName);

@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.tools.st.entity.base.TableInfo;
 import org.assertj.core.util.Lists;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

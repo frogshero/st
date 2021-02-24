@@ -7,7 +7,7 @@ myxml(tab, cols, keyCol, param) ::= <<
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="$param.daoClzFullName$">
 
-<resultMap id="BaseResultMap" type="$param.voClzFullName$">
+<resultMap id="BaseResultMap" type="$param.javaName$">
   <id column="$keyCol.name$" jdbcType="$keyCol.jdbcType$" property="$keyCol.javaName$"/>
   $cols:{col|$if(!col.key)$<result column="$col.name$" jdbcType="$col.jdbcType$" property="$col.javaName$"/>$endif$}; separator="\n"$
 </resultMap>
@@ -36,12 +36,12 @@ myxml(tab, cols, keyCol, param) ::= <<
   where $keyCol.name$ = #{$keyCol.javaName$,jdbcType=$dbToJdbcType.(keyCol.type)$}
 </delete>
 
-<insert id="insert" parameterType="$param.voClzFullName$" useGeneratedKeys="true" keyProperty="id">
+<insert id="insert" parameterType="$param.javaName$" useGeneratedKeys="true" keyProperty="id">
   insert into $tab.tableName$ ($cols:{col|$if(!col.key)$`$col.name$`$endif$}; wrap, anchor, separator=", "$)
   values ($cols:{col|$if(!col.key)$#{$col.javaName$, jdbcType=$dbToJdbcType.(col.type)$\}$endif$}; wrap, anchor, separator=", "$)
 </insert>
 
-<update id="updateByPrimaryKey" parameterType="$param.voClzFullName$">
+<update id="updateByPrimaryKey" parameterType="$param.javaName$">
   update $tab.tableName$
   set $cols:{col|$if(!col.key)$`$col.name$`=#{$col.javaName$, jdbcType=$dbToJdbcType.(col.type)$\}$endif$}; wrap, anchor, separator=", "$
   where $keyCol.name$ = #{$keyCol.javaName$,jdbcType=$dbToJdbcType.(keyCol.type)$}
