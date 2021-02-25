@@ -93,8 +93,11 @@ public class $param.serviceClzName$ {
         Assert.notNull(request.getId(), "id不能为空");
         $param.javaName$ $param.lJavaName$ = $param.daoVariable$.selectByPrimaryKey(request.getId());
         Assert.notNull($param.lJavaName$, "id不正确");
-        BeanUtils.copyProperties(request, $param.lJavaName$);
+        if ($param.lJavaName$.getReviewUserId() != null) {
+            throw new RuntimeException(String.format(ERROR_TEMPLATE, $param.lJavaName$.get$param.noField$(), "修改", "已经审核"));
+        }
 
+        BeanUtils.copyProperties(request, $param.lJavaName$);
         setBaseField($param.lJavaName$, OperationEnum.update);
         $param.daoVariable$.updateByPrimaryKey($param.lJavaName$);
     }
