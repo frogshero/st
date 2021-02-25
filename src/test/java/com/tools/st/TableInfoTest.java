@@ -3,7 +3,6 @@ package com.tools.st;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.tools.st.utl.DbToJavaUtl;
 import com.tools.st.utl.StrUtl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
