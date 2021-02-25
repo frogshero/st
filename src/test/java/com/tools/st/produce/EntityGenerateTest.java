@@ -172,6 +172,7 @@ public class EntityGenerateTest {
             }
         }
 
+        //User, UserVO, UserRequest, UserEditRequest
         STGroup entityGroup = new STGroupFile(new ClassPathResource("/templates/entity.stg").getFile().getCanonicalPath(), '$', '$');
         ST stEntity = entityGroup.getInstanceOf("entity");
         stEntity.add("param", param);

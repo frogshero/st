@@ -57,10 +57,11 @@ public class $param.serviceClzName$ {
      * 查询列表
      * @return
      */
-    public Map<String, Object> findList($param.listRequestClz$ request) {
+    public Map<String, Object> findList($param.listRequestClz$ request, String tableId) {
         Map<String, Object> returnMap = new HashMap<>();
         List<$param.voClzName$> moldList = $param.daoVariable$.findList(request);
-        List<SysComTableConfigVO> titleList = sysComTableConfigService.getTableConfig(getUser().getComId(), "$param.lJavaName$");
+        List<SysComTableConfigVO> titleList = sysComTableConfigService.getTableConfig(getUser().getComId(),
+            StringUtils.isBlank(tableId) ? "$param.lJavaName$" : tableId);
         returnMap.put("tableList", moldList);
         returnMap.put("titleList", titleList);
         return returnMap;
@@ -137,11 +138,11 @@ public class $param.serviceClzName$ {
         List<String> feedback = Lists.newArrayList();
         operateByIds(idListStr, e -> {
             $param.javaName$ voForDel = $param.daoVariable$.selectByPrimaryKey(e);
-            if (voForDel == null) {
-                feedback.add("ID不正确：" + e);
+            Assert.notNull(voForDel, "ID不正确");
+            if (voForDel.getReviewUserId() != null) {
+                feedback.add(String.format(ERROR_TEMPLATE, voForDel.get$param.noField$(), "删除", "已经审核"));
                 return;
             }
-
             setBaseField(voForDel, OperationEnum.delete);
             $param.daoVariable$.updateByPrimaryKey(voForDel);
         });

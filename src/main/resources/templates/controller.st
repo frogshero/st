@@ -30,10 +30,11 @@ public class $param.controllerClzName$ extends BaseController {
     @ApiOperation("查询$param.entityChinese$列表")
     @GetMapping("/findList")
     public Result<List<$param.voClzName$\>> findList(@ApiParam("过滤参数") $param.listRequestClz$ request,
+                                   @ApiParam(value = "tableId", required = false) @Nullable @RequestParam("tableId") String tableId,
                                    @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGESIZE) Integer pageSize,
                                    @RequestParam(value = "pageNum", defaultValue = DEFAULT_PAGENUM) Integer pageNum) {
         Page<?> page = PageHelper.startPage(pageNum, pageSize, true);
-        return successResult($param.serviceVariable$.findList(request), page.getTotal());
+        return successResult($param.serviceVariable$.findList(request, tableId), page.getTotal());
     }
 
     @ApiOperation("新增$param.entityChinese$")
