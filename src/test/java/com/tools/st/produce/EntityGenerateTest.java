@@ -22,6 +22,9 @@ import org.stringtemplate.v4.STGroupFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -41,24 +44,24 @@ public class EntityGenerateTest {
 
         param.setDaoPostfix("Dao");
         param.setVoPostfix("VO");
-        param.setVoBase("BaseBusinessVO");
+//        param.setVoBase("BaseBusinessVO");
 //        param.setDaoBase("GenericDao");
 
         //for service,controller
-        param.setNoField("WarehouseEntryNo");
-        param.setEntityChinese("入库单");
-        param.setRequestMapping("/mold/warehouse/entry");
+        param.setNoField("WarehouseDeliveryNo");
+        param.setEntityChinese("出库单");
+        param.setRequestMapping("/mold/warehouse/delivery");
 
-        param.getIgnoreList().addAll(Lists.newArrayList("created_by", "updated_by", "enableflg", "created_time", "updated_time",
-                "remark", "remark1", "remark2", "remark3", "remark4", "remark5",
-                "remark6", "remark7", "remark8", "remark9", "remark10"));
+//        param.getIgnoreList().addAll(Lists.newArrayList("created_by", "updated_by", "enableflg", "created_time", "updated_time",
+//                "remark", "remark1", "remark2", "remark3", "remark4", "remark5",
+//                "remark6", "remark7", "remark8", "remark9", "remark10"));
         return param;
     }
 
     @Test
     public void generateAll() throws IOException {
         List<String> tables = Lists.newArrayList(
-                "mold_warehouse_entry"
+                "mold_warehouse_delivery"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
@@ -108,6 +111,8 @@ public class EntityGenerateTest {
         TableInfo tableInfo = tableInfoDao.getTableInfo(param.getSchema(), param.getTabName());
         assertNotNull(tableInfo);
 
+        param.setChineseDesc(tableInfo.getTableComment());
+
         List<ColumnInfo> columns = tableInfoDao.getColumnInfos(param.getSchema(), param.getTabName());
 
         produceEntity(group, tableInfo, columns, param, outDir);
@@ -153,7 +158,7 @@ public class EntityGenerateTest {
     private void produceControllerTest(STGroup group, MybatisCreateParam param, String outDir) throws IOException {
         ST stMapper = group.getInstanceOf("controllerTest");
         stMapper.add("param", param);
-        FileUtl.writeStrToFile(stMapper.render(), outDir + "\\test\\" + param.getJavaName() + "Controller.java");
+        FileUtl.writeStrToFile(stMapper.render(), outDir + "\\test\\" + param.getJavaName() + "ControllerTest.java");
     }
 
     private void produceEntity(STGroup group, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {
@@ -173,6 +178,7 @@ public class EntityGenerateTest {
         stEntity.add("tab", tableInfo);
         stEntity.add("cols", cols);
         stEntity.add("imports", imports);
+        stEntity.add("excel", false);
         FileUtl.writeStrToFile(stEntity.render(), outDir + "\\model\\" + param.getJavaName() + ".java");
 
         ST voEntity = group.getInstanceOf("entityVO");
@@ -184,14 +190,27 @@ public class EntityGenerateTest {
 
         voEntity = group.getInstanceOf("entityVO");
         voEntity.add("comment", tableInfo.getTableComment() + "的插入和修改参数");
-        voEntity.add("clzName", param.getJavaName() + "Request");
+        voEntity.add("clzName", param.getEntityRequestClz());
         voEntity.add("modelPackage", param.getModelPackage());
-        FileUtl.writeStrToFile(voEntity.render(), outDir + "\\model\\" + param.getJavaName() + "Request.java");
+        voEntity.add("idField", true);
+        FileUtl.writeStrToFile(voEntity.render(), outDir + "\\model\\" + param.getEntityRequestClz() + ".java");
+
+        voEntity = group.getInstanceOf("entityVO");
+        voEntity.add("comment", tableInfo.getTableComment() + "的查询参数");
+        voEntity.add("clzName", param.getListRequestClz());
+        voEntity.add("modelPackage", param.getModelPackage());
+        FileUtl.writeStrToFile(voEntity.render(), outDir + "\\model\\" + param.getListRequestClz() + ".java");
     }
 
     public void produceXmlMapper(STGroup xmlGroup, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {
         ColumnInfo keyCol = columns.stream().filter(e -> e.getKey()).findFirst().get();
         Assertions.assertNotNull(keyCol);
+
+        Pattern p = Pattern.compile(".*ID=([a-zA-Z_]*)\\.([a-zA-Z_]*)");
+        List<KeyField> keyFields = columns.stream().map(e -> {
+            Matcher m = p.matcher(e.getComment());
+            return m.find() ? new KeyField(m.group(1), m.group(2)) : null;
+        }).filter(e -> e != null).collect(Collectors.toList());
 
         //myxml不是文件名，是文件里定义的函数
         ST xmlST = xmlGroup.getInstanceOf("myxml");
@@ -199,6 +218,7 @@ public class EntityGenerateTest {
         xmlST.add("tab", tableInfo);
         xmlST.add("cols", columns);
         xmlST.add("keyCol", keyCol);
+        xmlST.add("keyFields", keyFields);
         FileUtl.writeStrToFile(xmlST.render(80), outDir + "\\dao\\" + tableInfo.getJavaName() + param.getDaoPostfix() + ".xml");
     }
 

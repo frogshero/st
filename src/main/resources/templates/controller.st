@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import com.ymc.mes.basic.common.model.CommonBatchRequest;
+import $param.modelPackage$.$param.javaName$;
+import $param.modelPackage$.$param.listRequestClz$;
+import $param.modelPackage$.$param.entityRequestClz$;
+import com.ymc.mes.basic.common.model.FileVo;
+
 @RestController
 @RequestMapping("$param.requestMapping$")
 public class $param.controllerClzName$ extends BaseController {
@@ -23,24 +29,24 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("查询$param.entityChinese$列表")
     @GetMapping("/findList")
-    public Result findList(@ApiParam("过滤参数") $param.voClzName$ queryParam,
+    public Result<List<$param.voClzName$\>> findList(@ApiParam("过滤参数") $param.listRequestClz$ request,
                                    @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGESIZE) Integer pageSize,
                                    @RequestParam(value = "pageNum", defaultValue = DEFAULT_PAGENUM) Integer pageNum) {
         Page<?> page = PageHelper.startPage(pageNum, pageSize, true);
-        return successResult($param.serviceVariable$.findList(queryParam), page.getTotal());
+        return successResult($param.serviceVariable$.findList(request), page.getTotal());
     }
 
     @ApiOperation("新增$param.entityChinese$")
     @PostMapping("/insert")
-    public Result insert(@RequestBody $param.voClzName$ $param.voVariable$) {
-        $param.serviceVariable$.insert($param.voVariable$);
+    public Result insert(@RequestBody $param.entityRequestClz$ request) {
+        $param.serviceVariable$.insert(request);
         return successResult(null);
     }
 
     @ApiOperation("更新$param.entityChinese$")
     @PostMapping("/update")
-    public Result update(@RequestBody $param.voClzName$ $param.voVariable$) {
-        $param.serviceVariable$.update($param.voVariable$);
+    public Result update(@RequestBody $param.entityRequestClz$ request) {
+        $param.serviceVariable$.update(request);
         return successResult(null);
     }
 
@@ -74,6 +80,12 @@ public class $param.controllerClzName$ extends BaseController {
     @PostMapping("/cancelReview")
     public Result cancelReview(@RequestBody CommonBatchRequest commonBatchRequest) {
         return auditOrCancelAudit(commonBatchRequest, false);
+    }
+
+    @ApiOperation("$param.entityChinese$导出Excel")
+    @GetMapping("/exportExcel")
+    public Result<FileVo> exportExcel(@ApiParam $param.listRequestClz$ request) {
+        return successResult($param.serviceVariable$.exportExcel(request));
     }
 }
 >>

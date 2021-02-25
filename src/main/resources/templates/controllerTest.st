@@ -3,12 +3,19 @@ package $param.controllerPackage$;
 
 import com.ymc.mes.basic.common.Result;
 import com.ymc.mes.mold.warehouse.base.BaseTest;
+import com.ymc.mes.basic.common.model.CommonBatchRequest;
 import $param.voClzFullName$;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import $param.modelPackage$.$param.entityRequestClz$;
 
 import static org.junit.Assert.*;
 
@@ -20,13 +27,13 @@ public class $param.controllerClzName$Test extends BaseTest {
         List<NameValuePair> params = Lists.newArrayList(
                 new BasicNameValuePair("warehouseName", "成品库")
                 );
-        Result ret = get("$param.requestMapping$/findList", param);
+        Result ret = get("$param.requestMapping$/findList", params);
         log.info(ret.getCode());
     }
 
     @Test
     public void insert() throws URISyntaxException {
-        $param.voClzName$ vo = new $param.voClzName$();
+        $param.entityRequestClz$ vo = new $param.entityRequestClz$();
         vo.setComId(1L);
         vo.setMoldInfoId(5L);
         vo.setOperatingTime(new Date());
@@ -40,7 +47,7 @@ public class $param.controllerClzName$Test extends BaseTest {
 
     @Test
     public void update() throws URISyntaxException {
-        $param.voClzName$ vo = new $param.voClzName$();
+        $param.entityRequestClz$ vo = new $param.entityRequestClz$();
         vo.setId(1L);
         vo.setComId(1L);
         vo.setMoldInfoId(5L);
@@ -63,7 +70,7 @@ public class $param.controllerClzName$Test extends BaseTest {
     }
 
     @Test
-    public void review() {
+    public void review() throws URISyntaxException {
         CommonBatchRequest vo = new CommonBatchRequest();
         vo.setIds("1");
         Result ret = post("$param.requestMapping$/review", vo);
@@ -71,7 +78,7 @@ public class $param.controllerClzName$Test extends BaseTest {
     }
 
     @Test
-    public void cancelReview() {
+    public void cancelReview() throws URISyntaxException {
         CommonBatchRequest vo = new CommonBatchRequest();
         vo.setIds("1");
         Result ret = post("$param.requestMapping$/cancelReview", vo);

@@ -2,7 +2,7 @@ delimiters "$", "$"
 
 import "typeMapping.stg"
 
-entity(param, tab, cols, imports) ::= <<
+entity(param, tab, cols, imports, excel) ::= <<
 package $param.modelPackage$;
 
 
@@ -21,6 +21,10 @@ $flds()$
 
 flds() ::= <<
 $cols:{col|     @ApiModelProperty(value = "$col.comment$", $if(!col.nullAble)$required = true$endif$)
+$if(excel)$
+    @ColumnWidth(15)
+    @ExcelProperty(value = "$col.comment$", index = 1)
+$endif$
     private $dbToJavaType.(col.type)$ $col.javaName$;
 
 }$

@@ -37,6 +37,15 @@ public class StringTest {
   }
 
   @Test
+  public void testReg3() {
+    Pattern pattern = Pattern.compile(".*ID=([a-zA-Z_]*)\\.([a-zA-Z_]*)");
+    Matcher matcher = pattern.matcher("入库单ID=mold_warehouse_entry.id");
+    matcher.find();
+    log.info(matcher.group(1));
+    log.info(matcher.group(2));
+  }
+
+  @Test
   public void testReg2() {
     Pattern pattern = Pattern.compile("[A-Z]");
     Matcher matcher = pattern.matcher("tabFasdfXs");

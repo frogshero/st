@@ -7,7 +7,11 @@ import com.ymc.mes.basic.system.model.CmmSysUserVO;
 import com.ymc.mes.basic.system.model.SysComTableConfigVO;
 import com.ymc.mes.basic.system.service.SysComTableConfigService;
 import com.ymc.mes.basic.system.service.SysUserService;
-import com.ymc.mes.mold.warehouse.common.OperationEnum;
+import com.ymc.mes.basic.common.model.OperationEnum;
+import com.ymc.mes.mold.export.ExportFileParam;
+import com.ymc.mes.mold.export.ExportFileService;
+import com.ymc.mes.basic.common.model.FileVo;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +25,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import com.ymc.mes.basic.common.model.CommonBatchRequest;
+import $param.modelPackage$.$param.javaName$;
 import $param.daoClzFullName$;
 import $param.voClzFullName$;
+import $param.modelPackage$.$param.listRequestClz$;
+import $param.modelPackage$.$param.entityRequestClz$;
 
 @Service
 public class $param.serviceClzName$ {
@@ -35,6 +43,8 @@ public class $param.serviceClzName$ {
     SysUserService sysUserService;
     @Autowired
     SysCodeService sysCodeService;
+    @Autowired
+    ExportFileService exportFileService;
 
     private String ERROR_TEMPLATE = "$param.entityChinese$【%s】%s失败, 原因：%s";
     private String SUCCESS_TEMPLATE = "$param.entityChinese$【%s】%s成功";
@@ -47,14 +57,10 @@ public class $param.serviceClzName$ {
      * 查询列表
      * @return
      */
-    public Map<String, Object> findList($param.voClzName$ $param.voVariable$) {
-        if ($param.voVariable$.getComId() == null) {
-            $param.voVariable$.setComId(getUser().getComId());
-        }
-
+    public Map<String, Object> findList($param.listRequestClz$ request) {
         Map<String, Object> returnMap = new HashMap<>();
-        List<$param.voClzName$> moldList = $param.daoVariable$.findList($param.voVariable$);
-        List<SysComTableConfigVO> titleList = sysComTableConfigService.getTableConfig($param.voVariable$.getComId(), "$param.lJavaName$");
+        List<$param.voClzName$> moldList = $param.daoVariable$.findList(request);
+        List<SysComTableConfigVO> titleList = sysComTableConfigService.getTableConfig(getUser().getComId(), "$param.lJavaName$");
         returnMap.put("tableList", moldList);
         returnMap.put("titleList", titleList);
         return returnMap;
@@ -62,12 +68,12 @@ public class $param.serviceClzName$ {
 
     /**
      * 插入
-     * @param $param.lJavaName$
+     * @param request
      */
     @Transactional(rollbackFor = Exception.class)
-    public void insert($param.entityRequestClz$ $param.entityRequestVariable$) {
+    public void insert($param.entityRequestClz$ request) {
         $param.javaName$ $param.lJavaName$ = new $param.javaName$();
-        BeanUtils.copyProperties($param.entityRequestVariable$, $param.lJavaName$);
+        BeanUtils.copyProperties(request, $param.lJavaName$);
 
         if ($param.lJavaName$.get$param.noField$() == null) {
             String no = sysCodeService.findCode("$param.lJavaName$", getUser().getComId());
@@ -79,12 +85,14 @@ public class $param.serviceClzName$ {
 
     /**
      * 更新
-     * @param $param.lJavaName$
+     * @param request
      */
     @Transactional(rollbackFor = Exception.class)
-    public void update($param.entityRequestClz$ $param.entityRequestVariable$) {
-        $param.javaName$ $param.lJavaName$ = $param.daoVariable$.selectByPrimaryKey($param.entityRequestVariable$.getId());
-        BeanUtils.copyProperties($param.entityRequestVariable$, $param.lJavaName$);
+    public void update($param.entityRequestClz$ request) {
+        Assert.notNull(request.getId(), "id不能为空");
+        $param.javaName$ $param.lJavaName$ = $param.daoVariable$.selectByPrimaryKey(request.getId());
+        Assert.notNull($param.lJavaName$, "id不正确");
+        BeanUtils.copyProperties(request, $param.lJavaName$);
 
         setBaseField($param.lJavaName$, OperationEnum.update);
         $param.daoVariable$.updateByPrimaryKey($param.lJavaName$);
@@ -128,7 +136,7 @@ public class $param.serviceClzName$ {
     public List<String> deleteTableByIds(String idListStr) {
         List<String> feedback = Lists.newArrayList();
         operateByIds(idListStr, e -> {
-            $param.voClzName$ voForDel = $param.daoVariable$.selectByPrimaryKey(e);
+            $param.javaName$ voForDel = $param.daoVariable$.selectByPrimaryKey(e);
             if (voForDel == null) {
                 feedback.add("ID不正确：" + e);
                 return;
@@ -140,7 +148,7 @@ public class $param.serviceClzName$ {
         return feedback;
     }
 
-    private void setChecked($param.voClzName$ voForCheck, boolean checked) {
+    private void setChecked($param.javaName$ voForCheck, boolean checked) {
         if (checked) {
             //审核人
             voForCheck.setReviewUserId(getUser().getUserId());
@@ -163,7 +171,7 @@ public class $param.serviceClzName$ {
     public List<String> checkOrUncheck(String commaIds, boolean audit) {
         List<String> msgList = Lists.newArrayList();
         operateByIds(commaIds, e -> {
-            $param.voClzName$ voForCheck = $param.daoVariable$.selectByPrimaryKey(e);
+            $param.javaName$ voForCheck = $param.daoVariable$.selectByPrimaryKey(e);
             Assert.notNull(voForCheck, "ID不正确：" + e);
 
             boolean checked = voForCheck.getReviewUserId() != null;
@@ -178,6 +186,12 @@ public class $param.serviceClzName$ {
             msgList.add(String.format(SUCCESS_TEMPLATE, voForCheck.get$param.noField$(), audit ? "审核" : "撤审"));
         });
         return msgList;
+    }
+
+    public FileVo exportExcel($param.listRequestClz$ request) {
+        List<$param.voClzName$> dataList = $param.daoVariable$.findList(request);
+        ExportFileParam exportFileParam = new ExportFileParam("$param.lJavaName$", "$param.entityChinese$", dataList);
+        return exportFileService.exportByModel(exportFileParam);
     }
 }
 >>

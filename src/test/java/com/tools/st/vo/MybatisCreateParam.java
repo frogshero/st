@@ -19,6 +19,7 @@ public class MybatisCreateParam {
     private String daoBasePackage;
     private String voBase;
     private String voBasePackage;
+    private String chineseDesc;
     //编号字段
     private String noField;
 
@@ -51,6 +52,9 @@ public class MybatisCreateParam {
     private String lJavaName;
     private String entityRequestClz;
     private String entityRequestVariable;
+    private String listRequestClz;
+    private String listRequestVariable;
+    private String entityClzFullName;
 
     public void init() {
         modelPackage = homePackage + ".model";
@@ -61,7 +65,8 @@ public class MybatisCreateParam {
         this.shortName = StrUtl.getShortName(tabName);
         this.lJavaName = StrUtl.getObjName(tabName);
         this.javaName = StringUtils.capitalize(this.lJavaName);
-
+        this.entityClzFullName = modelPackage + "." + javaName;
+        
         this.voClzName = javaName + voPostfix;
         this.daoClzName = javaName + daoPostfix;
         this.voClzFullName = modelPackage + "." + javaName + voPostfix;
@@ -80,8 +85,8 @@ public class MybatisCreateParam {
         this.voVariable = StringUtils.uncapitalize(this.voClzName);
         this.daoVariable = StringUtils.uncapitalize(this.daoClzName);
 
-        this.entityRequestClz = this.javaName + "Request";
-        this.entityRequestVariable = this.lJavaName + "Request";
+        this.listRequestClz = this.javaName + "Request";
+        this.entityRequestClz = this.javaName + "EditRequest";
     }
 
 }
