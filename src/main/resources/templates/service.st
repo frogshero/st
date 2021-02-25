@@ -46,8 +46,8 @@ public class $param.serviceClzName$ {
     @Autowired
     ExportFileService exportFileService;
 
-    private String ERROR_TEMPLATE = "$param.entityChinese$【%s】%s失败, 原因：%s";
-    private String SUCCESS_TEMPLATE = "$param.entityChinese$【%s】%s成功";
+    private String OP_ERROR_TEMPLATE = "$param.entityChinese$【%s】%s失败, 原因：%s";
+    private String OP_SUCCESS_TEMPLATE = "$param.entityChinese$【%s】%s成功";
 
     private CmmSysUserVO getUser() {
          return sysUserService.getUser();
@@ -176,20 +176,23 @@ public class $param.serviceClzName$ {
 
             boolean checked = voForCheck.getReviewUserId() != null;
             if (audit && checked) {
-                msgList.add(String.format(ERROR_TEMPLATE, voForCheck.get$param.noField$(), "审核", "已经是审核状态"));
+                msgList.add(String.format(OP_ERROR_TEMPLATE, voForCheck.get$param.noField$(), "审核", "已经是审核状态"));
                 return;
             } else if (!audit & !checked) {
-                msgList.add(String.format(ERROR_TEMPLATE, voForCheck.get$param.noField$(), "撤审", "不是审核状态"));
+                msgList.add(String.format(OP_ERROR_TEMPLATE, voForCheck.get$param.noField$(), "撤审", "不是审核状态"));
                 return;
             }
             setChecked(voForCheck, audit);
-            msgList.add(String.format(SUCCESS_TEMPLATE, voForCheck.get$param.noField$(), audit ? "审核" : "撤审"));
+            msgList.add(String.format(OP_SUCCESS_TEMPLATE, voForCheck.get$param.noField$(), audit ? "审核" : "撤审"));
         });
         return msgList;
     }
 
     public FileVo exportExcel($param.listRequestClz$ request) {
         List<$param.voClzName$> dataList = $param.daoVariable$.findList(request);
+        if (dataList.size() == 0) {
+            return new FileVo("", "");
+        }
         ExportFileParam exportFileParam = new ExportFileParam("$param.lJavaName$", "$param.entityChinese$", dataList);
         return exportFileService.exportByModel(exportFileParam);
     }

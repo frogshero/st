@@ -53,7 +53,7 @@ myxml(tab, cols, keyCol, param, keyFields) ::= <<
     from $tab.tableName$ $tab.shortName$
     $keyFields:{key|left join $key.tabName$ $key.tabShortName$ on $tab.shortName$.id=$key.tabShortName$.$key.keyField$}; wrap, anchor, separator=", "$
     where $tab.shortName$.enableflg=1
-    <if test="xxx != null"> and mwe.yyy >= #{xxx, jdbcType=TIMESTAMP} </if>
+    <if test="id != null"> and $tab.shortName$.id = #{id, jdbcType=BIGINT} </if>
 </select>
 </mapper>
 >>

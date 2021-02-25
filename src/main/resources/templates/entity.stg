@@ -20,7 +20,7 @@ $flds()$
 >>
 
 flds() ::= <<
-$cols:{col|     @ApiModelProperty(value = "$col.comment$", $if(!col.nullAble)$required = true$endif$)
+$cols:{col|     @ApiModelProperty(value = "$col.comment$")
 $if(excel)$
     @ColumnWidth(15)
     @ExcelProperty(value = "$col.comment$", index = 1)

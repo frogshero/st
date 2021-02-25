@@ -206,6 +206,7 @@ public class EntityGenerateTest {
         ColumnInfo keyCol = columns.stream().filter(e -> e.getKey()).findFirst().get();
         Assertions.assertNotNull(keyCol);
 
+        //入库单ID=mold_warehouse_entry.id 自动生成join
         Pattern p = Pattern.compile(".*ID=([a-zA-Z_]*)\\.([a-zA-Z_]*)");
         List<KeyField> keyFields = columns.stream().map(e -> {
             Matcher m = p.matcher(e.getComment());
