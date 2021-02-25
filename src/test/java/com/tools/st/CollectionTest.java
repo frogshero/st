@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
-public class TestTest {
+public class CollectionTest {
 
     @Test
     public void testStr() {
