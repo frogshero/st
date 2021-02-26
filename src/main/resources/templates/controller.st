@@ -40,8 +40,7 @@ public class $param.controllerClzName$ extends BaseController {
     @ApiOperation("新增$param.entityChinese$")
     @PostMapping("/insert")
     public Result insert(@RequestBody $param.entityRequestClz$ request) {
-        $param.serviceVariable$.insert(request);
-        return successResult(null);
+        return successResult($param.serviceVariable$.insert(request));
     }
 
     @ApiOperation("更新$param.entityChinese$")

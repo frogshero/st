@@ -1,6 +1,6 @@
 package com.tools.st.config.advice;
 
-import com.tools.st.entity.BasicResult;
+import com.tools.st.entity.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -26,7 +26,7 @@ public class ResultBodyAdvice implements ResponseBodyAdvice {
                                   Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         Object val = body;
         if (returnType.getContainingClass().isAnnotationPresent(InResult.class)) {
-            val = new BasicResult(body == null ? "" : body);
+            val = new Result(body == null ? "" : body);
 
         }
         return new MappingJacksonValue(val);

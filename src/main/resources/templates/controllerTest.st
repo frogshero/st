@@ -20,19 +20,15 @@ import $param.modelPackage$.$param.entityRequestClz$;
 import static org.junit.Assert.*;
 
 @Slf4j
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class $param.controllerClzName$Test extends BaseTest {
 
-    @Test
-    public void findList() throws URISyntaxException {
-        List<NameValuePair> params = Lists.newArrayList(
-                new BasicNameValuePair("warehouseName", "成品库")
-                );
-        Result ret = get("$param.requestMapping$/findList", params);
-        log.info(ret.getCode());
-    }
+    private Long newId = 0L;
+    private Long entryId = 47L;
+    private Long newEntryId = 48L;
 
     @Test
-    public void insert() throws URISyntaxException {
+    public void a_insert() throws URISyntaxException {
         $param.entityRequestClz$ vo = new $param.entityRequestClz$();
         vo.setComId(1L);
         vo.setMoldInfoId(5L);
@@ -43,12 +39,13 @@ public class $param.controllerClzName$Test extends BaseTest {
 //        vo.setWarehousePosId();
         Result ret = post("$param.requestMapping$/insert", vo);
         log.info(ret.getCode());
+        newId = ((Integer)ret.getData()).longValue();
     }
 
     @Test
-    public void update() throws URISyntaxException {
+    public void b_update() throws URISyntaxException {
         $param.entityRequestClz$ vo = new $param.entityRequestClz$();
-        vo.setId(1L);
+        vo.setId(newId);
         vo.setComId(1L);
         vo.setMoldInfoId(5L);
         vo.setOperatingTime(new Date());
@@ -62,26 +59,45 @@ public class $param.controllerClzName$Test extends BaseTest {
     }
 
     @Test
-    public void delete() throws URISyntaxException {
+    public void c_review() throws URISyntaxException {
         CommonBatchRequest vo = new CommonBatchRequest();
-        vo.setIds("1");
-        Result ret = post("$param.requestMapping$/delete", vo);
-        log.info(ret.getCode());
-    }
-
-    @Test
-    public void review() throws URISyntaxException {
-        CommonBatchRequest vo = new CommonBatchRequest();
-        vo.setIds("1");
+        vo.setIds(Lists.newArrayList(newId));
         Result ret = post("$param.requestMapping$/review", vo);
         log.info(ret.getCode());
     }
 
     @Test
-    public void cancelReview() throws URISyntaxException {
+    public void d_cancelReview() throws URISyntaxException {
         CommonBatchRequest vo = new CommonBatchRequest();
-        vo.setIds("1");
+        vo.setIds(Lists.newArrayList(newId));
         Result ret = post("$param.requestMapping$/cancelReview", vo);
+        log.info(ret.getCode());
+    }
+
+    @Test
+    public void e_delete() throws URISyntaxException {
+        CommonBatchRequest vo = new CommonBatchRequest();
+        vo.setIds(Lists.newArrayList(newId));
+        Result ret = post("$param.requestMapping$/delete", vo);
+        log.info(ret.getCode());
+    }
+
+
+    @Test
+    public void f_findList() throws URISyntaxException {
+        List<NameValuePair> params = Lists.newArrayList(
+                new BasicNameValuePair("warehouseName", "成品库")
+                );
+        Result ret = get("$param.requestMapping$/findList", params);
+        log.info(ret.getCode());
+    }
+
+    @Test
+    public void g_exportExcel() throws URISyntaxException {
+        List<NameValuePair> params = Lists.newArrayList(
+                new BasicNameValuePair("warehouseName", "成品库")
+                );
+        Result ret = get("$param.requestMapping$/exportExcel", params);
         log.info(ret.getCode());
     }
 }

@@ -48,9 +48,9 @@ public class EntityGenerateTest {
 //        param.setDaoBase("GenericDao");
 
         //for service,controller
-        param.setNoField("WarehouseDeliveryNo");
-        param.setEntityChinese("出库单");
-        param.setRequestMapping("/mold/warehouse/delivery");
+        param.setNoField("WarehouseEntryNo");
+        param.setEntityChinese("入库单");
+        param.setRequestMapping("/mold/warehouse/entry");
 
 //        param.getIgnoreList().addAll(Lists.newArrayList("created_by", "updated_by", "enableflg", "created_time", "updated_time",
 //                "remark", "remark1", "remark2", "remark3", "remark4", "remark5",

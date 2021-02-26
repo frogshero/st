@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class BasicResult<T> {
+public class Result<T> {
     private String code = "0";
 
     private String message = "";
@@ -16,8 +16,13 @@ public class BasicResult<T> {
 
     private long totalForSort;
 
-    public BasicResult(T data) {
+    public Result(T data) {
         this.data = data;
     }
 
+    public Result(String code, String msg) {
+        this.code = code;
+        this.message = msg;
+        this.data = null;
+    }
 }

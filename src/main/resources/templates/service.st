@@ -72,7 +72,7 @@ public class $param.serviceClzName$ {
      * @param request
      */
     @Transactional(rollbackFor = Exception.class)
-    public void insert($param.entityRequestClz$ request) {
+    public Long insert($param.entityRequestClz$ request) {
         $param.javaName$ $param.lJavaName$ = new $param.javaName$();
         BeanUtils.copyProperties(request, $param.lJavaName$);
 
@@ -82,6 +82,7 @@ public class $param.serviceClzName$ {
         }
         setBaseField($param.lJavaName$, OperationEnum.insert);
         $param.daoVariable$.insert($param.lJavaName$);
+        return $param.lJavaName$.getId();
     }
 
     /**
@@ -94,7 +95,7 @@ public class $param.serviceClzName$ {
         $param.javaName$ $param.lJavaName$ = $param.daoVariable$.selectByPrimaryKey(request.getId());
         Assert.notNull($param.lJavaName$, "id不正确");
         if ($param.lJavaName$.getReviewUserId() != null) {
-            throw new RuntimeException(String.format(ERROR_TEMPLATE, $param.lJavaName$.get$param.noField$(), "修改", "已经审核"));
+            throw CommonException.tipMessage(String.format(ERROR_TEMPLATE, $param.lJavaName$.get$param.noField$(), "修改", "已经审核"));
         }
 
         BeanUtils.copyProperties(request, $param.lJavaName$);
@@ -120,35 +121,23 @@ public class $param.serviceClzName$ {
         $param.lJavaName$.setUpdatedTime(new Date());
     }
 
-    private void operateByIds(String idListStr, Consumer<Long> operation) {
-        if (StringUtils.isBlank(idListStr)) return;
-        String[] idArr = idListStr.split(",");
-        for (String idStr : idArr) {
-            if (StringUtils.isBlank(idStr)) continue;
-            Assert.isTrue(StringUtils.isNumeric(idStr), "ID不正确：" + idStr);
-
-            operation.accept(Long.valueOf(idStr));
-        }
-    }
-
     /**
      * 批量删除
-     * @param idListStr
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public List<String> deleteTableByIds(String idListStr) {
+    public List<String> deleteTableByIds(List<Long> ids) {
         List<String> feedback = Lists.newArrayList();
-        operateByIds(idListStr, e -> {
-            $param.javaName$ voForDel = $param.daoVariable$.selectByPrimaryKey(e);
+        for (Long id : ids) {
+            $param.javaName$ voForDel = $param.daoVariable$.selectByPrimaryKey(id);
             Assert.notNull(voForDel, "ID不正确");
             if (voForDel.getReviewUserId() != null) {
                 feedback.add(String.format(ERROR_TEMPLATE, voForDel.get$param.noField$(), "删除", "已经审核"));
-                return;
+                continue;
             }
             setBaseField(voForDel, OperationEnum.delete);
             $param.daoVariable$.updateByPrimaryKey(voForDel);
-        });
+        }
         return feedback;
     }
 
@@ -167,28 +156,26 @@ public class $param.serviceClzName$ {
 
     /**
      * 审核，撤审
-     * @param commaIds
-     * @param audit
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public List<String> checkOrUncheck(String commaIds, boolean audit) {
+    public List<String> checkOrUncheck(List<Long> ids, boolean audit) {
         List<String> msgList = Lists.newArrayList();
-        operateByIds(commaIds, e -> {
-            $param.javaName$ voForCheck = $param.daoVariable$.selectByPrimaryKey(e);
-            Assert.notNull(voForCheck, "ID不正确：" + e);
+        for (Long id : ids) {
+            $param.javaName$ voForCheck = $param.daoVariable$.selectByPrimaryKey(id);
+            Assert.notNull(voForCheck, "ID不正确：" + id);
 
             boolean checked = voForCheck.getReviewUserId() != null;
             if (audit && checked) {
-                msgList.add(String.format(OP_ERROR_TEMPLATE, voForCheck.get$param.noField$(), "审核", "已经是审核状态"));
-                return;
+                msgList.add(String.format(ERROR_TEMPLATE, voForCheck.get$param.noField$(), "审核", "已经是审核状态"));
+                continue;
             } else if (!audit & !checked) {
-                msgList.add(String.format(OP_ERROR_TEMPLATE, voForCheck.get$param.noField$(), "撤审", "不是审核状态"));
-                return;
+                msgList.add(String.format(ERROR_TEMPLATE, voForCheck.get$param.noField$(), "撤审", "不是审核状态"));
+                continue;
             }
             setChecked(voForCheck, audit);
-            msgList.add(String.format(OP_SUCCESS_TEMPLATE, voForCheck.get$param.noField$(), audit ? "审核" : "撤审"));
-        });
+            msgList.add(String.format(SUCCESS_TEMPLATE, voForCheck.get$param.noField$(), audit ? "审核" : "撤审"));
+        }
         return msgList;
     }
 
