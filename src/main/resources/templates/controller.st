@@ -55,7 +55,7 @@ public class $param.controllerClzName$ extends BaseController {
     public Result<List<String>> delete(@RequestBody CommonBatchRequest commonBatchRequest) {
         List<String> feedback = $param.serviceVariable$.deleteTableByIds(commonBatchRequest.getIds());
         if (feedback.size() > 0) {
-            return new Result(RT_ERROR_DELETE, "部分操作未能成功", feedback);
+            return new Result(ERROR, "部分操作未能成功", feedback);
         } else {
             return successResult(null);
         }
@@ -72,7 +72,7 @@ public class $param.controllerClzName$ extends BaseController {
         if (msg.size() == 0) {
             return successResult(null);
         } else {
-            return new Result("-1", "部分操作未能成功", msg);
+            return new Result(ERROR, "部分操作未能成功", msg);
         }
     }
 

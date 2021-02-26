@@ -9,12 +9,14 @@ package $param.modelPackage$;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import $param.voBasePackage$.EntityAuditInterface;
+import $param.voBasePackage$.EntityVerifyInterface;
 $if(param.voBase)$import $param.voBaseClzFullName$;$endif$
 $imports:{im|import $im$;}; separator="\n"$
 
 @ApiModel(description = "$tab.tableComment$")
 @Data
-public class $param.javaName$ $if(param.voBase)$extends $param.voBase$$endif$ {
+public class $param.javaName$ $if(param.voBase)$extends $param.voBase$$endif$ implements EntityVerifyInterface, EntityAuditInterface {
 $flds()$
 }
 >>

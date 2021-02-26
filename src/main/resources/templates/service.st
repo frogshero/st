@@ -95,7 +95,7 @@ public class $param.serviceClzName$ {
         $param.javaName$ $param.lJavaName$ = $param.daoVariable$.selectByPrimaryKey(request.getId());
         Assert.notNull($param.lJavaName$, "id不正确");
         if ($param.lJavaName$.getReviewUserId() != null) {
-            throw CommonException.tipMessage(String.format(ERROR_TEMPLATE, $param.lJavaName$.get$param.noField$(), "修改", "已经审核"));
+            throw CommonException.tipMessage(String.format(OP_ERROR_TEMPLATE, $param.lJavaName$.get$param.noField$(), "修改", "已经审核"));
         }
 
         BeanUtils.copyProperties(request, $param.lJavaName$);
@@ -104,21 +104,7 @@ public class $param.serviceClzName$ {
     }
 
     private void setBaseField($param.javaName$ $param.lJavaName$, OperationEnum operationEnum) {
-        //enableflg,comId,createdBy,createdTime,updatedBy,updatedTime
-        CmmSysUserVO user = getUser();
-        if (operationEnum == OperationEnum.insert) {
-            $param.lJavaName$.setEnableflg(1);
-            $param.lJavaName$.setCreatedBy(user.getUserId());
-            $param.lJavaName$.setCreatedTime(new Date());
-        }
-        if (operationEnum == OperationEnum.delete) {
-            $param.lJavaName$.setEnableflg(0);
-        }
-        if ($param.lJavaName$.getComId() == null) {
-            $param.lJavaName$.setComId(user.getComId());
-        }
-        $param.lJavaName$.setUpdatedBy(user.getUserId());
-        $param.lJavaName$.setUpdatedTime(new Date());
+        serviceEntityUtil.setAuditFields(moldWarehouseEntryVO, operationEnum);
     }
 
     /**
@@ -132,7 +118,7 @@ public class $param.serviceClzName$ {
             $param.javaName$ voForDel = $param.daoVariable$.selectByPrimaryKey(id);
             Assert.notNull(voForDel, "ID不正确");
             if (voForDel.getReviewUserId() != null) {
-                feedback.add(String.format(ERROR_TEMPLATE, voForDel.get$param.noField$(), "删除", "已经审核"));
+                feedback.add(String.format(OP_ERROR_TEMPLATE, voForDel.get$param.noField$(), "删除", "已经审核"));
                 continue;
             }
             setBaseField(voForDel, OperationEnum.delete);
@@ -142,14 +128,7 @@ public class $param.serviceClzName$ {
     }
 
     private void setChecked($param.javaName$ voForCheck, boolean checked) {
-        if (checked) {
-            //审核人
-            voForCheck.setReviewUserId(getUser().getUserId());
-            voForCheck.setReviewTime(new Date());
-        } else {
-            voForCheck.setReviewUserId(null);
-            voForCheck.setReviewTime(null);
-        }
+        serviceEntityUtil.setVerifiyFields(voForCheck, checked);
         setBaseField(voForCheck, OperationEnum.update);
         $param.daoVariable$.updateByPrimaryKey(voForCheck);
     }
@@ -167,14 +146,13 @@ public class $param.serviceClzName$ {
 
             boolean checked = voForCheck.getReviewUserId() != null;
             if (audit && checked) {
-                msgList.add(String.format(ERROR_TEMPLATE, voForCheck.get$param.noField$(), "审核", "已经是审核状态"));
+                msgList.add(String.format(OP_ERROR_TEMPLATE, voForCheck.get$param.noField$(), "审核", "已经是审核状态"));
                 continue;
             } else if (!audit & !checked) {
-                msgList.add(String.format(ERROR_TEMPLATE, voForCheck.get$param.noField$(), "撤审", "不是审核状态"));
+                msgList.add(String.format(OP_ERROR_TEMPLATE, voForCheck.get$param.noField$(), "撤审", "不是审核状态"));
                 continue;
             }
             setChecked(voForCheck, audit);
-            msgList.add(String.format(SUCCESS_TEMPLATE, voForCheck.get$param.noField$(), audit ? "审核" : "撤审"));
         }
         return msgList;
     }

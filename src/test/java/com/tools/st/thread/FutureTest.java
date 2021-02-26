@@ -1,4 +1,4 @@
-package com.tools.st;
+package com.tools.st.thread;
 
 import lombok.Data;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.concurrent.*;
 
 @Slf4j
-public class ThreadTest {
+public class FutureTest {
 
     @Data
     static class MyThread extends Thread {
