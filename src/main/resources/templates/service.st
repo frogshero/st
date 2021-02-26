@@ -127,7 +127,7 @@ public class $param.serviceClzName$ {
         return feedback;
     }
 
-    private void setChecked($param.javaName$ voForCheck, boolean checked) {
+    private void setEntityChecked($param.javaName$ voForCheck, boolean checked) {
         serviceEntityUtil.setVerifiyFields(voForCheck, checked);
         setBaseField(voForCheck, OperationEnum.update);
         $param.daoVariable$.updateByPrimaryKey(voForCheck);
@@ -152,7 +152,7 @@ public class $param.serviceClzName$ {
                 msgList.add(String.format(OP_ERROR_TEMPLATE, voForCheck.get$param.noField$(), "撤审", "不是审核状态"));
                 continue;
             }
-            setChecked(voForCheck, audit);
+            setEntityChecked(voForCheck, audit);
         }
         return msgList;
     }

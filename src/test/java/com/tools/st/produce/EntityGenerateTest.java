@@ -39,7 +39,7 @@ public class EntityGenerateTest {
         //tabName后面设置
         param.setSchema("dlym_mes");
         param.setHomePackage("com.ymc.mes.mold.warehouse");
-        param.setVoBasePackage("com.ymc.mes.mold.warehouse.common");
+        param.setVoBasePackage("com.ymc.mes.basic.common.model");
         param.setDaoBasePackage("com.ymc.mes.mold.warehouse.common");
 
         param.setDaoPostfix("Dao");
