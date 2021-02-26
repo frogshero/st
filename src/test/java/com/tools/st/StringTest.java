@@ -2,20 +2,27 @@ package com.tools.st;
 
 import com.tools.st.utl.StrUtl;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.util.StringUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//junit4用@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 @Slf4j
 public class StringTest {
 
+  @Order(2)
   @Test
   public void testStr() {
     System.out.println("TABLE_CATALOG".toLowerCase().replaceAll("\\_[a-z]", "$0"));
   }
 
+  @Order(1)
   @Test
   public void testUtil() {
     log.info(StrUtl.getShortName("TABLE_CATALOG"));
@@ -24,6 +31,7 @@ public class StringTest {
     log.info(StrUtl.getObjName("aa_bb_cc"));
   }
 
+  @Order(3)
   @Test
   public void testReg() {
     Pattern pattern = Pattern.compile("\\_[a-zA-Z]");
@@ -36,6 +44,7 @@ public class StringTest {
     log.info(sb.toString());
   }
 
+  @Order(4)
   @Test
   public void testReg3() {
     Pattern pattern = Pattern.compile(".*ID=([a-zA-Z_]*)\\.([a-zA-Z_]*)");
@@ -45,6 +54,7 @@ public class StringTest {
     log.info(matcher.group(2));
   }
 
+  @Order(5)
   @Test
   public void testReg2() {
     Pattern pattern = Pattern.compile("[A-Z]");

@@ -39,7 +39,7 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("新增$param.entityChinese$")
     @PostMapping("/insert")
-    public Result insert(@RequestBody $param.entityRequestClz$ request) {
+    public Result<Long> insert(@RequestBody $param.entityRequestClz$ request) {
         return successResult($param.serviceVariable$.insert(request));
     }
 
@@ -52,10 +52,10 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("删除$param.entityChinese$")
     @PostMapping("/delete")
-    public Result deleteAbnormalTable(@RequestBody CommonBatchRequest commonBatchRequest) {
+    public Result<List<String>> delete(@RequestBody CommonBatchRequest commonBatchRequest) {
         List<String> feedback = $param.serviceVariable$.deleteTableByIds(commonBatchRequest.getIds());
         if (feedback.size() > 0) {
-            return new Result(RT_ERROR_DELETE, "删除失败", feedback);
+            return new Result(RT_ERROR_DELETE, "部分操作未能成功", feedback);
         } else {
             return successResult(null);
         }
@@ -63,22 +63,22 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("审核$param.entityChinese$")
     @PostMapping("/review")
-    public Result review(@RequestBody CommonBatchRequest commonBatchRequest) {
+    public Result<List<String>> review(@RequestBody CommonBatchRequest commonBatchRequest) {
         return auditOrCancelAudit(commonBatchRequest, true);
     }
 
-    private Result auditOrCancelAudit(CommonBatchRequest commonBatchRequest, boolean audit) {
+    private Result<List<String>> auditOrCancelAudit(CommonBatchRequest commonBatchRequest, boolean audit) {
         List<String> msg = $param.serviceVariable$.checkOrUncheck(commonBatchRequest.getIds(), audit);
         if (msg.size() == 0) {
             return successResult(null);
         } else {
-            return new Result("1", "", msg);
+            return new Result("-1", "部分操作未能成功", msg);
         }
     }
 
     @ApiOperation("撤审$param.entityChinese$")
     @PostMapping("/cancelReview")
-    public Result cancelReview(@RequestBody CommonBatchRequest commonBatchRequest) {
+    public Result<List<String>> cancelReview(@RequestBody CommonBatchRequest commonBatchRequest) {
         return auditOrCancelAudit(commonBatchRequest, false);
     }
 
