@@ -61,7 +61,9 @@ public class EntityGenerateTest {
     @Test
     public void generateAll() throws IOException {
         List<String> tables = Lists.newArrayList(
-                "mold_warehouse_entry"
+                "kq_user_data",
+                "ym_kq_collection_config",
+                "ym_kq_collection_log"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');

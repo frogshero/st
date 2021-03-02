@@ -147,6 +147,26 @@
 			<artifactId>easyexcel</artifactId>
 			<version>2.2.7</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-client</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+
+		<!-- 用户操作日志组件 -->
+		<dependency>
+			<groupId>io.github.mouzt</groupId>
+			<artifactId>bizlog-sdk</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<!-- 保证定时任务单线执行-->
+		<dependency>
+			<groupId>net.javacrumbs.shedlock</groupId>
+			<artifactId>shedlock-spring</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

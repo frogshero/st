@@ -2,19 +2,41 @@ package com.tools.st;
 
 import com.tools.st.utl.StrUtl;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 //junit4用@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 @Slf4j
 public class StringTest {
+
+  @Test
+  public void testJoin() {
+    List<String> list = Lists.newArrayList("xx", "aa", "cc");
+    log.info(list.stream().collect(Collectors.joining(",")));
+
+    StringJoiner sj = new StringJoiner(":", "[", "]");
+    sj.add("George").add("Sally").add("Fred");
+    log.info(sj.toString());
+  }
+
+  @Test
+  public void testFormat() {
+    log.info(String.format("%05d", "11"));
+    log.info(String.format("%05d", 1));
+    log.info(String.format("%05d", 11111));
+    log.info(String.format("%05d", 111111));
+  }
 
   @Order(2)
   @Test

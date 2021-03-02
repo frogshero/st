@@ -22,5 +22,4 @@ public class TableInfoService implements TableInfoInterface {
     return tableInfoDao.getAllTables("jx_mes");
   }
 
-
 }

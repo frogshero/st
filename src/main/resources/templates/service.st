@@ -67,15 +67,13 @@ public class $param.serviceClzName$ {
         return returnMap;
     }
 
-    /**
-     * 插入
-     * @param request
-     */
-    @Transactional(rollbackFor = Exception.class)
-    public Long insert($param.entityRequestClz$ request) {
+    private Long doInsert($param.entityRequestClz$ request) {
         $param.javaName$ $param.lJavaName$ = new $param.javaName$();
         BeanUtils.copyProperties(request, $param.lJavaName$);
 
+//      if (request.getReviewUserId() == null) {
+//                CommonException.tipMessage(String.format(OP_ERROR_TEMPLATE, $param.lJavaName$.get$param.noField$(), "保存失败", "reviewUsreId不能为空"));
+//      }
         if ($param.lJavaName$.get$param.noField$() == null) {
             String no = sysCodeService.findCode("$param.lJavaName$", getUser().getComId());
             $param.lJavaName$.set$param.noField$(no);
@@ -86,11 +84,15 @@ public class $param.serviceClzName$ {
     }
 
     /**
-     * 更新
+     * 插入
      * @param request
      */
     @Transactional(rollbackFor = Exception.class)
-    public void update($param.entityRequestClz$ request) {
+    public Long insert($param.entityRequestClz$ request) {
+        return doInsert(request);
+    }
+
+    private void doUpdate($param.entityRequestClz$ request) {
         Assert.notNull(request.getId(), "id不能为空");
         $param.javaName$ $param.lJavaName$ = $param.daoVariable$.selectByPrimaryKey(request.getId());
         Assert.notNull($param.lJavaName$, "id不正确");
@@ -101,6 +103,15 @@ public class $param.serviceClzName$ {
         BeanUtils.copyProperties(request, $param.lJavaName$);
         setBaseField($param.lJavaName$, OperationEnum.update);
         $param.daoVariable$.updateByPrimaryKey($param.lJavaName$);
+    }
+
+    /**
+     * 更新
+     * @param request
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void update($param.entityRequestClz$ request) {
+        doUpdate(request);
     }
 
     private void setBaseField($param.javaName$ $param.lJavaName$, OperationEnum operationEnum) {
