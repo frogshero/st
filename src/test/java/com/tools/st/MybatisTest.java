@@ -17,15 +17,16 @@ import java.util.List;
 public class MybatisTest {
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
+
     //Mybatis批处理,拼接sql的方式不好
     @Transactional
     public void add(List<DbTableConfig> itemList) {
         //ExecutorType.BATCH
-        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH,false);
+        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         DbTableConfigDao mapper = session.getMapper(DbTableConfigDao.class);
         for (int i = 0; i < itemList.size(); i++) {
             mapper.insert(itemList.get(i));
-            if(i%1000==499){//每500条提交一次防止内存溢出
+            if (i % 1000 == 499) {//每500条提交一次防止内存溢出
                 session.commit();
                 session.clearCache();
             }

@@ -41,6 +41,16 @@ myxml(tab, cols, keyCol, param, keyFields) ::= <<
   values ($cols:{col|$if(!col.key)$#{$col.javaName$, jdbcType=$dbToJdbcType.(col.type)$\}$endif$}; wrap, anchor, separator=", "$)
 </insert>
 
+<insert id="insertSelective" parameterType="$param.entityClzFullName$" useGeneratedKeys="true" keyProperty="id">
+    insert into $tab.tableName$
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        $cols:{col|<if test="$col.javaName$ != null">$col.name$,</if>}; separator="\n"$
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+        $cols:{col|<if test="$col.javaName$ != null">#{$col.javaName$,jdbcType=$dbToJdbcType.(col.type)$\},</if>}; separator="\n"$
+    </trim>
+</insert>
+
 <update id="updateByPrimaryKey" parameterType="$param.entityClzFullName$">
   update $tab.tableName$
   set $cols:{col|$if(!col.key)$`$col.name$`=#{$col.javaName$, jdbcType=$dbToJdbcType.(col.type)$\}$endif$}; wrap, anchor, separator=", "$

@@ -13,6 +13,8 @@ $if(!param.daoBase)$
 
 	int insert($param.javaName$ record);
 
+    int insertSelective($param.javaName$ record);
+
 	$param.javaName$ selectByPrimaryKey(Long id);
 
 	int updateByPrimaryKey($param.javaName$ record);
