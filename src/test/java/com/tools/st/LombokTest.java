@@ -38,6 +38,7 @@ public class LombokTest {
 
     @Test
     public void testLombok() {
+        TestObj testObj = TestObj.builder().dd(new Date()).ldt(LocalDateTime.now()).build();
         TestObj2 to2 = TestObj2.of(new Date(), LocalDateTime.now());
         TestObj3 to3 = TestObj3.of(TestObj2.of(new Date(), LocalDateTime.now()));
         log.info(to3.getLdt().toString());
