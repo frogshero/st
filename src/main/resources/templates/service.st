@@ -183,7 +183,7 @@ public class $param.serviceClzName$ {
     }
 
     private void batchInsert(List<$param.javaName$> itemList) {
-        //ExecutorType.BATCH
+        //Other update or insert should be before batch insert
         SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
         $param.javaName$Dao mapper = session.getMapper($param.javaName$Dao.class);
         for (int i = 0; i < itemList.size(); i++) {
