@@ -48,8 +48,17 @@ public class ControllerTest {
         return LocalDateTime.now();
     }
 
-//    @GetMapping("/aa")
-//    public String aa() {
-//        return intf.testAspect();
-//    }
+    //-XX:+PrintGC
+    @GetMapping("/gc")
+    public void aa() throws InterruptedException {
+//        new Thread(
+//            () -> {
+                if (true) {
+                    byte[] placeHolder = new byte[64 * 1024 * 1024];
+                    System.out.println(placeHolder.length / 1024);
+                }
+                System.gc();
+//            }
+//        ).start();
+    }
 }

@@ -46,6 +46,9 @@ public class $param.serviceClzName$ {
     @Autowired
     ExportFileService exportFileService;
 
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
+
     private String OP_ERROR_TEMPLATE = "$param.entityChinese$【%s】%s失败, 原因：%s";
     private String OP_SUCCESS_TEMPLATE = "$param.entityChinese$【%s】%s成功";
 
@@ -94,12 +97,14 @@ public class $param.serviceClzName$ {
 
     private void doUpdate($param.entityRequestClz$ request) {
         Assert.notNull(request.getId(), "id不能为空");
-        $param.javaName$ $param.lJavaName$ = $param.daoVariable$.selectByPrimaryKey(request.getId());
-        Assert.notNull($param.lJavaName$, "id不正确");
-        if ($param.lJavaName$.getReviewUserId() != null) {
-            throw CommonException.tipMessage(String.format(OP_ERROR_TEMPLATE, $param.lJavaName$.get$param.noField$(), "修改", "已经审核"));
+        $param.javaName$ entityInDB = $param.daoVariable$.selectByPrimaryKey(request.getId());
+        Assert.notNull(entityInDB, "id不正确");
+        if (entityInDB.getReviewUserId() != null) {
+            throw CommonException.tipMessage(String.format(OP_ERROR_TEMPLATE, entityInDB.get$param.noField$(), "修改", "已经审核"));
         }
 
+        $param.javaName$ $param.lJavaName$ = new $param.javaName$();
+        BeanUtils.copyProperties(entityInDB, $param.lJavaName$);
         BeanUtils.copyProperties(request, $param.lJavaName$);
         setBaseField($param.lJavaName$, OperationEnum.update);
         $param.daoVariable$.updateByPrimaryKey($param.lJavaName$);
@@ -175,6 +180,21 @@ public class $param.serviceClzName$ {
         }
         ExportFileParam exportFileParam = new ExportFileParam("$param.lJavaName$", "$param.entityChinese$", dataList);
         return exportFileService.exportByModel(exportFileParam);
+    }
+
+    private void batchInsert(List<$param.javaName$> itemList) {
+        //ExecutorType.BATCH
+        SqlSession session = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+        $param.javaName$Dao mapper = session.getMapper($param.javaName$Dao.class);
+        for (int i = 0; i < itemList.size(); i++) {
+            mapper.insert(itemList.get(i));
+            if (i % 500 == 499) {
+                session.commit();
+                session.clearCache();
+            }
+        }
+        session.commit();
+        session.clearCache();
     }
 }
 >>
