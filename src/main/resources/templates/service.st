@@ -188,7 +188,7 @@ public class $param.serviceClzName$ {
         $param.javaName$Dao mapper = session.getMapper($param.javaName$Dao.class);
         for (int i = 0; i < itemList.size(); i++) {
             mapper.insert(itemList.get(i));
-            if (i % 500 == 499) {
+            if (i % 1000 == 999) {
                 session.commit();
                 session.clearCache();
             }
