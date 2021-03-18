@@ -12,6 +12,9 @@ import com.ymc.mes.mold.export.ExportFileParam;
 import com.ymc.mes.mold.export.ExportFileService;
 import com.ymc.mes.basic.common.model.FileVo;
 
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,6 +71,11 @@ public class $param.serviceClzName$ {
         returnMap.put("tableList", moldList);
         returnMap.put("titleList", titleList);
         return returnMap;
+    }
+
+    public $param.entityRequestClz$ findOne(Long id) {
+        $param.entityRequestClz$ vo = $param.daoVariable$.selectByPrimaryKey(id);
+        return vo == null || !vo.getEnableflg().equals(1) ? null : vo;
     }
 
     private Long doInsert($param.entityRequestClz$ request) {

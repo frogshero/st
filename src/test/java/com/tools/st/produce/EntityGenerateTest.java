@@ -37,10 +37,11 @@ public class EntityGenerateTest {
     private MybatisCreateParam getBasicParam() {
         MybatisCreateParam param = new MybatisCreateParam();
         //tabName后面设置
-        param.setSchema("dlym_mes");
-        param.setHomePackage("com.ymc.mes.mold.warehouse");
+//        param.setSchema("dlym_mes");
+        param.setSchema("jx_mes");
+        param.setHomePackage("com.ymc.mes.mold.bom");
         param.setVoBasePackage("com.ymc.mes.basic.common.model");
-        param.setDaoBasePackage("com.ymc.mes.mold.warehouse.common");
+        param.setDaoBasePackage("com.ymc.mes.basic.common.dao");
 
         param.setDaoPostfix("Dao");
         param.setVoPostfix("VO");
@@ -48,11 +49,11 @@ public class EntityGenerateTest {
 //        param.setDaoBase("GenericDao");
 
         //for service,controller
-        param.setNoField("WarehouseEntryNo");
-        param.setEntityChinese("入库单");
-        param.setRequestMapping("/mold/warehouse/entry");
+        param.setNoField("materialId");
+        param.setEntityChinese("领用材料");
+        param.setRequestMapping("/mold/craft/obtain");
 
-//        param.getIgnoreList().addAll(Lists.newArrayList("created_by", "updated_by", "enableflg", "created_time", "updated_time",
+        param.getAuditFields().addAll(Lists.newArrayList("created_by", "updated_by", "enableflg", "created_time", "updated_time"));
 //                "remark", "remark1", "remark2", "remark3", "remark4", "remark5",
 //                "remark6", "remark7", "remark8", "remark9", "remark10"));
         return param;
@@ -61,7 +62,7 @@ public class EntityGenerateTest {
     @Test
     public void generateAll() throws IOException {
         List<String> tables = Lists.newArrayList(
-                "ym_kq_collection_config"
+                "mold_bom_material_cost"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
@@ -163,7 +164,7 @@ public class EntityGenerateTest {
 
     private void produceEntity(STGroup group, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {
         List<ColumnInfo> cols = Lists.newArrayList(columns);
-        cols.removeIf(e -> param.getIgnoreList().indexOf(e.getName()) >= 0);
+//        cols.removeIf(e -> param.getIgnoreList().indexOf(e.getName()) >= 0);
 
         Set<String> imports = Sets.newHashSet();
         for (ColumnInfo col : cols) {

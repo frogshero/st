@@ -43,7 +43,7 @@ public class MybatisCreateParam {
     private String serviceClzName;
     private String controllerClzName;
 
-    private List<String> ignoreList = Lists.newArrayList();
+    private List<String> auditFields = Lists.newArrayList();
     private String servicePackage;
     private String controllerPackage;
     private String entityChinese;
@@ -55,6 +55,10 @@ public class MybatisCreateParam {
     private String listRequestClz;
     private String listRequestVariable;
     private String entityClzFullName;
+
+    public boolean isAuditField(String name) {
+        return auditFields.indexOf(name) >= 0;
+    }
 
     public void init() {
         modelPackage = homePackage + ".model";

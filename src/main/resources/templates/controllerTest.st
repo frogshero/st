@@ -21,12 +21,14 @@ import static org.junit.Assert.*;
 
 @Slf4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class $param.controllerClzName$Test extends BaseTest {
 
-    private Long newId = 0L;
+    private static Long newId = 0L;
     private Long entryId = 47L;
     private Long newEntryId = 48L;
 
+    @Order(1)
     @Test
     public void a_insert() throws URISyntaxException {
         $param.entityRequestClz$ vo = new $param.entityRequestClz$();
@@ -42,6 +44,12 @@ public class $param.controllerClzName$Test extends BaseTest {
         newId = ((Integer)ret.getData()).longValue();
     }
 
+    public $param.entityRequestClz$ getOne() throws URISyntaxException {
+        Result<MoldBomMaterialCost> ret2 = get("$param.requestMapping$/find/" + newId, new ParameterizedTypeReference<Result<$param.entityRequestClz$>>(){});
+        return ret2.getData();
+    }
+
+    @Order(2)
     @Test
     public void b_update() throws URISyntaxException {
         $param.entityRequestClz$ vo = new $param.entityRequestClz$();
@@ -54,10 +62,16 @@ public class $param.controllerClzName$Test extends BaseTest {
         vo.setWarehouseId(1L);
         vo.setEnableflg(1);
         vo.setRemarks("reeeeee");
-        Result ret = post("$param.requestMapping$/update", vo);
+
+        Integer quantity = Integer.parseInt(RandomStringUtils.randomNumeric(2));
+        vo.setQuantity(quantity);
+        Result ret = put("$param.requestMapping$/update", vo);
         log.info(ret.getCode());
+
+        Assertions.assertEquals(getOne().getQuantity(), quantity);
     }
 
+    @Order(3)
     @Test
     public void c_review() throws URISyntaxException {
         CommonBatchRequest vo = new CommonBatchRequest();
@@ -66,6 +80,7 @@ public class $param.controllerClzName$Test extends BaseTest {
         log.info(ret.getCode());
     }
 
+    @Order(4)
     @Test
     public void d_cancelReview() throws URISyntaxException {
         CommonBatchRequest vo = new CommonBatchRequest();
@@ -74,15 +89,18 @@ public class $param.controllerClzName$Test extends BaseTest {
         log.info(ret.getCode());
     }
 
+    @Order(5)
     @Test
     public void e_delete() throws URISyntaxException {
         CommonBatchRequest vo = new CommonBatchRequest();
         vo.setIds(Lists.newArrayList(newId));
         Result ret = post("$param.requestMapping$/delete", vo);
         log.info(ret.getCode());
+
+        Assertions.assertNull(getOne());
     }
 
-
+    @Order(6)
     @Test
     public void f_findList() throws URISyntaxException {
         List<NameValuePair> params = Lists.newArrayList(
@@ -90,8 +108,12 @@ public class $param.controllerClzName$Test extends BaseTest {
                 );
         Result ret = get("$param.requestMapping$/findList", params);
         log.info(ret.getCode());
+
+//        Assertions.assertTrue(((List)((Map)ret.getData()).get("titleList")).size() > 0);
+        Assertions.assertTrue(((List)((Map)ret.getData()).get("tableList")).size() > 0);
     }
 
+    @Order(7)
     @Test
     public void g_exportExcel() throws URISyntaxException {
         List<NameValuePair> params = Lists.newArrayList(

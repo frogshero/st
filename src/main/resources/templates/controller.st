@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.lang.Nullable;
 import java.util.List;
 
 import com.ymc.mes.basic.common.model.CommonBatchRequest;
@@ -19,6 +19,8 @@ import $param.modelPackage$.$param.javaName$;
 import $param.modelPackage$.$param.listRequestClz$;
 import $param.modelPackage$.$param.entityRequestClz$;
 import com.ymc.mes.basic.common.model.FileVo;
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("$param.requestMapping$")
@@ -37,6 +39,12 @@ public class $param.controllerClzName$ extends BaseController {
         return successResult($param.serviceVariable$.findList(request, tableId), page.getTotal());
     }
 
+    @ApiOperation("查询单个$param.entityChinese$")
+    @GetMapping("/find/{id}")
+    public Result<MoldBomMaterialCost> findOne(@PathVariable Long id) {
+        return successResult($param.serviceVariable$.findOne(id));
+    }
+
     @ApiOperation("新增$param.entityChinese$")
     @PostMapping("/insert")
     public Result<Long> insert(@RequestBody @Valid $param.entityRequestClz$ request) {
@@ -44,7 +52,7 @@ public class $param.controllerClzName$ extends BaseController {
     }
 
     @ApiOperation("更新$param.entityChinese$")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public Result update(@RequestBody @Valid $param.entityRequestClz$ request) {
         $param.serviceVariable$.update(request);
         return successResult(null);
@@ -52,7 +60,7 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("删除$param.entityChinese$")
     @PostMapping("/delete")
-    public Result<List<String>> delete(@RequestBody CommonBatchRequest commonBatchRequest) {
+    public Result<List<String\>> delete(@RequestBody CommonBatchRequest commonBatchRequest) {
         List<String> feedback = $param.serviceVariable$.deleteTableByIds(commonBatchRequest.getIds());
         if (feedback.size() > 0) {
             return new Result(ERROR, "部分操作未能成功", feedback);
@@ -63,11 +71,11 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("审核$param.entityChinese$")
     @PostMapping("/review")
-    public Result<List<String>> review(@RequestBody CommonBatchRequest commonBatchRequest) {
+    public Result<List<String\>> review(@RequestBody CommonBatchRequest commonBatchRequest) {
         return auditOrCancelAudit(commonBatchRequest, true);
     }
 
-    private Result<List<String>> auditOrCancelAudit(CommonBatchRequest commonBatchRequest, boolean audit) {
+    private Result<List<String\>> auditOrCancelAudit(CommonBatchRequest commonBatchRequest, boolean audit) {
         List<String> msg = $param.serviceVariable$.checkOrUncheck(commonBatchRequest.getIds(), audit);
         if (msg.size() == 0) {
             return successResult(null);
@@ -78,7 +86,7 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("撤审$param.entityChinese$")
     @PostMapping("/cancelReview")
-    public Result<List<String>> cancelReview(@RequestBody CommonBatchRequest commonBatchRequest) {
+    public Result<List<String\>> cancelReview(@RequestBody CommonBatchRequest commonBatchRequest) {
         return auditOrCancelAudit(commonBatchRequest, false);
     }
 

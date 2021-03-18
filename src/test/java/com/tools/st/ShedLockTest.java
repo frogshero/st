@@ -8,7 +8,7 @@ import java.time.Instant;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class LockTest {
+public class ShedLockTest {
     private ExecutorService threadPool = Executors.newFixedThreadPool(10);
     LockingTaskExecutor executor;
 

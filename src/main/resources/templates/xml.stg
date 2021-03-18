@@ -53,7 +53,9 @@ myxml(tab, cols, keyCol, param, keyFields) ::= <<
 
 <update id="updateByPrimaryKey" parameterType="$param.entityClzFullName$">
   update $tab.tableName$
-  set $cols:{col|$if(!col.key)$`$col.name$`=#{$col.javaName$, jdbcType=$dbToJdbcType.(col.type)$\}$endif$}; wrap, anchor, separator=", "$
+  set <trim suffixOverrides=",">
+        $cols:{col|$if(!col.key)$<if test="$col.javaName$ != null">`$col.name$`=#{$col.javaName$, jdbcType=$dbToJdbcType.(col.type)$\},</if>$endif$}; wrap, anchor, separator="\n"$
+      </trim>
   where $keyCol.name$ = #{$keyCol.javaName$,jdbcType=$dbToJdbcType.(keyCol.type)$}
 </update>
 
