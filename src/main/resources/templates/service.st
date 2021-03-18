@@ -7,10 +7,13 @@ import com.ymc.mes.basic.system.model.CmmSysUserVO;
 import com.ymc.mes.basic.system.model.SysComTableConfigVO;
 import com.ymc.mes.basic.system.service.SysComTableConfigService;
 import com.ymc.mes.basic.system.service.SysUserService;
-import com.ymc.mes.basic.common.model.OperationEnum;
-import com.ymc.mes.mold.export.ExportFileParam;
-import com.ymc.mes.mold.export.ExportFileService;
+import com.ymc.mes.basic.common.OperationEnum;
+import com.ymc.mes.basic.common.model.ExportFileParam;
+import com.ymc.mes.basic.common.service.ExportFileService;
+import com.ymc.mes.basic.common.service.ServiceEntityUtil;
 import com.ymc.mes.basic.common.model.FileVo;
+import com.ymc.mes.common.service.BaseService;
+import com.ymc.mes.exception.CommonException;
 
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -29,14 +32,12 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.ymc.mes.basic.common.model.CommonBatchRequest;
-import $param.modelPackage$.$param.javaName$;
+import $param.entityClzFullName$;
 import $param.daoClzFullName$;
 import $param.voClzFullName$;
-import $param.modelPackage$.$param.listRequestClz$;
-import $param.modelPackage$.$param.entityRequestClz$;
 
 @Service
-public class $param.serviceClzName$ {
+public class $param.serviceClzName$ extends BaseService {
 
     @Autowired
     private $param.daoClzName$ $param.daoVariable$;
@@ -48,6 +49,8 @@ public class $param.serviceClzName$ {
     SysCodeService sysCodeService;
     @Autowired
     ExportFileService exportFileService;
+    @Autowired
+    ServiceEntityUtil serviceEntityUtil;
 
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
@@ -56,29 +59,32 @@ public class $param.serviceClzName$ {
     private String OP_SUCCESS_TEMPLATE = "$param.entityChinese$【%s】%s成功";
 
     private CmmSysUserVO getUser() {
-         return sysUserService.getUser();
+         return sysUserService.getLoginUser();
     }
 
     /**
      * 查询列表
      * @return
      */
-    public Map<String, Object> findList($param.listRequestClz$ request, String tableId) {
-        Map<String, Object> returnMap = new HashMap<>();
-        List<$param.voClzName$> moldList = $param.daoVariable$.findList(request);
+    public Map<String, Object> findList($param.javaName$ request, String tableId) {
+        //Map<String, Object> returnMap = new HashMap<>();
+        List<$param.voClzName$> dataList = $param.daoVariable$.findList(request);
+        /*
         List<SysComTableConfigVO> titleList = sysComTableConfigService.getTableConfig(getUser().getComId(),
             StringUtils.isBlank(tableId) ? "$param.lJavaName$" : tableId);
-        returnMap.put("tableList", moldList);
+        returnMap.put("tableList", dataList);
         returnMap.put("titleList", titleList);
         return returnMap;
+        */
+        return getComTableConfig(dataList, StringUtils.isBlank(tableId) ? "$param.lJavaName$" : tableId);
     }
 
-    public $param.entityRequestClz$ findOne(Long id) {
-        $param.entityRequestClz$ vo = $param.daoVariable$.selectByPrimaryKey(id);
+    public $param.javaName$ findOne(Long id) {
+        $param.javaName$ vo = $param.daoVariable$.selectByPrimaryKey(id);
         return vo == null || !vo.getEnableflg().equals(1) ? null : vo;
     }
 
-    private Long doInsert($param.entityRequestClz$ request) {
+    private Long doInsert($param.javaName$ request) {
         $param.javaName$ $param.lJavaName$ = new $param.javaName$();
         BeanUtils.copyProperties(request, $param.lJavaName$);
 
@@ -89,9 +95,9 @@ public class $param.serviceClzName$ {
             String no = sysCodeService.findCode("$param.lJavaName$", getUser().getComId());
             $param.lJavaName$.set$param.noField$(no);
         }
-        setBaseField($param.lJavaName$, OperationEnum.insert);
-        $param.daoVariable$.insert($param.lJavaName$);
-        return $param.lJavaName$.getId();
+        setBaseField(request, OperationEnum.insert);
+        $param.daoVariable$.insert(request);
+        return request.getId();
     }
 
     /**
@@ -99,11 +105,11 @@ public class $param.serviceClzName$ {
      * @param request
      */
     @Transactional(rollbackFor = Exception.class)
-    public Long insert($param.entityRequestClz$ request) {
+    public Long insert($param.javaName$ request) {
         return doInsert(request);
     }
 
-    private void doUpdate($param.entityRequestClz$ request) {
+    private void doUpdate($param.javaName$ request) {
         Assert.notNull(request.getId(), "id不能为空");
         $param.javaName$ entityInDB = $param.daoVariable$.selectByPrimaryKey(request.getId());
         Assert.notNull(entityInDB, "id不正确");
@@ -111,11 +117,8 @@ public class $param.serviceClzName$ {
             throw CommonException.tipMessage(String.format(OP_ERROR_TEMPLATE, entityInDB.get$param.noField$(), "修改", "已经审核"));
         }
 
-        $param.javaName$ $param.lJavaName$ = new $param.javaName$();
-        BeanUtils.copyProperties(entityInDB, $param.lJavaName$);
-        BeanUtils.copyProperties(request, $param.lJavaName$);
-        setBaseField($param.lJavaName$, OperationEnum.update);
-        $param.daoVariable$.updateByPrimaryKey($param.lJavaName$);
+        setBaseField(request, OperationEnum.update);
+        $param.daoVariable$.updateByPrimaryKey(request);
     }
 
     /**
@@ -123,12 +126,12 @@ public class $param.serviceClzName$ {
      * @param request
      */
     @Transactional(rollbackFor = Exception.class)
-    public void update($param.entityRequestClz$ request) {
+    public void update($param.javaName$ request) {
         doUpdate(request);
     }
 
     private void setBaseField($param.javaName$ $param.lJavaName$, OperationEnum operationEnum) {
-        serviceEntityUtil.setAuditFields(moldWarehouseEntryVO, operationEnum);
+        serviceEntityUtil.setAuditFields($param.lJavaName$, operationEnum);
     }
 
     /**
@@ -181,7 +184,7 @@ public class $param.serviceClzName$ {
         return msgList;
     }
 
-    public FileVo exportExcel($param.listRequestClz$ request) {
+    public FileVo exportExcel($param.javaName$ request) {
         List<$param.voClzName$> dataList = $param.daoVariable$.findList(request);
         if (dataList.size() == 0) {
             return new FileVo("", "");

@@ -49,7 +49,7 @@ public class EntityGenerateTest {
 //        param.setDaoBase("GenericDao");
 
         //for service,controller
-        param.setNoField("materialId");
+        param.setNoField("MaterialId");
         param.setEntityChinese("领用材料");
         param.setRequestMapping("/mold/craft/obtain");
 
@@ -189,19 +189,6 @@ public class EntityGenerateTest {
         voEntity.add("baseClzName", param.getJavaName());
         voEntity.add("modelPackage", param.getModelPackage());
         FileUtl.writeStrToFile(voEntity.render(), outDir + "\\model\\" + param.getVoClzName() + ".java");
-
-        voEntity = group.getInstanceOf("entityVO");
-        voEntity.add("comment", tableInfo.getTableComment() + "的插入和修改参数");
-        voEntity.add("clzName", param.getEntityRequestClz());
-        voEntity.add("modelPackage", param.getModelPackage());
-        voEntity.add("idField", true);
-        FileUtl.writeStrToFile(voEntity.render(), outDir + "\\model\\" + param.getEntityRequestClz() + ".java");
-
-        voEntity = group.getInstanceOf("entityVO");
-        voEntity.add("comment", tableInfo.getTableComment() + "的查询参数");
-        voEntity.add("clzName", param.getListRequestClz());
-        voEntity.add("modelPackage", param.getModelPackage());
-        FileUtl.writeStrToFile(voEntity.render(), outDir + "\\model\\" + param.getListRequestClz() + ".java");
     }
 
     public void produceXmlMapper(STGroup xmlGroup, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {

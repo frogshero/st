@@ -13,11 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.lang.Nullable;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import com.ymc.mes.basic.common.model.CommonBatchRequest;
 import $param.modelPackage$.$param.javaName$;
-import $param.modelPackage$.$param.listRequestClz$;
-import $param.modelPackage$.$param.entityRequestClz$;
 import com.ymc.mes.basic.common.model.FileVo;
 import javax.validation.Valid;
 
@@ -31,12 +30,14 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("查询$param.entityChinese$列表")
     @GetMapping("/findList")
-    public Result<List<$param.voClzName$\>> findList(@ApiParam("过滤参数") $param.listRequestClz$ request,
+    public Result<List<$param.voClzName$\>> findList(@ApiParam("过滤参数") $param.voClzName$ requestVO,
                                    @ApiParam(value = "tableId", required = false) @Nullable @RequestParam("tableId") String tableId,
                                    @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGESIZE) Integer pageSize,
-                                   @RequestParam(value = "pageNum", defaultValue = DEFAULT_PAGENUM) Integer pageNum) {
+                                   @RequestParam(value = "pageNum", defaultValue = DEFAULT_PAGENUM) Integer pageNum,
+                                   HttpServletRequest request) {
         Page<?> page = PageHelper.startPage(pageNum, pageSize, true);
-        return successResult($param.serviceVariable$.findList(request, tableId), page.getTotal());
+        $param.serviceVariable$.setToken(request.getHeader("auth-token"));
+        return successResult($param.serviceVariable$.findList(requestVO, tableId), page.getTotal());
     }
 
     @ApiOperation("查询单个$param.entityChinese$")
@@ -47,13 +48,13 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("新增$param.entityChinese$")
     @PostMapping("/insert")
-    public Result<Long> insert(@RequestBody @Valid $param.entityRequestClz$ request) {
+    public Result<Long> insert(@RequestBody @Valid $param.javaName$ request) {
         return successResult($param.serviceVariable$.insert(request));
     }
 
     @ApiOperation("更新$param.entityChinese$")
     @PutMapping("/update")
-    public Result update(@RequestBody @Valid $param.entityRequestClz$ request) {
+    public Result update(@RequestBody @Valid $param.javaName$ request) {
         $param.serviceVariable$.update(request);
         return successResult(null);
     }
@@ -92,7 +93,7 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("$param.entityChinese$导出Excel")
     @GetMapping("/exportExcel")
-    public Result<FileVo> exportExcel(@ApiParam $param.listRequestClz$ request) {
+    public Result<FileVo> exportExcel(@ApiParam $param.javaName$ request) {
         return successResult($param.serviceVariable$.exportExcel(request));
     }
 }

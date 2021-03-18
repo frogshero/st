@@ -50,10 +50,10 @@ public class MybatisCreateParam {
     private String requestMapping;
     private String serviceClzFullName;
     private String lJavaName;
-    private String entityRequestClz;
-    private String entityRequestVariable;
-    private String listRequestClz;
-    private String listRequestVariable;
+//    private String entityRequestClz;
+//    private String entityRequestVariable;
+//    private String listRequestClz;
+//    private String listRequestVariable;
     private String entityClzFullName;
 
     public boolean isAuditField(String name) {
@@ -89,8 +89,8 @@ public class MybatisCreateParam {
         this.voVariable = StringUtils.uncapitalize(this.voClzName);
         this.daoVariable = StringUtils.uncapitalize(this.daoClzName);
 
-        this.listRequestClz = this.javaName + "Request";
-        this.entityRequestClz = this.javaName + "EditRequest";
+//        this.listRequestClz = this.javaName + "Request";
+//        this.entityRequestClz = this.javaName + "EditRequest";
     }
 
 }

@@ -4,7 +4,6 @@ package $param.daoPackage$;
 $if(param.daoBase)$import $param.daoBaseClzFullName$;$endif$
 import $param.voClzFullName$;
 import $param.modelPackage$.$param.javaName$;
-import $param.modelPackage$.$param.listRequestClz$;
 import java.util.List;
 
 public interface $param.daoClzName$ $if(param.daoBase)$extends $param.daoBase$<$param.voClzName$, Long>$endif$ {
@@ -20,6 +19,6 @@ $if(!param.daoBase)$
 	int updateByPrimaryKey($param.javaName$ record);
 $endif$
 
-    List<$param.voClzName$> findList($param.listRequestClz$ request);
+    List<$param.voClzName$> findList($param.voClzName$ request);
 }
 >>
