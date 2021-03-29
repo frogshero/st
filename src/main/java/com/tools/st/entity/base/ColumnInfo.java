@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tools.st.utl.StrUtl;
 import com.tools.st.utl.TypeMapping;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 @Setter
 public class ColumnInfo {
@@ -103,5 +104,7 @@ public class ColumnInfo {
         return TypeMapping.valueOf(dataType.toUpperCase()).getImport();
     }
 
-
+    public String getSetter() {
+        return "set" + StringUtils.capitalize(getJavaName());
+    }
 }

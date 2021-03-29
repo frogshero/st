@@ -38,7 +38,8 @@ public class EntityGenerateTest {
         MybatisCreateParam param = new MybatisCreateParam();
         //tabName后面设置
 //        param.setSchema("dlym_mes");
-        param.setSchema("jx_mes");
+//        param.setSchema("jx_mes");
+        param.setSchema("whwt_mes");
         param.setHomePackage("com.ymc.mes.mold.bom");
         param.setVoBasePackage("com.ymc.mes.basic.common.model");
         param.setDaoBasePackage("com.ymc.mes.basic.common.dao");
@@ -46,7 +47,7 @@ public class EntityGenerateTest {
         param.setDaoPostfix("Dao");
         param.setVoPostfix("VO");
 //        param.setVoBase("BaseBusinessVO");
-//        param.setDaoBase("GenericDao");
+////        param.setDaoBase("GenericDao");
 
         //for service,controller
         param.setNoField("MaterialId");
@@ -62,7 +63,7 @@ public class EntityGenerateTest {
     @Test
     public void generateAll() throws IOException {
         List<String> tables = Lists.newArrayList(
-                "mold_bom_material_cost"
+                "base_materiel"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
@@ -126,7 +127,7 @@ public class EntityGenerateTest {
 
         produceController(group, param, outDir);
 
-        produceControllerTest(group, param, outDir);
+        produceControllerTest(group, param, columns, outDir);
     }
 
     @Test
@@ -156,9 +157,13 @@ public class EntityGenerateTest {
         FileUtl.writeStrToFile(stMapper.render(), outDir + "\\controller\\" + param.getJavaName() + "Controller.java");
     }
 
-    private void produceControllerTest(STGroup group, MybatisCreateParam param, String outDir) throws IOException {
+    private void produceControllerTest(STGroup group, MybatisCreateParam param, List<ColumnInfo> columns, String outDir) throws IOException {
         ST stMapper = group.getInstanceOf("controllerTest");
         stMapper.add("param", param);
+
+        List<String> excludeLsit = Lists.newArrayList("id", "com_id", "remark1", "remark2", "remark3", "remark4", "remark5", "remark6", "remark7", "remark8", "remark9", "remark10");
+        List<ColumnInfo> cols = columns.stream().filter(e -> param.getAuditFields().indexOf(e.getName()) < 0 && excludeLsit.indexOf(e.getName())<0).collect(Collectors.toList());
+        stMapper.add("cols", cols);
         FileUtl.writeStrToFile(stMapper.render(), outDir + "\\test\\" + param.getJavaName() + "ControllerTest.java");
     }
 

@@ -1,4 +1,4 @@
-controllerTest(param) ::= <<
+controllerTest(param, cols) ::= <<
 package $param.controllerPackage$;
 
 import com.ymc.mes.basic.common.Result;
@@ -42,6 +42,7 @@ public class $param.controllerClzName$Test extends BaseTest {
     @Test
     public void a_insert() throws URISyntaxException {
         $param.javaName$ vo = new $param.javaName$();
+        $cols:{col|vo.$col.setter$("");}; separator="\n"$
         Result ret = post(URL_ROOT + "/insert", vo);
         log.info(ret.getCode());
         newId = ((Integer)ret.getData()).longValue();
