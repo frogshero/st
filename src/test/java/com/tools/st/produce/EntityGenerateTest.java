@@ -8,6 +8,7 @@ import com.tools.st.entity.base.TableInfo;
 import com.tools.st.mapper.base.TableInfoDao;
 import com.tools.st.utl.FileUtl;
 import com.tools.st.vo.MybatisCreateParam;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

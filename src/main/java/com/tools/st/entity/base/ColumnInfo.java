@@ -4,7 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tools.st.utl.StrUtl;
 import com.tools.st.utl.TypeMapping;
 import lombok.Setter;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Setter
 public class ColumnInfo {
@@ -106,5 +113,26 @@ public class ColumnInfo {
 
     public String getSetter() {
         return "set" + StringUtils.capitalize(getJavaName());
+    }
+
+    public String getRandomSet() {
+        return "set" + StringUtils.capitalize(getJavaName()) + "(" + getRandomVal() + ");";
+    }
+
+    public String getRandomVal() {
+        switch (this.dataType.toUpperCase()) {
+            case "BIGINT":
+            case "INT":
+            case "INTEGER":
+            case "TINYINT":
+            case "SMALLINT":
+                return "RandomUtils.nextInt()";
+            case "TIMESTAMP":
+            case "DATE":
+            case "DATETIME":
+                return "DateUtils.addMinutes(new Date(), RandomUtils.nextInt(0, 100000))";
+            default:
+                return "RandomStringUtils.randomAlphanumeric(5)";
+        }
     }
 }

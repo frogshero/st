@@ -26,6 +26,8 @@ import static org.junit.Assert.*;
 import org.springframework.core.ParameterizedTypeReference;
 import java.util.Map;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 @Slf4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -42,7 +44,7 @@ public class $param.controllerClzName$Test extends BaseTest {
     @Test
     public void a_insert() throws URISyntaxException {
         $param.javaName$ vo = new $param.javaName$();
-        $cols:{col|vo.$col.setter$("");}; separator="\n"$
+        $cols:{col|vo.$col.randomSet$}; separator="\n"$
         Result ret = post(URL_ROOT + "/insert", vo);
         log.info(ret.getCode());
         newId = ((Integer)ret.getData()).longValue();
