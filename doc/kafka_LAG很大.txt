@@ -1,0 +1,52 @@
+代码：
+org.apache.kafka.clients.consumer.ConsumerConfig:
+private static final ConfigDef CONFIG; //默认配置
+CONFIG = new ConfigDef().define(BOOTSTRAP_SERVERS_CONFIG,
+MAX_POLL_INTERVAL_MS_CONFIG默认300秒
+MAX_POLL_RECORDS_CONFIG默认500, 如果一次处理超过1秒，就有可能出问题
+
+GroupRebalanceConfig.rebalanceTimeoutMs设置为MAX_POLL_INTERVAL_MS_CONFIG。MAX_POLL_INTERVAL_MS_CONFIG设置太大导致consumer balancing 太长
+
+KafkaMessageListenerContainer.pollAndInvoke
+
+./kafka-topics.sh --bootstrap-server localhost:9031 --topic mesmodbus --describe  
+./kafka-consumer-groups.sh --bootstrap-server localhost:9031 --group mesmodbus --topic mesmodbus --reset-offsets --to-offset 3 –execute  设置偏移量
+./kafka-consumer-groups.sh --bootstrap-server localhost:9031 --group offsettest --topic offset-test --reset-offsets --to-earliest –execute
+./kafka-consumer-groups.sh --bootstrap-server localhost:9031 --group mesmodbus --topic mesmodbus --reset-offsets --to-latest --execute
+
+./kafka-consumer-groups.sh --bootstrap-server localhost:9031 --group mesmodbus --describe
+Warning: Consumer group 'mesmodbus' is rebalancing.   //????????
+
+GROUP           TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                HOST            CLIENT-ID
+mesmodbus       mesmodbus       0          0               0               0               consumer-mesmodbus-1-336d4cd1-fd8d-4389-ab1b-e4e7664975dd  /127.0.0.1      consumer-mesmodbus-1
+mesmodbus       mesmodbus       1          0               0               0               consumer-mesmodbus-1-336d4cd1-fd8d-4389-ab1b-e4e7664975dd  /127.0.0.1      consumer-mesmodbus-1
+mesmodbus       mesmodbus       2          0               0               0               consumer-mesmodbus-10-7c4699b0-3264-4e54-ad18-e612f66471b7 /127.0.0.1      consumer-mesmodbus-10
+mesmodbus       mesmodbus       3          0               0               0               consumer-mesmodbus-10-7c4699b0-3264-4e54-ad18-e612f66471b7 /127.0.0.1      consumer-mesmodbus-10
+mesmodbus       mesmodbus       20         0               0               0               consumer-mesmodbus-26-d4b52d85-51c6-49e5-93ce-6df9572d3598 /127.0.0.1      consumer-mesmodbus-26
+mesmodbus       mesmodbus       23         79321           83845           4524            consumer-mesmodbus-29-32a0197e-caeb-444b-bb3a-359c2f10cc78 /127.0.0.1      consumer-mesmodbus-29
+mesmodbus       mesmodbus       27         0               0               0               consumer-mesmodbus-5-6f223a9d-ce5c-480a-8774-a0ef52a7260a  /127.0.0.1      consumer-mesmodbus-5
+mesmodbus       mesmodbus       24         83128           83129           1               consumer-mesmodbus-3-28a0407a-bf99-48ef-b896-9c1b5b8d2722  /127.0.0.1      consumer-mesmodbus-3
+mesmodbus       mesmodbus       29         0               0               0               consumer-mesmodbus-7-170c694b-cd93-46cd-b519-94d6ffb8b32a  /127.0.0.1      consumer-mesmodbus-7
+mesmodbus       mesmodbus       30         0               0               0               consumer-mesmodbus-8-a241b908-5037-4627-8676-b7e28c8c5983  /127.0.0.1      consumer-mesmodbus-8
+mesmodbus       mesmodbus       15         0               0               0               consumer-mesmodbus-21-942d6ff9-6d47-4530-8232-9f315c80fa9c /127.0.0.1      consumer-mesmodbus-21
+mesmodbus       mesmodbus       31         0               0               0               consumer-mesmodbus-9-c6bcc7b2-40fb-4da6-b42c-345739c44b9e  /127.0.0.1      consumer-mesmodbus-9
+mesmodbus       mesmodbus       17         0               0               0               consumer-mesmodbus-23-9eb9aa41-15a3-4743-ae5f-a924bdf8dd8c /127.0.0.1      consumer-mesmodbus-23
+mesmodbus       mesmodbus       26         83698           83698           0               consumer-mesmodbus-4-2b939289-e7d5-4559-96fe-048be7500204  /127.0.0.1      consumer-mesmodbus-4
+mesmodbus       mesmodbus       5          0               0               0               consumer-mesmodbus-12-77d6a8f1-abf7-4ba1-8ffd-a7c79fbdcd5c /127.0.0.1      consumer-mesmodbus-12
+mesmodbus       mesmodbus       8          0               0               0               consumer-mesmodbus-15-9a96f288-26f0-4187-a131-ca1242104c6a /127.0.0.1      consumer-mesmodbus-15
+mesmodbus       mesmodbus       18         0               0               0               consumer-mesmodbus-24-c16abadb-27d5-48c1-92a0-75a65a72071b /127.0.0.1      consumer-mesmodbus-24
+mesmodbus       mesmodbus       22         83701           83701           0               consumer-mesmodbus-28-f2162795-2d35-423c-b5a2-603b1d08312c /127.0.0.1      consumer-mesmodbus-28
+mesmodbus       mesmodbus       19         0               0               0               consumer-mesmodbus-25-6f0d7d71-a1f8-48de-8499-4c6331b448bb /127.0.0.1      consumer-mesmodbus-25
+mesmodbus       mesmodbus       10         0               0               0               consumer-mesmodbus-17-ced005e1-fd50-482e-8085-3d44fa86d799 /127.0.0.1      consumer-mesmodbus-17
+mesmodbus       mesmodbus       11         0               0               0               consumer-mesmodbus-18-1eadbdc2-05fc-4eba-a5d6-f1e002c19aef /127.0.0.1      consumer-mesmodbus-18
+mesmodbus       mesmodbus       4          0               0               0               consumer-mesmodbus-11-e12877b8-19f2-4024-b938-442a76440179 /127.0.0.1      consumer-mesmodbus-11
+mesmodbus       mesmodbus       28         0               0               0               consumer-mesmodbus-6-efc0d6d7-8e49-49dc-8a8d-2326fa0acb56  /127.0.0.1      consumer-mesmodbus-6
+mesmodbus       mesmodbus       21         83679           83679           0               consumer-mesmodbus-27-70a178d1-8dfe-4abd-84e1-531c22f08967 /127.0.0.1      consumer-mesmodbus-27
+mesmodbus       mesmodbus       12         0               0               0               consumer-mesmodbus-19-eced2862-0c8c-4916-80cd-c34b46ae079d /127.0.0.1      consumer-mesmodbus-19
+mesmodbus       mesmodbus       13         0               0               0               consumer-mesmodbus-2-1f6940d9-5c04-4b35-8dca-84ec3eb43824  /127.0.0.1      consumer-mesmodbus-2
+mesmodbus       mesmodbus       16         0               0               0               consumer-mesmodbus-22-cfa66c9c-20f8-4182-b3a2-f2c9bc62c9d6 /127.0.0.1      consumer-mesmodbus-22
+mesmodbus       mesmodbus       25         83098           83098           0               consumer-mesmodbus-30-3d33879a-186b-40b4-80dd-ab7c10e17f83 /127.0.0.1      consumer-mesmodbus-30
+mesmodbus       mesmodbus       7          0               0               0               consumer-mesmodbus-14-0f8d1765-6aee-4405-abbd-f8984e28e90d /127.0.0.1      consumer-mesmodbus-14
+mesmodbus       mesmodbus       14         0               0               0               consumer-mesmodbus-20-420a4066-c02d-4400-a05a-a3f0b6881cd1 /127.0.0.1      consumer-mesmodbus-20
+mesmodbus       mesmodbus       9          0               0               0               consumer-mesmodbus-16-ec4fc15c-2b67-426f-80b5-b2e389dc7f96 /127.0.0.1      consumer-mesmodbus-16
+mesmodbus       mesmodbus       6          0               0               0               consumer-mesmodbus-13-eac700f2-5585-434d-b3f3-f8c2c3d8c645 /127.0.0.1      consumer-mesmodbus-13

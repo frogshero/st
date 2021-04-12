@@ -1,0 +1,6 @@
+docker-compose exec web123 sh 交互性的命令行
+docker-compose run --no-deps client flink --help 一次性执行
+
+docker-compose exec kafka kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test
+
+docker-compose exec kafka kafka-console-producer.sh --bootstrap-server localhost:9092 --topic test

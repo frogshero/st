@@ -1,0 +1,113 @@
+ScheduledAnnotationBeanPostProcessor.postProcessAfterInitialization  scheduledTasks
+postProcessAfterInitialization
+
+ScheduledTaskRegistrar scheduleCronTask
+
+CronSequenceGenerator
+
+-----------> DelegatingErrorHandlingRunnable.run
+this.delegate.run();  ==> @Scheduled方法
+
+
+available.awaitNanos(delay);
+take:1102, ScheduledThreadPoolExecutor$DelayedWorkQueue (java.util.concurrent)  -------ScheduledThreadPoolExecutor$DelayedWorkQueue
+take:809, ScheduledThreadPoolExecutor$DelayedWorkQueue (java.util.concurrent)
+getTask:1074, ThreadPoolExecutor (java.util.concurrent)
+runWorker:1134, ThreadPoolExecutor (java.util.concurrent)
+run:624, ThreadPoolExecutor$Worker (java.util.concurrent)
+run:748, Thread (java.lang)
+
+
+schedule:80, ReschedulingRunnable (org.springframework.scheduling.concurrent) --------->
+	@Override
+	public void run() {
+		Date actualExecutionTime = new Date();
+		super.run();                                
+		Date completionTime = new Date();
+		synchronized (this.triggerContextMonitor) {
+			Assert.state(this.scheduledExecutionTime != null, "No scheduled execution");
+			this.triggerContext.update(this.scheduledExecutionTime, actualExecutionTime, completionTime);
+			if (!obtainCurrentFuture().isCancelled()) {
+				schedule();  // 执行完之后才会确定下一次的执行时间，所以上一次没执行完下一次不会开始 this.executor.schedule(this, initialDelay, TimeUnit.MILLISECONDS);
+			}
+		}
+	}
+
+addWorker:904, ThreadPoolExecutor (java.util.concurrent)
+ensurePrestart:1603, ThreadPoolExecutor (java.util.concurrent)
+delayedExecute:334, ScheduledThreadPoolExecutor (java.util.concurrent)
+schedule:533, ScheduledThreadPoolExecutor (java.util.concurrent)
+schedule:80, ReschedulingRunnable (org.springframework.scheduling.concurrent)   -------------------->
+schedule:313, ThreadPoolTaskScheduler (org.springframework.scheduling.concurrent)
+scheduleCronTask:431, ScheduledTaskRegistrar (org.springframework.scheduling.config)
+scheduleTasks:369, ScheduledTaskRegistrar (org.springframework.scheduling.config)
+afterPropertiesSet:349, ScheduledTaskRegistrar (org.springframework.scheduling.config)
+finishRegistration:314, ScheduledAnnotationBeanPostProcessor (org.springframework.scheduling.annotation)
+onApplicationEvent:233, ScheduledAnnotationBeanPostProcessor (org.springframework.scheduling.annotation)
+onApplicationEvent:105, ScheduledAnnotationBeanPostProcessor (org.springframework.scheduling.annotation)
+doInvokeListener:172, SimpleApplicationEventMulticaster (org.springframework.context.event)
+invokeListener:165, SimpleApplicationEventMulticaster (org.springframework.context.event)
+multicastEvent:139, SimpleApplicationEventMulticaster (org.springframework.context.event)
+publishEvent:404, AbstractApplicationContext (org.springframework.context.support)
+publishEvent:361, AbstractApplicationContext (org.springframework.context.support)
+finishRefresh:898, AbstractApplicationContext (org.springframework.context.support)
+refresh:554, AbstractApplicationContext (org.springframework.context.support)
+refresh:143, ServletWebServerApplicationContext (org.springframework.boot.web.servlet.context)
+refresh:758, SpringApplication (org.springframework.boot)
+refresh:750, SpringApplication (org.springframework.boot)
+refreshContext:397, SpringApplication (org.springframework.boot)
+run:315, SpringApplication (org.springframework.boot)
+run:1237, SpringApplication (org.springframework.boot)
+run:1226, SpringApplication (org.springframework.boot)
+main:33, StApplication (com.tools.st)
+
+
+this.executor.schedule(this, initialDelay, TimeUnit.MILLISECONDS);
+schedule:80, ReschedulingRunnable (org.springframework.scheduling.concurrent)
+schedule:313, ThreadPoolTaskScheduler (org.springframework.scheduling.concurrent)
+scheduleCronTask:431, ScheduledTaskRegistrar (org.springframework.scheduling.config)
+scheduleTasks:369, ScheduledTaskRegistrar (org.springframework.scheduling.config)
+afterPropertiesSet:349, ScheduledTaskRegistrar (org.springframework.scheduling.config)
+finishRegistration:314, ScheduledAnnotationBeanPostProcessor (org.springframework.scheduling.annotation)
+onApplicationEvent:233, ScheduledAnnotationBeanPostProcessor (org.springframework.scheduling.annotation)
+onApplicationEvent:105, ScheduledAnnotationBeanPostProcessor (org.springframework.scheduling.annotation)
+doInvokeListener:172, SimpleApplicationEventMulticaster (org.springframework.context.event)
+invokeListener:165, SimpleApplicationEventMulticaster (org.springframework.context.event)
+multicastEvent:139, SimpleApplicationEventMulticaster (org.springframework.context.event)
+publishEvent:404, AbstractApplicationContext (org.springframework.context.support)
+publishEvent:361, AbstractApplicationContext (org.springframework.context.support)
+finishRefresh:898, AbstractApplicationContext (org.springframework.context.support)
+refresh:554, AbstractApplicationContext (org.springframework.context.support)
+refresh:143, ServletWebServerApplicationContext (org.springframework.boot.web.servlet.context)
+refresh:758, SpringApplication (org.springframework.boot)
+refresh:750, SpringApplication (org.springframework.boot)
+refreshContext:397, SpringApplication (org.springframework.boot)
+run:315, SpringApplication (org.springframework.boot)
+run:1237, SpringApplication (org.springframework.boot)
+run:1226, SpringApplication (org.springframework.boot)
+main:33, StApplication (com.tools.st)
+
+
+schedule:74, ReschedulingRunnable (org.springframework.scheduling.concurrent)
+schedule:313, ThreadPoolTaskScheduler (org.springframework.scheduling.concurrent)
+scheduleCronTask:431, ScheduledTaskRegistrar (org.springframework.scheduling.config)
+scheduleTasks:369, ScheduledTaskRegistrar (org.springframework.scheduling.config)
+afterPropertiesSet:349, ScheduledTaskRegistrar (org.springframework.scheduling.config)
+finishRegistration:314, ScheduledAnnotationBeanPostProcessor (org.springframework.scheduling.annotation)
+onApplicationEvent:233, ScheduledAnnotationBeanPostProcessor (org.springframework.scheduling.annotation)
+onApplicationEvent:105, ScheduledAnnotationBeanPostProcessor (org.springframework.scheduling.annotation)
+doInvokeListener:172, SimpleApplicationEventMulticaster (org.springframework.context.event)
+invokeListener:165, SimpleApplicationEventMulticaster (org.springframework.context.event)
+multicastEvent:139, SimpleApplicationEventMulticaster (org.springframework.context.event)
+publishEvent:404, AbstractApplicationContext (org.springframework.context.support)
+publishEvent:361, AbstractApplicationContext (org.springframework.context.support)
+finishRefresh:898, AbstractApplicationContext (org.springframework.context.support)
+refresh:554, AbstractApplicationContext (org.springframework.context.support)
+refresh:143, ServletWebServerApplicationContext (org.springframework.boot.web.servlet.context)
+refresh:758, SpringApplication (org.springframework.boot)
+refresh:750, SpringApplication (org.springframework.boot)
+refreshContext:397, SpringApplication (org.springframework.boot)
+run:315, SpringApplication (org.springframework.boot)
+run:1237, SpringApplication (org.springframework.boot)
+run:1226, SpringApplication (org.springframework.boot)
+main:33, StApplication (com.tools.st)

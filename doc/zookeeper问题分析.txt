@@ -1,0 +1,62 @@
+zoo.cfg: dataDir=/tmp/zookeeper
+dataLogDir：不配置这个日志目录，则事务日志也放在dataDir下
+读取二进制日志内容：
+java -cp /usr/local/zookeeper/lib/zookeeper-3.6.0.jar:/usr/local/zookeeper/lib/zookeeper-jute-3.6.0.jar:/usr/local/zookeeper/lib/slf4j-api-1.7.25.jar:/usr/local/zookeeper/lib/slf4j-log4j12-1.7.25.jar:/usr/local/zookeeper/lib/log4j-1.2.17.jar org.apache.zookeeper.server.LogFormatter /tmp/zookeeper/version-2/log.1
+
+可以发现这个zookeeper主要就是被dubbo用作服务发现
+
+ZooKeeper Transactional Log File with dbid 0 txnlog format version 2
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.server.ZooKeeperServer).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+3/8/21 10:59:47 AM CST session 0x100430932a70000 cxid 0x0 zxid 0x1 createSession 30000
+ 2,1371985504
+
+3/8/21 10:59:47 AM CST session 0x100430932a70000 cxid 0x4 zxid 0x2 create '/dubbo,,v{s{31,s{'world,'anyone}}},F,1
+ 2,4227542075
+
+3/8/21 10:59:47 AM CST session 0x100430932a70000 cxid 0x5 zxid 0x3 create '/dubbo/com.ymc.mes.common.service.basic.OrgServiceI,,v{s{31,s{'world,'anyone}}},F,1
+ 2,7337459508
+
+3/8/21 10:59:47 AM CST session 0x100430932a70000 cxid 0x6 zxid 0x4 create '/dubbo/com.ymc.mes.common.service.basic.OrgServiceI/providers,,v{s{31,s{'world,'anyone}}},F,1
+ 2,10263361460
+
+3/8/21 10:59:47 AM CST session 0x100430932a70000 cxid 0x7 zxid 0x5 create '/dubbo/com.ymc.mes.common.service.basic.OrgServiceI/providers/dubbo%253A%252F%252F192.168.20.4%253A20881%252Fcom.ymc.mes.common.service.basic.OrgServiceI%253Fanyhost%253Dtrue%2526application%253Dmesbasic%2526dubbo%253D2.6.0%2526generic%253Dfalse%2526interface%253Dcom.ymc.mes.common.service.basic.OrgServiceI%2526methods%253DfindComList%2526pid%253D25515%2526revision%253D0.0.1-SNAPSHOT%2526side%253Dprovider%2526timestamp%253D1615172377354,,v{s{31,s{'world,'anyone}}},T,1
+ 2,11842535477
+
+3/8/21 10:59:47 AM CST session 0x100430932a70000 cxid 0x9 zxid 0x6 create '/dubbo/com.ymc.mes.common.service.basic.OrgServiceI/configurators,,v{s{31,s{'world,'anyone}}},F,2
+ 2,14685798682
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x0 zxid 0x7 createSession 30000
+ 2,14685798682
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x3 zxid 0x8 create '/dubbo/com.ymc.mes.common.service.basic.OrgServiceI/consumers,,v{s{31,s{'world,'anyone}}},F,3
+ 2,15844191510
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x4 zxid 0x9 create '/dubbo/com.ymc.mes.common.service.basic.OrgServiceI/consumers/consumer%253A%252F%252F192.168.20.4%252Fcom.ymc.mes.common.service.basic.OrgServiceI%253Fapplication%253Dmescollect%2526category%253Dconsumers%2526check%253Dfalse%2526default.retries%253D1%2526default.timeout%253D30000%2526dubbo%253D2.6.0%2526interface%253Dcom.ymc.mes.common.service.basic.OrgServiceI%2526methods%253DfindComList%2526pid%253D26227%2526revision%253D0.0.1-SNAPSHOT%2526side%253Dconsumer%2526timestamp%253D1615172415044,,v{s{31,s{'world,'anyone}}},T,1
+ 2,15255656102
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x6 zxid 0xa error -110
+ null
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0xa zxid 0xb error -110
+ null
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0xe zxid 0xc create '/dubbo/com.ymc.mes.common.service.basic.OrgServiceI/routers,,v{s{31,s{'world,'anyone}}},F,4
+ 2,16232657627
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x14 zxid 0xd create '/dubbo/com.ymc.mes.common.service.workshop.WorkshopServiceI,,v{s{31,s{'world,'anyone}}},F,2
+ 2,13362767038
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x15 zxid 0xe create '/dubbo/com.ymc.mes.common.service.workshop.WorkshopServiceI/consumers,,v{s{31,s{'world,'anyone}}},F,1
+ 2,18153721280
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x16 zxid 0xf create '/dubbo/com.ymc.mes.common.service.workshop.WorkshopServiceI/consumers/consumer%253A%252F%252F192.168.20.4%252Fcom.ymc.mes.common.service.workshop.WorkshopServiceI%253Fapplication%253Dmescollect%2526category%253Dconsumers%2526check%253Dfalse%2526default.retries%253D1%2526default.timeout%253D30000%2526dubbo%253D2.6.0%2526interface%253Dcom.ymc.mes.common.service.workshop.WorkshopServiceI%2526methods%253DfindEquipmentOpenTime%252CfindScheduleEquip%2526pid%253D26227%2526revision%253D0.0.1-SNAPSHOT%2526side%253Dconsumer%2526timestamp%253D1615172415815,,v{s{31,s{'world,'anyone}}},T,1
+ 2,23179527435
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x18 zxid 0x10 create '/dubbo/com.ymc.mes.common.service.workshop.WorkshopServiceI/providers,,v{s{31,s{'world,'anyone}}},F,2
+ 2,22253292970
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x1c zxid 0x11 create '/dubbo/com.ymc.mes.common.service.workshop.WorkshopServiceI/configurators,,v{s{31,s{'world,'anyone}}},F,3
+ 2,25824173482
+
+3/8/21 11:00:15 AM CST session 0x100430932a70001 cxid 0x20 zxid 0x12 create '/dubbo/com.ymc.mes.common.service.workshop.WorkshopServiceI/routers,,v{s{31,s{'world,'anyone}}},F,4
+ 2,28852808811

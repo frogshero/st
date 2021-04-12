@@ -1,0 +1,9 @@
+ctrl+shift+a: 截图
+ctrl+alt+h：调用层次
+alt+f7: 调用地方
+ctrl+alt+shift+n: symbol
+ctrl+f12：所有方法
+shift+f11: bookmark
+ctrl+e:最近操作哪些类
+ctrl+[: 大括号匹配
+ctrl+h: 接口实现类
