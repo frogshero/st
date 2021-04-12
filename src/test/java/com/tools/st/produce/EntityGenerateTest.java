@@ -46,15 +46,15 @@ public class EntityGenerateTest {
         param.setVoBasePackage("com.ymc.mes.basic.common.model");
         param.setDaoBasePackage("com.ymc.mes.basic.common.dao");
 
-        param.setDaoPostfix("Dao");
-        param.setVoPostfix("VO");
-//        param.setVoBase("BaseBusinessVO");
-////        param.setDaoBase("GenericDao");
-
         //for service,controller
         param.setNoField("MaterialId");
         param.setEntityChinese("领用材料");
         param.setRequestMapping("/mold/craft/obtain");
+
+        param.setDaoPostfix("Dao");
+        param.setVoPostfix("VO");
+//        param.setVoBase("BaseBusinessVO");
+////        param.setDaoBase("GenericDao");
 
         param.getAuditFields().addAll(Lists.newArrayList("created_by", "updated_by", "enableflg", "created_time", "updated_time"));
 //                "remark", "remark1", "remark2", "remark3", "remark4", "remark5",
