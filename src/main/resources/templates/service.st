@@ -66,7 +66,7 @@ public class $param.serviceClzName$ extends BaseService {
      * 查询列表
      * @return
      */
-    public Map<String, Object> findList($param.javaName$ request, String tableId) {
+    public Map<String, Object> findList($param.voClzName$ request, String tableId) {
         //Map<String, Object> returnMap = new HashMap<>();
         List<$param.voClzName$> dataList = $param.daoVariable$.findList(request);
         /*

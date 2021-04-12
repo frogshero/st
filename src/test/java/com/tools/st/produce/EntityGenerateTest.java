@@ -38,10 +38,11 @@ public class EntityGenerateTest {
     private MybatisCreateParam getBasicParam() {
         MybatisCreateParam param = new MybatisCreateParam();
         //tabName后面设置
-//        param.setSchema("dlym_mes");
+        param.setSchema("dlym_mes");
 //        param.setSchema("jx_mes");
-        param.setSchema("whwt_mes");
-        param.setHomePackage("com.ymc.mes.mold.bom");
+//        param.setSchema("whwt_mes");
+//        param.setHomePackage("com.ymc.mes.mold.bom");
+        param.setHomePackage("com.ymc.mes.cast");
         param.setVoBasePackage("com.ymc.mes.basic.common.model");
         param.setDaoBasePackage("com.ymc.mes.basic.common.dao");
 
@@ -64,7 +65,7 @@ public class EntityGenerateTest {
     @Test
     public void generateAll() throws IOException {
         List<String> tables = Lists.newArrayList(
-                "base_materiel"
+                "casting_maching_collect"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');

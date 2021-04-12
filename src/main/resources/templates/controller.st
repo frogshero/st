@@ -42,7 +42,7 @@ public class $param.controllerClzName$ extends BaseController {
 
     @ApiOperation("查询单个$param.entityChinese$")
     @GetMapping("/find/{id}")
-    public Result<MoldBomMaterialCost> findOne(@PathVariable Long id) {
+    public Result<$param.voClzName$> findOne(@PathVariable Long id) {
         return successResult($param.serviceVariable$.findOne(id));
     }
 
