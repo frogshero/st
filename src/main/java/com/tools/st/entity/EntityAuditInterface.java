@@ -6,12 +6,11 @@ import java.util.Date;
  * 处理实体类的审计字段
  */
 public interface EntityAuditInterface {
-    Long getComId();
-    void setComId(Long comId);
-
-    void setEnableflg(Integer enableflg);
-    void setCreatedBy(Long createdBy);
-    void setCreatedTime(Date createdTime);
-    void setUpdatedBy(Long updatedBy);
-    void setUpdatedTime(Date updatedTime);
+    default Long getComId() {return null;}
+    default void setComId(Long comId) {}
+    default void setEnableflg(Integer enableflg) {}
+    default void setCreatedBy(Long createdBy) {}
+    default void setCreatedTime(Date createdTime) {}
+    default void setUpdatedBy(Long updatedBy) {}
+    default void setUpdatedTime(Date updatedTime) {}
 }

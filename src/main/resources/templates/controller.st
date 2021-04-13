@@ -15,9 +15,13 @@ import org.springframework.lang.Nullable;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
+$if(param.addExport || param.addDel)$
 import com.ymc.mes.basic.common.model.CommonBatchRequest;
+$endif$
 import $param.modelPackage$.$param.javaName$;
+$if(param.addExport)$
 import com.ymc.mes.basic.common.model.FileVo;
+$endif$
 import javax.validation.Valid;
 
 
@@ -36,7 +40,7 @@ public class $param.controllerClzName$ extends BaseController {
                                    @RequestParam(value = "pageNum", defaultValue = DEFAULT_PAGENUM) Integer pageNum,
                                    HttpServletRequest request) {
         Page<?> page = PageHelper.startPage(pageNum, pageSize, true);
-        $param.serviceVariable$.setToken(request.getHeader("auth-token"));
+        //$param.serviceVariable$.setToken(request.getHeader("auth-token"));
         return successResult($param.serviceVariable$.findList(requestVO, tableId), page.getTotal());
     }
 
@@ -59,6 +63,7 @@ public class $param.controllerClzName$ extends BaseController {
         return successResult(null);
     }
 
+$if(param.addDel)$
     @ApiOperation("删除$param.entityChinese$")
     @PostMapping("/delete")
     public Result<List<String\>> delete(@RequestBody CommonBatchRequest commonBatchRequest) {
@@ -69,7 +74,9 @@ public class $param.controllerClzName$ extends BaseController {
             return successResult(null);
         }
     }
+$endif$
 
+$if(param.addAudit)$
     @ApiOperation("审核$param.entityChinese$")
     @PostMapping("/review")
     public Result<List<String\>> review(@RequestBody CommonBatchRequest commonBatchRequest) {
@@ -90,11 +97,14 @@ public class $param.controllerClzName$ extends BaseController {
     public Result<List<String\>> cancelReview(@RequestBody CommonBatchRequest commonBatchRequest) {
         return auditOrCancelAudit(commonBatchRequest, false);
     }
+$endif$
 
+$if(param.addExport)$
     @ApiOperation("$param.entityChinese$导出Excel")
     @GetMapping("/exportExcel")
     public Result<FileVo> exportExcel(@ApiParam $param.javaName$ request) {
         return successResult($param.serviceVariable$.exportExcel(request));
     }
+$endif$
 }
 >>

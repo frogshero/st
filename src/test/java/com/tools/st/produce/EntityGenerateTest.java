@@ -22,6 +22,7 @@ import org.stringtemplate.v4.STGroupFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,18 +39,18 @@ public class EntityGenerateTest {
     private MybatisCreateParam getBasicParam() {
         MybatisCreateParam param = new MybatisCreateParam();
         //tabName后面设置
-        param.setSchema("dlym_mes");
+//        param.setSchema("dlym_mes");
 //        param.setSchema("jx_mes");
-//        param.setSchema("whwt_mes");
+        param.setSchema("whwt_mes");
 //        param.setHomePackage("com.ymc.mes.mold.bom");
-        param.setHomePackage("com.ymc.mes.cast");
+        param.setHomePackage("com.ymc.mes.report");
         param.setVoBasePackage("com.ymc.mes.basic.common.model");
         param.setDaoBasePackage("com.ymc.mes.basic.common.dao");
 
         //for service,controller
-        param.setNoField("MaterialId");
-        param.setEntityChinese("领用材料");
-        param.setRequestMapping("/mold/craft/obtain");
+//        param.setNoField("MaterialId");
+        param.setEntityChinese("报表日志");
+        param.setRequestMapping("/report/edit");
 
         param.setDaoPostfix("Dao");
         param.setVoPostfix("VO");
@@ -65,13 +66,17 @@ public class EntityGenerateTest {
     @Test
     public void generateAll() throws IOException {
         List<String> tables = Lists.newArrayList(
-                "casting_maching_collect"
+//                "casting_maching_collect"
+                "report_edit_log"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');
         STGroup xmlGroup = new STGroupFile(new ClassPathResource("/templates/xml.stg").getFile().getCanonicalPath(), '$', '$');
 
         MybatisCreateParam param = getBasicParam();
+        param.setAddAudit(false);
+        param.setAddDel(false);
+        param.setAddExport(false);
         String baseDir = TestConst.BASE_DIR + "\\generate\\out";
         for (String tabName : tables) {
             param.setTabName(tabName);
@@ -199,8 +204,7 @@ public class EntityGenerateTest {
     }
 
     public void produceXmlMapper(STGroup xmlGroup, TableInfo tableInfo, List<ColumnInfo> columns, MybatisCreateParam param, String outDir) throws IOException {
-        ColumnInfo keyCol = columns.stream().filter(e -> e.getKey()).findFirst().get();
-        Assertions.assertNotNull(keyCol);
+        Optional<ColumnInfo> optionalColumnInfo = columns.stream().filter(e -> e.getKey()).findFirst();
 
         //入库单ID=mold_warehouse_entry.id 自动生成join
         Pattern p = Pattern.compile(".*ID=([a-zA-Z_]*)\\.([a-zA-Z_]*)");
@@ -214,7 +218,7 @@ public class EntityGenerateTest {
         xmlST.add("param", param);
         xmlST.add("tab", tableInfo);
         xmlST.add("cols", columns);
-        xmlST.add("keyCol", keyCol);
+        xmlST.add("keyCol", optionalColumnInfo.isPresent() ? optionalColumnInfo.get() : null);
         xmlST.add("keyFields", keyFields);
         FileUtl.writeStrToFile(xmlST.render(80), outDir + "\\dao\\" + tableInfo.getJavaName() + param.getDaoPostfix() + ".xml");
     }

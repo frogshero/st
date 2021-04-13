@@ -8,10 +8,8 @@ import com.ymc.mes.basic.system.model.SysComTableConfigVO;
 import com.ymc.mes.basic.system.service.SysComTableConfigService;
 import com.ymc.mes.basic.system.service.SysUserService;
 import com.ymc.mes.basic.common.OperationEnum;
-import com.ymc.mes.basic.common.model.ExportFileParam;
-import com.ymc.mes.basic.common.service.ExportFileService;
 import com.ymc.mes.basic.common.service.ServiceEntityUtil;
-import com.ymc.mes.basic.common.model.FileVo;
+
 import com.ymc.mes.common.service.BaseService;
 import com.ymc.mes.exception.CommonException;
 
@@ -30,11 +28,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-
-import com.ymc.mes.basic.common.model.CommonBatchRequest;
 import $param.entityClzFullName$;
 import $param.daoClzFullName$;
 import $param.voClzFullName$;
+
+$if(param.addExport || param.addDel)$
+import com.ymc.mes.basic.common.model.CommonBatchRequest;
+$endif$
+$if(param.addExport)$
+import com.ymc.mes.basic.common.model.FileVo;
+import com.ymc.mes.basic.common.model.ExportFileParam;
+import com.ymc.mes.basic.common.service.ExportFileService;
+$endif$
 
 @Service
 public class $param.serviceClzName$ extends BaseService {
@@ -47,8 +52,10 @@ public class $param.serviceClzName$ extends BaseService {
     SysUserService sysUserService;
     @Autowired
     SysCodeService sysCodeService;
+$if(param.addExport)$
     @Autowired
     ExportFileService exportFileService;
+$endif$
     @Autowired
     ServiceEntityUtil serviceEntityUtil;
 
@@ -66,7 +73,7 @@ public class $param.serviceClzName$ extends BaseService {
      * 查询列表
      * @return
      */
-    public Map<String, Object> findList($param.voClzName$ request, String tableId) {
+    public List<$param.voClzName$> findList($param.voClzName$ request, String tableId) {
         //Map<String, Object> returnMap = new HashMap<>();
         List<$param.voClzName$> dataList = $param.daoVariable$.findList(request);
         /*
@@ -76,7 +83,8 @@ public class $param.serviceClzName$ extends BaseService {
         returnMap.put("titleList", titleList);
         return returnMap;
         */
-        return getComTableConfig(dataList, StringUtils.isBlank(tableId) ? "$param.lJavaName$" : tableId);
+        //return getComTableConfig(dataList, StringUtils.isBlank(tableId) ? "$param.lJavaName$" : tableId);
+        return dataList;
     }
 
     public $param.javaName$ findOne(Long id) {
@@ -91,10 +99,12 @@ public class $param.serviceClzName$ extends BaseService {
 //      if (request.getReviewUserId() == null) {
 //                CommonException.tipMessage(String.format(OP_ERROR_TEMPLATE, $param.lJavaName$.get$param.noField$(), "保存失败", "reviewUsreId不能为空"));
 //      }
+$if(param.noField)$
         if ($param.lJavaName$.get$param.noField$() == null) {
             String no = sysCodeService.findCode("$param.lJavaName$", getUser().getComId());
             $param.lJavaName$.set$param.noField$(no);
         }
+$endif$
         setBaseField(request, OperationEnum.insert);
         $param.daoVariable$.insert(request);
         return request.getId();
@@ -113,10 +123,11 @@ public class $param.serviceClzName$ extends BaseService {
         Assert.notNull(request.getId(), "id不能为空");
         $param.javaName$ entityInDB = $param.daoVariable$.selectByPrimaryKey(request.getId());
         Assert.notNull(entityInDB, "id不正确");
+$if(param.addAudit)$
         if (entityInDB.getReviewUserId() != null) {
             throw CommonException.tipMessage(String.format(OP_ERROR_TEMPLATE, entityInDB.get$param.noField$(), "修改", "已经审核"));
         }
-
+$endif$
         setBaseField(request, OperationEnum.update);
         $param.daoVariable$.updateByPrimaryKey(request);
     }
@@ -134,6 +145,7 @@ public class $param.serviceClzName$ extends BaseService {
         serviceEntityUtil.setAuditFields($param.lJavaName$, operationEnum);
     }
 
+$if(param.addDel)$
     /**
      * 批量删除
      * @return
@@ -153,7 +165,9 @@ public class $param.serviceClzName$ extends BaseService {
         }
         return feedback;
     }
+$endif$
 
+$if(param.addAudit)$
     private void setEntityChecked($param.javaName$ voForCheck, boolean checked) {
         serviceEntityUtil.setVerifiyFields(voForCheck, checked);
         setBaseField(voForCheck, OperationEnum.update);
@@ -183,7 +197,9 @@ public class $param.serviceClzName$ extends BaseService {
         }
         return msgList;
     }
+$endif$
 
+$if(param.addExport)$
     public FileVo exportExcel($param.javaName$ request) {
         List<$param.voClzName$> dataList = $param.daoVariable$.findList(request);
         if (dataList.size() == 0) {
@@ -192,6 +208,7 @@ public class $param.serviceClzName$ extends BaseService {
         ExportFileParam exportFileParam = new ExportFileParam("$param.lJavaName$", "$param.entityChinese$", dataList);
         return exportFileService.exportByModel(exportFileParam);
     }
+$endif$
 
     private void batchInsert(List<$param.javaName$> itemList) {
         //Other update or insert should be before batch insert

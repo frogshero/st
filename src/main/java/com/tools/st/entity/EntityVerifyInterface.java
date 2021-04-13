@@ -6,6 +6,6 @@ import java.util.Date;
  * 处理实体类的审核，撤审字段
  */
 public interface EntityVerifyInterface {
-    void setReviewUserId(Long reviewUserId);
-    void setReviewTime(Date reviewTime);
+    default void setReviewUserId(Long reviewUserId) {}
+    default void setReviewTime(Date reviewTime) {}
 }

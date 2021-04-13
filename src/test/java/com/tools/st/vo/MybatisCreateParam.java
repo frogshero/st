@@ -56,6 +56,10 @@ public class MybatisCreateParam {
 //    private String listRequestVariable;
     private String entityClzFullName;
 
+    private boolean addDel = true;
+    private boolean addAudit = true;
+    private boolean addExport = true;
+
     public boolean isAuditField(String name) {
         return auditFields.indexOf(name) >= 0;
     }
