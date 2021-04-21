@@ -67,7 +67,7 @@ public class EntityGenerateTest {
     public void generateAll() throws IOException {
         List<String> tables = Lists.newArrayList(
 //                "casting_maching_collect"
-                "report_edit_log"
+                "oa_stock_in"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');

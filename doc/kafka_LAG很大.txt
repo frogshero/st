@@ -9,12 +9,14 @@ GroupRebalanceConfig.rebalanceTimeoutMs设置为MAX_POLL_INTERVAL_MS_CONFIG。MA
 
 KafkaMessageListenerContainer.pollAndInvoke
 
-./kafka-topics.sh --bootstrap-server localhost:9031 --topic mesmodbus --describe  
+./kafka-topics.sh --bootstrap-server 192.168.0.249:9092 --topic mesmodbus --describe
 ./kafka-consumer-groups.sh --bootstrap-server localhost:9031 --group mesmodbus --topic mesmodbus --reset-offsets --to-offset 3 –execute  设置偏移量
-./kafka-consumer-groups.sh --bootstrap-server localhost:9031 --group offsettest --topic offset-test --reset-offsets --to-earliest –execute
+./kafka-consumer-groups.sh --bootstrap-server localhost:9092 --reset-offsets --to-datetime 2021-04-14T18:46:00.000 --topic mesmodbus --group mesmodbus --execute
+
 ./kafka-consumer-groups.sh --bootstrap-server localhost:9031 --group mesmodbus --topic mesmodbus --reset-offsets --to-latest --execute
 
-./kafka-consumer-groups.sh --bootstrap-server localhost:9031 --group mesmodbus --describe
+./kafka-topics.sh --alter --bootstrap-server 192.168.0.249:9092 --topic mesmodbus --partitions 30
+./kafka-consumer-groups.sh --bootstrap-server 192.168.0.249:9092 --group mesmodbus --describe
 Warning: Consumer group 'mesmodbus' is rebalancing.   //????????
 
 GROUP           TOPIC           PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG             CONSUMER-ID                                                HOST            CLIENT-ID

@@ -1,5 +1,5 @@
 ./kafka-run-class.sh kafka.tools.GetOffsetShell --topic test --time -1 --broker-list 192.168.9.51:3091
-./kafka-topics.sh --create --topic test --bootstrap-server 192.168.9.51:3091
+./kafka-topics.sh --create --bootstrap-server 192.168.9.51:3091 --topic topicName --partitions 30 --replication-factor 1
 ./kafka-console-consumer.sh --bootstrap-server 192.168.9.51:3092 --topic tt123 --from-beginning
 ./kafka-console-producer.sh --bootstrap-server 192.168.9.51:3091 --topic test
 

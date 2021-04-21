@@ -19,8 +19,10 @@ import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.concurrent.ListenableFuture;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;

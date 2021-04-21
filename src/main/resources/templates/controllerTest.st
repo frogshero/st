@@ -68,6 +68,7 @@ public class $param.controllerClzName$Test extends BaseTest {
         Assertions.assertEquals(getOne().getQuantity(), quantity);
     }
 
+$if(param.addAudit)$
     @Order(3)
     @Test
     public void c_review() throws URISyntaxException {
@@ -85,7 +86,9 @@ public class $param.controllerClzName$Test extends BaseTest {
         Result ret = post(URL_ROOT + "/cancelReview", vo);
         log.info(ret.getCode());
     }
+$endif$
 
+$if(param.addDel)$
     @Order(5)
     @Test
     public void e_delete() throws URISyntaxException {
@@ -96,6 +99,7 @@ public class $param.controllerClzName$Test extends BaseTest {
 
         Assertions.assertNull(getOne());
     }
+$endif$
 
     @Order(6)
     @Test
@@ -110,6 +114,7 @@ public class $param.controllerClzName$Test extends BaseTest {
         Assertions.assertTrue(((List)((Map)ret.getData()).get("tableList")).size() > 0);
     }
 
+$if(param.addExport)$
     @Order(7)
     @Test
     public void g_exportExcel() throws URISyntaxException {
@@ -119,5 +124,6 @@ public class $param.controllerClzName$Test extends BaseTest {
         Result ret = get(URL_ROOT + "/exportExcel", params);
         log.info(ret.getCode());
     }
+$endif$
 }
 >>
