@@ -2,6 +2,10 @@ cd ~ 主目录
 cat /etc/redhat-release
 ll -d */ 显示目录
 
+sed -n '/clt_mold/=' backup_ymc_mes-202104251007.sql  //只显示文件中匹配的行号
+sed -n '1147,1211p' backup_ymc_mes-202104251007.sql >> aa.txt //截取1147，1211行
+grep -n '^CREATE DATABASE' mysql_backup-202104220130.sql
+
 显示语言编码
 [root@MESData opt]# echo $LANG
 zh_CN.UTF-8

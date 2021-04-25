@@ -9,3 +9,12 @@ show VARIABLES like '%slow%'
 
 mysqldump -uroot -pymmysql01 ymc_mes > 2104210934.sql
 mysql -uusername -ppassword databasename < backupfile.sql
+
+备份多个数据库的文件：
+grep -n '^CREATE DATABASE' mysql_backup-202104220130.sql
+22:CREATE DATABASE /*!32312 IF NOT EXISTS*/ `mysql` /*!40100 DEFAULT CHARACTER SET latin1 */;
+936:CREATE DATABASE /*!32312 IF NOT EXISTS*/ `xx_mes` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+10175:CREATE DATABASE /*!32312 IF NOT EXISTS*/ `xx_mes_clt` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+21262:CREATE DATABASE /*!32312 IF NOT EXISTS*/ `xx_mes_clt_prd` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+21690:CREATE DATABASE /*!32312 IF NOT EXISTS*/ `xx_mes_job` /*!40100 DEFAULT CHARACTER SET latin1 */;
+sed -n '937,10174p' mysql_backup-202104220130.sql >> xxMes.sql
