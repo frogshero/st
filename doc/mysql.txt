@@ -1,0 +1,11 @@
+alter table clt_process_route add index clt_process_route_route_id(route_id);
+
+whereis my
+my: /etc/my.cnf
+
+show VARIABLES like '%datadir%'
+show VARIABLES like '%basedir%'
+show VARIABLES like '%slow%'
+
+mysqldump -uroot -pymmysql01 ymc_mes > 2104210934.sql
+mysql -uusername -ppassword databasename < backupfile.sql

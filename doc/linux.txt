@@ -1,0 +1,179 @@
+cd ~ 主目录
+cat /etc/redhat-release
+ll -d */ 显示目录
+
+显示语言编码
+[root@MESData opt]# echo $LANG
+zh_CN.UTF-8
+[root@MESData opt]# locale
+LANG=zh_CN.UTF-8
+LC_CTYPE="zh_CN.UTF-8"
+LC_NUMERIC="zh_CN.UTF-8"
+LC_TIME="zh_CN.UTF-8"
+LC_COLLATE="zh_CN.UTF-8"
+LC_MONETARY="zh_CN.UTF-8"
+LC_MESSAGES="zh_CN.UTF-8"
+LC_PAPER="zh_CN.UTF-8"
+LC_NAME="zh_CN.UTF-8"
+LC_ADDRESS="zh_CN.UTF-8"
+LC_TELEPHONE="zh_CN.UTF-8"
+LC_MEASUREMENT="zh_CN.UTF-8"
+LC_IDENTIFICATION="zh_CN.UTF-8"
+
+
+`find $backup_location/ -type f -mtime +$expire_days | xargs rm -rf`
+
+scp mysql_backup-202104211054.sql.tar xxx@192.168.0.249:/home
+
+代码从外部复制到xshell内，缩进错乱。:set paste => i => :set nopaste
+
+mysqldump -uroot -pymmysql01 ymc_mes > 2104210934.sql
+tar -zcf 2104210934.tar 2104210934.sql
+
+nohup 忽略session关闭信号SIGHUP终端挂起或者控制进程终止
+& 忽略Control-C发出的SIGINT程序终止信号，键盘中断
+
+uname -a
+
+df -h /var/lib/mysql/ymc_mes 目录的磁盘
+ll -Sh大小排序 S: sort, h: human readable
+ll -t sort by modification time, newest first
+
+firewall-cmd --list-ports 防火墙开放得端口
+firewall-cmd --zone=public --add-port=3092/tcp --permanent
+firewall-cmd --reload
+
+centos: systemctl restart crond.service
+
+crontab -e
+crontab -l -u xxx 查看其他用户的定时任务
+service crond stop
+/etc/crontab 定时任务 不在crontab -里显示
+启动：sudo /etc/init.d/cron start 关闭：sudo /etc/init.d/cron stop
+重启：sudo /etc/init.d/cron restart 重新载入配置：sudo /etc/init.d/cron reload
+可以用ps aux | grep cron命令查看cron是否已启动
+
+lsblk 查看分区和磁盘
+df -h       disk free
+du -sh  	disk usage
+free -m
+free -h
+
+/etc/systemd/resolved.conf DNS设置
+
+source .bashrc	重新加载shell配置
+环境变量：
+1.      /etc/profile
+2.      /etc/profile.d/*.sh
+3.      ~/.bash_profile
+4.      ~/.bashrc
+5.      /etc/bashrc
+
+tar -zxvf	解压缩
+
+ln -s /opt/linux/rootfs_dir  /home/jyg/rootfs_dir 	链接
+
+sudo apt install ubuntu-software ubuntu安装软件中心
+sudo snap remove snap-store
+sudo apt purge snapd 
+
+UBUNTU:
+lsb_release -a
+apt-get autoremove software-center --purge
+apt install ./xxx.deb
+apt-get install fcitx-table-wbpy
+
+/usr/bin/gnome-language-selector
+dbus ????
+
+service docker start 		启动服务
+docker images |awk {'print "docker rmi "$3'} 	获取输出的列的数据
+grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0
+
+grep -C 5 foo file 显示file文件里匹配foo字串那行以及上下5行 context
+grep -B 5 foo file 显示foo及前5行，before
+grep -A 5 foo file 显示foo及后5行，after
+
+netstat -tunlp|grep 9092 端口占用
+
+sed -i -r 's|#(log4j.appender.ROLLINGFILE.MaxBackupIndex.*)|\1|g' $ZK_HOME/conf/log4j.properties  解除注释,\1就是括号匹配的内容
+sed -i -r 's|#autopurge|autopurge|g' $ZK_HOME/conf/zoo.cfg
+
+Linux目录：
+usr：unix system resources
+srv: serve, 服务静态文件
+etc：配置文件
+proc：系统信息的虚拟文件
+var：经常变动的数据和日志文件
+lib：系统动态链接库
+opt：第三方软件安装目录
+蓝色：文件夹，绿色：可执行，浅蓝：链接文件，红框文件：加了SUID，任意权限，红色：压缩文件，褐色：设备文件
+
+wget -c https://datasets.clickhouse.tech/hits/tsv/hits_v1.tsv.xz 断点续传
+curl -C -  -u 'test':'test' ftp://ftp.test.com/test.tar.gz
+curl https://datasets.clickhouse.tech/hits/tsv/hits_v1.tsv.xz | unxz --threads=`nproc` > hits_v1.tsv
+
+
+wget http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-3.6.2/apache-zookeeper-3.6.2-bin.tar.gz
+
+yum search java | grep -i --color JDK
+yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel  #安装openjdk
+vim ~/.bashrc
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.222.b10-0.el7_6.x86_64
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=.:$JAVA_HOME/bin:$PATH
+source ~/.bashrc
+
+启动redis: redis-server redis-conf
+关闭redis: redis-cli shutdown
+
+----------------------------------------------------------------------------------
+#!/bin/bash
+# 设置mysql的登录用户名和密码(根据实际情况填写)
+mysql_user="root"
+mysql_password="xxx"
+mysql_host="localhost"
+mysql_port="3306"
+mysql_charset="utf8mb4"
+
+# 备份文件存放地址(根据实际情况填写)
+backup_location=/home/dbbak/data
+
+# 是否删除过期数据
+expire_backup_delete="ON"
+expire_days=7
+backup_time=`date +%Y%m%d%H%M`
+backup_dir=$backup_location
+welcome_msg="Welcome to use MySQL backup tools!"
+
+# 判断mysql实例是否正常运行
+mysql_ps=`ps -ef |grep mysql |wc -l`
+mysql_listen=`netstat -an |grep LISTEN |grep $mysql_port|wc -l`
+if [ [$mysql_ps == 0] -o [$mysql_listen == 0] ]; then
+        echo "ERROR:MySQL is not running! backup stop!"
+        exit
+else
+        echo $welcome_msg
+fi
+
+# 备份指定数据库中数据(此处假设数据库是mysql_backup_test)
+#mysqldump -h$mysql_host -P$mysql_port -u$mysql_user -p$mysql_password -A> $backup_dir/mysql_backup-$backup_time.sql
+#mysql -uusername -ppassword databasename < backupfile.sql
+mysqldump -h$mysql_host -P$mysql_port -u$mysql_user -p$mysql_password xxxdb | gzip > $backup_dir/mysql_backup-$backup_time.sql.gz
+#gzip -d mysql_backup-$backup_time.sql.gz
+flag=`echo $?`
+if [ $flag == "0" ];then
+    echo "all success backup to $backup_dir/mysql_backup_test-$backup_time.sql.gz"
+#    tar -zcPf $backup_dir/mysql_backup-$backup_time.sql.tar $backup_dir/mysql_backup-$backup_time.sql
+#    rm -f $backup_dir/mysql_backup-$backup_time.sql
+else
+        echo "backup fail!"
+fi
+
+# 删除过期数据
+if [ "$expire_backup_delete" == "ON" -a  "$backup_location" != "" ];then
+        `find $backup_location/ -type f -mtime +$expire_days | xargs rm -rf`
+        echo "Expired backup data delete complete!"
+fi
+
+
