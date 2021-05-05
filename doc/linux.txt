@@ -2,6 +2,15 @@ cd ~ 主目录
 cat /etc/redhat-release
 ll -d */ 显示目录
 
+echo `date +%Y-%m-%d\ %H:%M:%S` "asdf"
+jps |grep prd|awk {'print $1'}|xargs kill -9
+
+crontab的脚本中用source引入环境变量
+source /etc/profile  #应用所有用户的全局配置脚本
+~/.bash_profile 用户自己的启动文件
+
+env
+
 sed -n '/clt_mold/=' backup_ymc_mes-202104251007.sql  //只显示文件中匹配的行号
 sed -n '1147,1211p' backup_ymc_mes-202104251007.sql >> aa.txt //截取1147，1211行
 grep -n '^CREATE DATABASE' mysql_backup-202104220130.sql
@@ -13,17 +22,6 @@ zh_CN.UTF-8
 LANG=zh_CN.UTF-8
 LC_CTYPE="zh_CN.UTF-8"
 LC_NUMERIC="zh_CN.UTF-8"
-LC_TIME="zh_CN.UTF-8"
-LC_COLLATE="zh_CN.UTF-8"
-LC_MONETARY="zh_CN.UTF-8"
-LC_MESSAGES="zh_CN.UTF-8"
-LC_PAPER="zh_CN.UTF-8"
-LC_NAME="zh_CN.UTF-8"
-LC_ADDRESS="zh_CN.UTF-8"
-LC_TELEPHONE="zh_CN.UTF-8"
-LC_MEASUREMENT="zh_CN.UTF-8"
-LC_IDENTIFICATION="zh_CN.UTF-8"
-
 
 `find $backup_location/ -type f -mtime +$expire_days | xargs rm -rf`
 
@@ -48,6 +46,9 @@ firewall-cmd --zone=public --add-port=3092/tcp --permanent
 firewall-cmd --reload
 
 centos: systemctl restart crond.service
+systemctl start crond
+systemctl reload crond
+systemctl status crond
 
 crontab -e
 crontab -l -u xxx 查看其他用户的定时任务
@@ -88,7 +89,6 @@ apt install ./xxx.deb
 apt-get install fcitx-table-wbpy
 
 /usr/bin/gnome-language-selector
-dbus ????
 
 service docker start 		启动服务
 docker images |awk {'print "docker rmi "$3'} 	获取输出的列的数据

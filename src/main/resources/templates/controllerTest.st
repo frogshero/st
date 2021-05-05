@@ -37,9 +37,6 @@ public class $param.controllerClzName$Test extends BaseTest {
     private static Long newId = 0L;
     private static String URL_ROOT = "$param.requestMapping$";
 
-    private Long entryId = 47L;
-    private Long newEntryId = 48L;
-
     @Order(1)
     @Test
     public void a_insert() throws URISyntaxException {

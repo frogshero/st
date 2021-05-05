@@ -41,16 +41,17 @@ public class EntityGenerateTest {
         //tabName后面设置
 //        param.setSchema("dlym_mes");
 //        param.setSchema("jx_mes");
-        param.setSchema("whwt_mes");
+//        param.setSchema("whwt_mes");
+        param.setSchema("ymc_mes");
 //        param.setHomePackage("com.ymc.mes.mold.bom");
-        param.setHomePackage("com.ymc.mes.report");
+        param.setHomePackage("com.ymc.mes.mold.process");
         param.setVoBasePackage("com.ymc.mes.basic.common.model");
         param.setDaoBasePackage("com.ymc.mes.basic.common.dao");
 
         //for service,controller
 //        param.setNoField("MaterialId");
-        param.setEntityChinese("报表日志");
-        param.setRequestMapping("/report/edit");
+        param.setEntityChinese("批量外发");
+        param.setRequestMapping("/mold/process");
 
         param.setDaoPostfix("Dao");
         param.setVoPostfix("VO");
@@ -67,7 +68,9 @@ public class EntityGenerateTest {
     public void generateAll() throws IOException {
         List<String> tables = Lists.newArrayList(
 //                "casting_maching_collect"
-                "oa_stock_in"
+//                "casting_maching_collect_config"
+                "outsource_process"
+//                "oa_stock_in"
         );
         Resource templates = new ClassPathResource("/templates");
         STGroup group = new STGroupDir(templates.getFilename(), '$', '$');

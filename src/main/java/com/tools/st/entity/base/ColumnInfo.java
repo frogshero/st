@@ -4,14 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tools.st.utl.StrUtl;
 import com.tools.st.utl.TypeMapping;
 import lombok.Setter;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Date;
 
 @Setter
 public class ColumnInfo {
