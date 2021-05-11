@@ -34,6 +34,7 @@ public class DecompilePathsTest {
         }
     }
 
+
     @Test
     public void test() throws IOException {
         MyVisitor visitor = new MyVisitor();

@@ -69,7 +69,7 @@ public class EntityGenerateTest {
         List<String> tables = Lists.newArrayList(
 //                "casting_maching_collect"
 //                "casting_maching_collect_config"
-                "outsource_process"
+                "mold_production_schedule_worker"
 //                "oa_stock_in"
         );
         Resource templates = new ClassPathResource("/templates");
